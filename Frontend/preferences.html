@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Tell us your city, budget, group size and trip type, and let our AI match you with the best destinations in Palestine.">
+<meta name="theme-color" content="#1E88F0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E88F0'/%3E%3Cpath d='M32 14l6 14 14 4-14 4-6 14-6-14-14-4 14-4z' fill='white'/%3E%3C/svg%3E">
+<title>Plan Your Trip — AI Travel Squad</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="preferences">
+
+<header>
+  <nav class="nav">
+    <a href="index.html" class="brand"><span class="icon-badge"><span class="material-icons">travel_explore</span></span> AI Travel Squad</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-page="home">Home</a></li>
+      <li><a href="preferences.html" data-page="preferences">Plan a Trip</a></li>
+      <li><a href="results.html" data-page="results">Destinations</a></li>
+      <li class="nav-cta-wrap"><a href="preferences.html" class="nav-cta">Start Journey</a></li>
+    </ul>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><span class="material-icons">menu</span></button>
+  </nav>
+</header>
+
+<main>
+  <section class="page-hero">
+    <h1>Plan Your Trip</h1>
+    <p>Select your travel preferences and let our AI suggest the best destinations for you.</p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <form class="prefs-wrap" id="prefsForm">
+        <div class="form-grid">
+          <div class="field has-arrow">
+            <label>City</label>
+            <span class="material-icons leading">location_on</span>
+            <select id="fCity" required>
+              <option value="" disabled selected>Choose a city</option>
+              <option>Jerusalem</option>
+              <option>Nablus</option>
+              <option>Ramallah</option>
+              <option>Bethlehem</option>
+              <option>Hebron</option>
+              <option>Jericho</option>
+            </select>
+          </div>
+          <div class="field has-arrow">
+            <label>Budget</label>
+            <span class="material-icons leading">attach_money</span>
+            <select id="fBudget" required>
+              <option value="" disabled selected>Choose a budget</option>
+              <option>Low</option>
+              <option>Medium</option>
+              <option>High</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Number of People</label>
+            <span class="material-icons leading">people</span>
+            <input type="number" id="fPeople" min="1" placeholder="e.g. 2" required>
+          </div>
+          <div class="field has-arrow">
+            <label>Trip Type</label>
+            <span class="material-icons leading">hiking</span>
+            <select id="fType" required>
+              <option value="" disabled selected>Choose a type</option>
+              <option>Historical</option>
+              <option>Nature</option>
+              <option>Adventure</option>
+              <option>Family</option>
+            </select>
+          </div>
+          <div class="field has-arrow full">
+            <label>Age Group</label>
+            <span class="material-icons leading">person</span>
+            <select id="fAge" required>
+              <option value="" disabled selected>Choose an age group</option>
+              <option>Children</option>
+              <option>Youth</option>
+              <option>Adults</option>
+              <option>All Ages</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn full prefs-submit">Find Destinations</button>
+        <p class="form-hint">We'll use these preferences to score and rank destinations for you.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="brand"><span class="icon-badge"><span class="material-icons">travel_explore</span></span> AI Travel
+        Squad</div>
+      <p>Discover the best tourist destinations across Palestine, matched to you by artificial intelligence.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="preferences.html">Plan a Trip</a></li>
+        <li><a href="results.html">Destinations</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Cities</h5>
+      <ul>
+        <li><a href="results.html">Jerusalem</a></li>
+        <li><a href="results.html">Bethlehem</a></li>
+        <li><a href="results.html">Nablus</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AI Travel Squad</span>
+    <span>Discover Palestine with AI</span>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+  document.getElementById('prefsForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const prefs = {
+      city: document.getElementById('fCity').value,
+      budget: document.getElementById('fBudget').value,
+      people: document.getElementById('fPeople').value,
+      type: document.getElementById('fType').value,
+      age: document.getElementById('fAge').value
+    };
+    savePreferences(prefs);
+    showMatchOverlay('Matching you with destinations...', () => {
+      window.location.href = 'results.html';
+    });
+  });
+</script>
+</body>
+</html>
