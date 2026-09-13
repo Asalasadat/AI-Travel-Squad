@@ -10,7 +10,6 @@ C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Azure.
 C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Azure.Identity.dll
 C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Humanizer.dll
 C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Microsoft.Build.Framework.dll
 C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Microsoft.CodeAnalysis.dll
@@ -169,3 +168,6 @@ C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\obj\Debug\net10.0\refint
 C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\obj\Debug\net10.0\AiTravelSquad.Api.pdb
 C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\obj\Debug\net10.0\AiTravelSquad.Api.genruntimeconfig.cache
 C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\obj\Debug\net10.0\ref\AiTravelSquad.Api.dll
+C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\2022\AI-Travel-Squad\Backend\AiTravelSquad.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll

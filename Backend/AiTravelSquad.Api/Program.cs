@@ -1,4 +1,5 @@
-using AiTravelSquad.Infrastructure.Data;
+﻿using AiTravelSquad.Infrastructure.Data;
+using AiTravelSquad.Infrastructure.SeedData;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,15 +18,32 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 // Add services to the container.
 builder.Services.AddControllers();
 
-// OpenAPI
-builder.Services.AddOpenApi();
+// Swagger / OpenAPI UI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Seed the database with sample tourist places on startup.
+// This runs once per startup and only inserts data if the Places table is empty,
+// so the team can immediately test the /api/recommendations endpoint
+// without waiting for the AI team's full dataset.
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    if (!dbContext.Places.Any())
+    {
+        dbContext.Places.AddRange(PlaceSeedData.GetSeedPlaces());
+        dbContext.SaveChanges();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
