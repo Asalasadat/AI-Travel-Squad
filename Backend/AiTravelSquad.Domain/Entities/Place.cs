@@ -6,8 +6,8 @@ namespace AiTravelSquad.Domain.Entities
     /// Represents a single tourist place stored in the database.
     /// This table is the main data source used by the AI model
     /// when performing Content-Based Filtering.
-    /// The columns here match exactly the CSV file prepared by the AI team,
-    /// to make the import process straightforward without extra transformations.
+    /// Columns match the real dataset collected by the AI team
+    /// (palestine_tourist_attractions_v2.csv).
     /// </summary>
     public class Place
     {
@@ -24,17 +24,17 @@ namespace AiTravelSquad.Domain.Entities
         [MaxLength(50)]
         public string City { get; set; } = string.Empty;
 
-        /// <summary>Type of place: touristic / heritage / natural / religious ...</summary>
+        /// <summary>Type of place: Religious / Historic / Archaeological ...</summary>
         [Required]
         [MaxLength(50)]
         public string PlaceType { get; set; } = string.Empty;
 
-        /// <summary>Budget level suitable for visiting this place: low / medium / high</summary>
+        /// <summary>Budget level suitable for visiting this place: Low / Medium / High</summary>
         [Required]
         [MaxLength(20)]
         public string BudgetLevel { get; set; } = string.Empty;
 
-        /// <summary>Best trip type for this place: family / youth</summary>
+        /// <summary>Best trip type for this place: Family / Youth / Religious / Cultural / Adventure ...</summary>
         [Required]
         [MaxLength(30)]
         public string TripType { get; set; } = string.Empty;
@@ -45,8 +45,17 @@ namespace AiTravelSquad.Domain.Entities
         public string AgeGroup { get; set; } = string.Empty;
 
         /// <summary>Short description to help the user understand the place</summary>
-        [MaxLength(500)]
+        [MaxLength(1000)]
         public string? Description { get; set; }
+
+        /// <summary>Latitude coordinate, sourced from the AI team's dataset</summary>
+        public double? Latitude { get; set; }
+
+        /// <summary>Longitude coordinate, sourced from the AI team's dataset</summary>
+        public double? Longitude { get; set; }
+
+        /// <summary>Estimated visiting cost in Israeli Shekel (ILS), used for budget-based scoring</summary>
+        public int? EstimatedCostIls { get; set; }
 
         /// <summary>Record creation date (filled automatically)</summary>
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
