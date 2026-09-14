@@ -130,10 +130,10 @@
   <script src="assets/app.js"></script>
   <script>
 
-    const mockPreferencesData = {
-      cities: ["Jerusalem", "Nablus", "Ramallah", "Bethlehem", "Hebron", "Jericho"],
+    const preferencesOptions = {
+      cities: ["Bethlehem", "Hebron", "Jenin", "Jericho", "Jerusalem", "Nablus", "Qalqilya", "Ramallah", "Tubas", "Tulkarm"],
       budgets: ["Low", "Medium", "High"],
-      tripTypes: ["Historical", "Nature", "Adventure", "Family"],
+      tripTypes: ["Adventure", "Cultural", "Educational", "Family", "Relaxing", "Religious"],
       ageGroups: ["Family", "Youth"]
     };
 
@@ -149,10 +149,10 @@
     }
 
     function initPreferencesForm() {
-      populateSelect('fCity', mockPreferencesData.cities, 'Choose a city');
-      populateSelect('fBudget', mockPreferencesData.budgets, 'Choose a budget');
-      populateSelect('fType', mockPreferencesData.tripTypes, 'Choose a type');
-      populateSelect('fAge', mockPreferencesData.ageGroups, 'Choose an age group');
+      populateSelect('fCity', preferencesOptions.cities, 'Choose a city');
+      populateSelect('fBudget', preferencesOptions.budgets, 'Choose a budget');
+      populateSelect('fType', preferencesOptions.tripTypes, 'Choose a type');
+      populateSelect('fAge', preferencesOptions.ageGroups, 'Choose an age group');
     }
 
     function validatePrefsForm() {
