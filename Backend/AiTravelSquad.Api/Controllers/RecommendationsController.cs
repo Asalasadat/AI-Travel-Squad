@@ -37,21 +37,34 @@ namespace AiTravelSquad.Api.Controllers
         /// the "MatchScore" format expected from the AI model.
         /// Only places scoring above 0 are considered, sorted best-first,
         /// and capped between 5 and 10 results as required by the project spec.
+        ///
+        /// Note on enums: request fields are now strongly-typed enums
+        /// (City, TripType, AgeGroup, BudgetLevel) matching the exact values
+        /// found in the AI team's dataset. We compare using .ToString() against
+        /// the Place entity's string columns (which mirror the raw CSV values),
+        /// which keeps this mapping simple until the Place entity itself is
+        /// migrated to use the same enums.
         /// </remarks>
         [HttpPost]
         public async Task<ActionResult<RecommendationResponseDto>> PostRecommendation(
             [FromBody] RecommendationRequestDto request)
         {
-            // Basic validation happens automatically via [Required]/[Range] on the DTO.
-            // We still guard against an empty Places table (e.g. before seeding/migration).
+            // Basic validation happens automatically via [Required]/[Range] on the DTO,
+            // and invalid enum values are already rejected by the model binder
+            // before this action even runs (returns 400 Bad Request automatically).
             var allPlaces = await _context.Places.ToListAsync();
 
             if (!allPlaces.Any())
             {
-                return NotFound("No places available yet. Please seed the database first.");
+                return NotFound("No places available yet. Please seed/import the database first.");
             }
 
             const decimal maxScore = 5m;
+
+            var requestCity = request.City.ToString();
+            var requestTripType = request.TripType.ToString();
+            var requestAgeGroup = request.AgeGroup.ToString();
+            var requestBudgetLevel = request.BudgetLevel.ToString();
 
             // Score every place against the user's preferences.
             var scoredPlaces = allPlaces
@@ -59,16 +72,19 @@ namespace AiTravelSquad.Api.Controllers
                 {
                     decimal score = 0;
 
-                    if (string.Equals(place.City, request.City, StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(place.City, requestCity, StringComparison.OrdinalIgnoreCase))
                         score += 2;
 
-                    if (string.Equals(place.TripType, request.TripType, StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(place.TripType, requestTripType, StringComparison.OrdinalIgnoreCase))
                         score += 1;
 
-                    if (string.Equals(place.AgeGroup, request.AgeGroup, StringComparison.OrdinalIgnoreCase))
+                    // AgeGroup "All" in the dataset should match any age group the user picks,
+                    // since it means the place suits everyone.
+                    if (string.Equals(place.AgeGroup, requestAgeGroup, StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(place.AgeGroup, "All", StringComparison.OrdinalIgnoreCase))
                         score += 1;
 
-                    if (string.Equals(place.BudgetLevel, request.BudgetLevel, StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(place.BudgetLevel, requestBudgetLevel, StringComparison.OrdinalIgnoreCase))
                         score += 1;
 
                     return new { Place = place, Score = score };
@@ -99,11 +115,11 @@ namespace AiTravelSquad.Api.Controllers
             var recommendationRequest = new RecommendationRequest
             {
                 UserId = User?.Identity?.Name ?? "anonymous", // Replace with real user id once auth is wired in
-                City = request.City,
-                TripType = request.TripType,
-                AgeGroup = request.AgeGroup,
+                City = requestCity,
+                TripType = requestTripType,
+                AgeGroup = requestAgeGroup,
                 GroupSize = request.GroupSize,
-                BudgetLevel = request.BudgetLevel
+                BudgetLevel = requestBudgetLevel
             };
 
             _context.RecommendationRequests.Add(recommendationRequest);
