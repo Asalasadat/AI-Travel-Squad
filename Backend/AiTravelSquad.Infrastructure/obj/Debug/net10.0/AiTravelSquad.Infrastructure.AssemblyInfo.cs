@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AiTravelSquad.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c899e34935b5d65c9a30c2b5f406a19beba5fd0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6ac4b9da082d884ff142286b72b8474fb1c7639")]
 [assembly: System.Reflection.AssemblyProductAttribute("AiTravelSquad.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AiTravelSquad.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
