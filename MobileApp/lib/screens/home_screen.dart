@@ -1,5 +1,10 @@
+
 import 'package:flutter/material.dart';
+import 'package:travelai/screens/download.dart';
+import 'package:travelai/screens/favscreen.dart';
+
 import 'package:travelai/screens/preferences_screen.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -48,6 +53,7 @@ class HomeScreen extends StatelessWidget {
             const Text(
               "Find the best tourist destinations in Palestine based on your preferences using Artificial Intelligence.",
               textAlign: TextAlign.center,
+
               style: TextStyle(
                 fontSize: 17,
                 color: Colors.black54,
@@ -56,6 +62,7 @@ class HomeScreen extends StatelessWidget {
 
             const Spacer(),
 
+            // Start Journey
             SizedBox(
               width: double.infinity,
               height: 55,
@@ -66,7 +73,8 @@ class HomeScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const PreferencesScreen(),
+                      builder: (_) =>
+                          const PreferencesScreen(),
                     ),
                   );
 
@@ -74,13 +82,16 @@ class HomeScreen extends StatelessWidget {
 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
+
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius:
+                        BorderRadius.circular(15),
                   ),
                 ),
 
                 child: const Text(
                   "Start Journey",
+
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
@@ -89,11 +100,80 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 15),
 
+            // Download
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+
+              child: OutlinedButton.icon(
+                onPressed: () {
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          const DownloadScreen(),
+                    ),
+                  );
+
+                },
+
+                icon: const Icon(
+                  Icons.download,
+                ),
+
+                label: const Text(
+                  "Download Travel Guide",
+
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
+            // Favorites
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+
+              child: OutlinedButton.icon(
+                onPressed: () {
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          const FavoritesScreen(),
+                    ),
+                  );
+
+                },
+
+                icon: const Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
+
+                label: const Text(
+                  "Favorites",
+
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 30),
           ],
         ),
       ),
     );
   }
 }
+
