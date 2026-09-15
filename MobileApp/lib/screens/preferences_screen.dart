@@ -9,7 +9,6 @@ class PreferencesScreen extends StatefulWidget {
 }
 
 class _PreferencesScreenState extends State<PreferencesScreen> {
-
   final _formKey = GlobalKey<FormState>();
 
   String? city;
@@ -20,10 +19,14 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   final TextEditingController peopleController = TextEditingController();
 
   @override
+  void dispose() {
+    peopleController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       backgroundColor: const Color(0xffF4F6FA),
 
       appBar: AppBar(
@@ -32,19 +35,14 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
       ),
 
       body: SafeArea(
-
         child: SingleChildScrollView(
-
           padding: const EdgeInsets.all(20),
 
           child: Form(
-
             key: _formKey,
 
             child: Column(
-
               children: [
-
                 const Icon(
                   Icons.travel_explore,
                   size: 90,
@@ -72,7 +70,11 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                 const SizedBox(height: 30),
 
+                // ================= CITY =================
+
                 DropdownButtonFormField<String>(
+                  value: city,
+
                   decoration: InputDecoration(
                     labelText: "City",
                     prefixIcon: const Icon(Icons.location_on),
@@ -89,7 +91,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     "Hebron",
                     "Jericho",
                     "Jenin",
-                    "Tulkarm"
+                    "Tulkarm",
                   ]
                       .map(
                         (e) => DropdownMenuItem(
@@ -100,7 +102,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       .toList(),
 
                   onChanged: (value) {
-                    city = value;
+                    setState(() {
+                      city = value;
+                    });
                   },
 
                   validator: (value) {
@@ -113,7 +117,11 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                 const SizedBox(height: 20),
 
+                // ================= BUDGET =================
+
                 DropdownButtonFormField<String>(
+                  value: budget,
+
                   decoration: InputDecoration(
                     labelText: "Budget",
                     prefixIcon: const Icon(Icons.attach_money),
@@ -125,7 +133,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   items: const [
                     "Low",
                     "Medium",
-                    "High"
+                    "High",
                   ]
                       .map(
                         (e) => DropdownMenuItem(
@@ -136,7 +144,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       .toList(),
 
                   onChanged: (value) {
-                    budget = value;
+                    setState(() {
+                      budget = value;
+                    });
                   },
 
                   validator: (value) {
@@ -148,6 +158,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 ),
 
                 const SizedBox(height: 20),
+
+                // ================= PEOPLE =================
 
                 TextFormField(
                   controller: peopleController,
@@ -166,13 +178,24 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     if (value == null || value.isEmpty) {
                       return "Enter number of people";
                     }
+
+                    final number = int.tryParse(value);
+
+                    if (number == null || number <= 0) {
+                      return "Enter a valid number";
+                    }
+
                     return null;
                   },
                 ),
 
                 const SizedBox(height: 20),
 
+                // ================= TRIP TYPE =================
+
                 DropdownButtonFormField<String>(
+                  value: tripType,
+
                   decoration: InputDecoration(
                     labelText: "Trip Type",
                     prefixIcon: const Icon(Icons.hiking),
@@ -186,7 +209,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     "Nature",
                     "Adventure",
                     "Family",
-                    "Friends"
+                    "Friends",
                   ]
                       .map(
                         (e) => DropdownMenuItem(
@@ -197,7 +220,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       .toList(),
 
                   onChanged: (value) {
-                    tripType = value;
+                    setState(() {
+                      tripType = value;
+                    });
                   },
 
                   validator: (value) {
@@ -210,7 +235,11 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                 const SizedBox(height: 20),
 
+                // ================= AGE GROUP =================
+
                 DropdownButtonFormField<String>(
+                  value: ageGroup,
+
                   decoration: InputDecoration(
                     labelText: "Age Group",
                     prefixIcon: const Icon(Icons.person),
@@ -223,7 +252,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     "Children",
                     "Youth",
                     "Adults",
-                    "All Ages"
+                    "All Ages",
                   ]
                       .map(
                         (e) => DropdownMenuItem(
@@ -234,7 +263,9 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       .toList(),
 
                   onChanged: (value) {
-                    ageGroup = value;
+                    setState(() {
+                      ageGroup = value;
+                    });
                   },
 
                   validator: (value) {
@@ -247,36 +278,44 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                 const SizedBox(height: 40),
 
+                // ================= BUTTON =================
+
                 SizedBox(
                   width: double.infinity,
                   height: 55,
 
                   child: ElevatedButton(
-
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
+
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
                     ),
 
                     onPressed: () {
-
                       if (_formKey.currentState!.validate()) {
+                        final int people =
+                            int.parse(peopleController.text);
 
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ResultsScreen(),
+                            builder: (context) => ResultsScreen(
+                              city: city!,
+                              budget: budget!,
+                              tripType: tripType!,
+                              ageGroup: ageGroup!,
+                              people: people,
+                            ),
                           ),
                         );
-
                       }
-
                     },
 
                     child: const Text(
                       "Find Destinations",
+
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white,
@@ -284,7 +323,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),
