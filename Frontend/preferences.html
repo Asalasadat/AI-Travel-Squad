@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>تفضيلات رحلتك — دلني</title>
   <meta name="description"
-    content="حدّد المدينة والميزانية وعدد الأشخاص ونوع الرحلة والفئة العمرية لتحصل على توصيات سياحية فلسطينية مناسبة." />
+    content="حدّد المدن والميزانية وعدد الأشخاص ونوع الرحلة والفئة العمرية لتحصل على توصيات سياحية فلسطينية مناسبة." />
   <meta property="og:title" content="تفضيلات رحلتك — دلني" />
   <meta property="og:description" content="أخبرنا بتفضيلاتك لنرشّح لك أنسب المواقع في فلسطين." />
   <meta name="theme-color" content="#3d4a30" />
@@ -134,64 +134,56 @@
 
     <form id="prefs-form" class="mt-8 space-y-5">
 
-      <!-- City -->
+      <!-- Cities -->
       <fieldset class="rounded-2xl border bg-card p-5">
         <legend class="flex items-center gap-2 px-1 text-sm font-bold">
           <i data-lucide="map-pin" class="size-4 text-terracotta"></i>
-          المدينة
+          المدن
         </legend>
-        <div class="mt-2">
-          <select id="field-city" aria-label="المدينة"
-            class="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            <option value="Jerusalem">القدس</option>
-            <option value="Bethlehem">بيت لحم</option>
-            <option value="Hebron">الخليل</option>
-            <option value="Jenin">جنين</option>
-            <option value="Jericho">أريحا</option>
-            <option value="Nablus">نابلس</option>
-            <option value="Qalqilya">قلقيلية</option>
-            <option value="Ramallah">رام الله</option>
-            <option value="Tubas">طوباس</option>
-            <option value="Tulkarm">طولكرم</option>
-          </select>
-        </div>
+        <p class="mt-1 text-xs text-muted-foreground">يمكنك اختيار أكثر من مدينة.</p>
+        <div class="mt-2 flex flex-wrap gap-2" id="group-city"></div>
+        <p id="city-error" class="mt-2 hidden text-sm font-medium text-destructive">اختر مدينة واحدة على الأقل</p>
       </fieldset>
 
       <!-- Budget -->
       <fieldset class="rounded-2xl border bg-card p-5">
         <legend class="flex items-center gap-2 px-1 text-sm font-bold">
           <i data-lucide="wallet" class="size-4 text-terracotta"></i>
-          مستوى الميزانية
+          الميزانية (₪)
         </legend>
-        <div class="mt-2 flex flex-wrap gap-2" id="group-budget" data-selected="Medium">
-          <button type="button" data-value="Low"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">منخفضة</button>
-          <button type="button" data-value="Medium"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-primary bg-primary text-primary-foreground">متوسطة</button>
-          <button type="button" data-value="High"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">مرتفعة</button>
+        <div class="mt-2">
+          <input id="field-budget" type="number" min="1" step="1" inputmode="numeric" placeholder="مثال: 200"
+            aria-label="الميزانية بالشيكل"
+            class="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
         </div>
+        <p class="mt-2 text-xs text-muted-foreground">الميزانية الإجمالية لجميع الأشخاص الذين تزيد أعمارهم عن 10 سنوات،
+          وليست للفرد الواحد.</p>
+        <p id="budget-error" class="mt-2 hidden text-sm font-medium text-destructive">أدخل ميزانية صحيحة (رقم أكبر من
+          صفر)</p>
       </fieldset>
 
       <!-- Group size -->
       <fieldset class="rounded-2xl border bg-card p-5">
         <legend class="flex items-center gap-2 px-1 text-sm font-bold">
           <i data-lucide="users" class="size-4 text-terracotta"></i>
-          عدد الأشخاص
+          عدد الأشخاص (فوق 10 سنوات)
         </legend>
         <div class="mt-2">
           <input id="field-people" type="number" min="1" max="50" value="2" aria-label="عدد الأشخاص"
             class="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
         </div>
+        <p class="mt-2 text-xs text-muted-foreground">أدخل عدد الأشخاص الذين تزيد أعمارهم عن 10 سنوات فقط، ولا يُحتسب
+          الأطفال دون 10 سنوات.</p>
       </fieldset>
 
-      <!-- Trip type (single-select, to match the backend's single TripType field) -->
+      <!-- Trip type -->
       <fieldset class="rounded-2xl border bg-card p-5">
         <legend class="flex items-center gap-2 px-1 text-sm font-bold">
           <i data-lucide="compass" class="size-4 text-terracotta"></i>
           نوع الرحلة
         </legend>
-        <div class="mt-2 flex flex-wrap gap-2" id="group-triptype" data-selected="">
+        <p class="mt-1 text-xs text-muted-foreground">يمكنك اختيار أكثر من نوع رحلة.</p>
+        <div class="mt-2 flex flex-wrap gap-2" id="group-triptype">
           <button type="button" data-value="Adventure"
             class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">مغامرة</button>
           <button type="button" data-value="Cultural"
@@ -223,6 +215,7 @@
           <button type="button" data-value="Youth"
             class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">شبابي</button>
         </div>
+        <p class="mt-2 text-xs text-muted-foreground">اختر الفئة الأنسب لمجموعتك.</p>
       </fieldset>
 
       <p id="submit-error"
@@ -239,11 +232,10 @@
   <script>
     lucide.createIcons();
 
-    // Local dev API base — http avoids the self-signed HTTPS dev-cert warning.
-    // Switch to "https://localhost:7080" once the dev cert is trusted (dotnet dev-certs trust).
     const API_BASE = "http://localhost:5286";
 
-    // Wire up single-select chip groups.
+    const USE_MOCK = false;
+
     function setupChipGroup(groupId) {
       const group = document.getElementById(groupId);
       const chips = group.querySelectorAll(".chip");
@@ -259,9 +251,56 @@
         });
       });
     }
-    ["group-budget", "group-triptype", "group-agegroup"].forEach(setupChipGroup);
+    ["group-agegroup"].forEach(setupChipGroup);
+
+    const CHIP_BASE = "chip rounded-full border px-4 py-2 text-sm font-medium transition-colors";
+    const CHIP_ON = ["border-primary", "bg-primary", "text-primary-foreground"];
+    const CHIP_OFF = ["border-border", "bg-card", "hover:border-primary/40"];
+
+    const CITIES = [
+      ["Jerusalem", "القدس"], ["Bethlehem", "بيت لحم"], ["Hebron", "الخليل"],
+      ["Jenin", "جنين"], ["Jericho", "أريحا"], ["Nablus", "نابلس"],
+      ["Qalqilya", "قلقيلية"], ["Ramallah", "رام الله"], ["Tubas", "طوباس"],
+      ["Tulkarm", "طولكرم"],
+    ];
+
+    const cityGroup = document.getElementById("group-city");
+    CITIES.forEach(([value, label]) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.dataset.value = value;
+      b.className = CHIP_BASE;
+      b.textContent = label;
+      cityGroup.appendChild(b);
+    });
+
+    function setChip(chip, on) {
+      chip.classList.remove(...(on ? CHIP_OFF : CHIP_ON));
+      chip.classList.add(...(on ? CHIP_ON : CHIP_OFF));
+      chip.setAttribute("aria-pressed", String(on));
+    }
+
+    function setupMultiChipGroup(groupId) {
+      document.querySelectorAll(`#${groupId} .chip`).forEach((chip) => {
+        setChip(chip, false);
+        chip.addEventListener("click", () => {
+          setChip(chip, chip.getAttribute("aria-pressed") !== "true");
+        });
+      });
+    }
+
+    function getSelected(groupId) {
+      return [...document.querySelectorAll(`#${groupId} .chip[aria-pressed="true"]`)]
+        .map((c) => c.dataset.value);
+    }
+
+    setupMultiChipGroup("group-city");
+    setupMultiChipGroup("group-triptype");
+
     const form = document.getElementById("prefs-form");
     const submitBtn = document.getElementById("submit-btn");
+    const cityError = document.getElementById("city-error");
+    const budgetError = document.getElementById("budget-error");
     const tripTypeError = document.getElementById("triptype-error");
     const submitError = document.getElementById("submit-error");
     const SUBMIT_LABEL = "أعطني التوصيات";
@@ -275,35 +314,57 @@
       submitError.classList.remove("hidden");
       resetSubmit();
     }
-    // لما ترجعي من results بزر الرجوع (bfcache) الزر يضل "جارٍ التحميل"
     window.addEventListener("pageshow", resetSubmit);
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       submitError.classList.add("hidden");
+      cityError.classList.add("hidden");
+      budgetError.classList.add("hidden");
       tripTypeError.classList.add("hidden");
 
-      const tripType = document.getElementById("group-triptype").dataset.selected;
-      if (!tripType) {
-        tripTypeError.classList.remove("hidden");
-        return;
-      }
+      const cities = getSelected("group-city");
+      const tripTypes = getSelected("group-triptype");
+      const budget = Number(document.getElementById("field-budget").value);
+
+      if (!cities.length) cityError.classList.remove("hidden");
+      if (!budget || budget <= 0) budgetError.classList.remove("hidden");
+      if (!tripTypes.length) tripTypeError.classList.remove("hidden");
+      if (!cities.length || !budget || budget <= 0 || !tripTypes.length) return;
 
       const payload = {
-        City: document.getElementById("field-city").value,
-        TripType: tripType,
+        Cities: cities,
+        TripTypes: tripTypes,
         AgeGroup: document.getElementById("group-agegroup").dataset.selected,
         GroupSize: Math.min(50, Math.max(1, Number(document.getElementById("field-people").value) || 1)),
-        BudgetLevel: document.getElementById("group-budget").dataset.selected,
+        Budget: budget,
       };
 
       submitBtn.disabled = true;
       submitBtn.textContent = "جارٍ التحميل...";
 
       try {
+        if (USE_MOCK) {
+          const mock = {
+            recommendationRequestId: 1,
+            totalResults: 3,
+            recommendations: [
+              { placeId: 1, placeName: "كنيسة المهد", placeType: "Religious", city: "Bethlehem", description: "من أقدم الكنائس المأهولة في العالم.", matchScore: 0.92, rankOrder: 1 },
+              { placeId: 2, placeName: "البلدة القديمة", placeType: "Historic Old City", city: "Nablus", description: "أسواق وحمامات وصابون نابلسي.", matchScore: 0.85, rankOrder: 2 },
+              { placeId: 3, placeName: "تل السلطان", placeType: "Archaeological", city: "Jericho", description: "من أقدم مدن العالم.", matchScore: 0.78, rankOrder: 3 },
+            ],
+          };
+          sessionStorage.setItem("aiTravelResults", JSON.stringify(mock));
+          sessionStorage.setItem("aiTravelPrefs", JSON.stringify(payload));
+          window.location.href = "results.html";
+          return;
+        }
+
         const res = await fetch(`${API_BASE}/api/Recommendations`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(payload),
         });
         const body = await res.json().catch(() => null);
@@ -315,10 +376,9 @@
           return;
         }
 
-        // ASP.NET بيرجّع camelCase: recommendations / totalResults
         if (!body || !Array.isArray(body.recommendations)) {
           console.error("Unexpected response shape", body);
-          showError("شكل الرد من الخادم مش متوقع، افتحي الـ Console للتفاصيل.");
+          showError("شكل الرد من الخادم غير متوقع، افتحي الـ Console للتفاصيل.");
           return;
         }
 

@@ -127,9 +127,4 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 }
-
-
-// Temporary favorites list
-// Later يمكن تخزينها باستخدام SharedPreferences أو Firebase
-
 List<PlaceModel> favorites = [];
