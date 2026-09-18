@@ -70,7 +70,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                 const SizedBox(height: 30),
 
-                // ================= CITY =================
 
                 DropdownButtonFormField<String>(
                   value: city,
@@ -117,7 +116,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                 const SizedBox(height: 20),
 
-                // ================= BUDGET =================
 
                 DropdownButtonFormField<String>(
                   value: budget,
@@ -159,7 +157,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                 const SizedBox(height: 20),
 
-                // ================= PEOPLE =================
 
                 TextFormField(
                   controller: peopleController,
@@ -191,7 +188,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                 const SizedBox(height: 20),
 
-                // ================= TRIP TYPE =================
 
                 DropdownButtonFormField<String>(
                   value: tripType,
@@ -235,7 +231,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                 const SizedBox(height: 20),
 
-                // ================= AGE GROUP =================
 
                 DropdownButtonFormField<String>(
                   value: ageGroup,
@@ -278,7 +273,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
 
                 const SizedBox(height: 40),
 
-                // ================= BUTTON =================
 
                 SizedBox(
                   width: double.infinity,
