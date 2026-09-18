@@ -17,6 +17,37 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+// ---------------------------------------------------------------------
+// CORS (Cross-Origin Resource Sharing)
+// Allows the frontend app (served from a different origin/port than the
+// API) to call this API from the browser without being blocked.
+// We allow common local development origins used by the frontend team
+// (Live Server default ports, plain localhost, and 127.0.0.1 variants).
+// TODO: once the frontend is deployed, replace/extend this list with the
+// production frontend URL instead of relying only on localhost origins.
+// ---------------------------------------------------------------------
+const string FrontendCorsPolicy = "FrontendCorsPolicy";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(FrontendCorsPolicy, policy =>
+    {
+        policy
+            .WithOrigins(
+                "http://localhost:5500",
+                "http://127.0.0.1:5500",
+                "http://localhost:5501",
+                "http://127.0.0.1:5501",
+                "http://localhost:3000",
+                "http://127.0.0.1:3000",
+                "http://localhost:8080",
+                "http://127.0.0.1:8080"
+            )
+            .WithMethods("GET", "POST", "PUT", "DELETE")
+            .AllowAnyHeader();
+    });
+});
+
 // Add services to the container.
 // JsonStringEnumConverter allows enums to be sent/received as readable strings
 // (e.g. "Nablus") instead of raw numbers (e.g. 0).
@@ -100,6 +131,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Must be placed before UseAuthorization (and after UseHttpsRedirection)
+// so CORS headers are applied correctly to every request/response,
+// including preflight OPTIONS requests sent automatically by browsers.
+app.UseCors(FrontendCorsPolicy);
 
 app.UseAuthentication();
 app.UseAuthorization();
