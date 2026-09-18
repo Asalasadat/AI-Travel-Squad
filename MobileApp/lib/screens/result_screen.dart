@@ -22,7 +22,6 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Filter places according to user's preferences
     List<PlaceModel> filteredPlaces = places.where((place) {
       final bool cityMatch = place.city == city;
       final bool typeMatch = place.type == tripType;
@@ -30,8 +29,7 @@ class ResultsScreen extends StatelessWidget {
       return cityMatch || typeMatch;
     }).toList();
 
-    // If there are no matching places,
-    // show all available places
+ 
     if (filteredPlaces.isEmpty) {
       filteredPlaces = places;
     }
@@ -57,7 +55,6 @@ class ResultsScreen extends StatelessWidget {
       body: Column(
         children: [
 
-          // ================= USER PREFERENCES =================
 
           Container(
             margin: const EdgeInsets.all(16),
@@ -128,7 +125,6 @@ class ResultsScreen extends StatelessWidget {
             ),
           ),
 
-          // ================= RESULTS =================
 
           Expanded(
             child: ListView.builder(
@@ -167,7 +163,6 @@ class ResultsScreen extends StatelessWidget {
 
                       children: [
 
-                        // ================= IMAGE =================
 
                         ClipRRect(
                           borderRadius:
@@ -204,7 +199,6 @@ class ResultsScreen extends StatelessWidget {
                           ),
                         ),
 
-                        // ================= INFORMATION =================
 
                         Padding(
                           padding: const EdgeInsets.all(16),
@@ -283,7 +277,6 @@ class ResultsScreen extends StatelessWidget {
 
                               const SizedBox(height: 8),
 
-                              // Trip type
                               Row(
                                 children: [
 
@@ -383,7 +376,6 @@ class ResultsScreen extends StatelessWidget {
     );
   }
 
-  // ================= PREFERENCE CHIP =================
 
   Widget _preferenceChip(
     IconData icon,
