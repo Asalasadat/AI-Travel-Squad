@@ -128,6 +128,16 @@
       background-image: linear-gradient(90deg, color-mix(in oklab, var(--hero) 30%, transparent), color-mix(in oklab, var(--hero) 82%, transparent) 68%);
     }
 
+    #mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    #mobile-menu.open {
+      max-height: 320px;
+    }
+
     @media (prefers-reduced-motion: reduce) {
 
       *,
@@ -166,10 +176,33 @@
           class="hidden items-center rounded-md bg-sand px-5 py-2.5 text-sm font-bold text-foreground transition-all hover:-translate-y-0.5 hover:bg-sand/90 sm:inline-flex">
           خطط رحلتك
         </a>
-        <a href="preferences.html" class="grid size-10 place-items-center sm:hidden" aria-label="خطط رحلتك">
-          <i data-lucide="menu" class="size-5"></i>
-        </a>
+        <button type="button" id="menu-toggle" class="grid size-10 place-items-center sm:hidden"
+          aria-label="فتح القائمة" aria-expanded="false" aria-controls="mobile-menu">
+          <i data-lucide="menu" class="size-5" id="menu-icon-open"></i>
+          <i data-lucide="x" class="size-5 hidden" id="menu-icon-close"></i>
+        </button>
       </div>
+
+      <!-- dropdown menu -->
+      <nav id="mobile-menu" class="border-t border-hero-foreground/20 bg-hero/95 backdrop-blur-md sm:hidden"
+        aria-label="التنقل - موبايل">
+        <ul class="flex flex-col gap-1 px-5 py-4 text-sm font-semibold">
+          <li><a href="index.html"
+              class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-hero-foreground/10 hover:text-copper">الرئيسية</a>
+          </li>
+          <li><a href="#how"
+              class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-hero-foreground/10 hover:text-copper">كيف
+              يعمل</a></li>
+          <li><a href="#places"
+              class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-hero-foreground/10 hover:text-copper">وجهات
+              مختارة</a></li>
+          <li class="pt-1">
+            <a href="preferences.html"
+              class="block rounded-md bg-sand px-3 py-2.5 text-center font-bold text-foreground transition-colors hover:bg-sand/90">خطط
+              رحلتك</a>
+          </li>
+        </ul>
+      </nav>
     </header>
 
     <div
@@ -204,7 +237,7 @@
           <span class="text-[10px] text-hero-foreground/70 sm:text-xs">وجهة حقيقية</span>
         </div>
         <div class="border-l border-hero-foreground/15 px-3 text-center last:border-0">
-          <strong class="block font-display text-lg text-sand sm:text-2xl">6</strong>
+          <strong class="block font-display text-lg text-sand sm:text-2xl">10</strong>
           <span class="text-[10px] text-hero-foreground/70 sm:text-xs">مدن فلسطينية</span>
         </div>
         <div class="border-l border-hero-foreground/15 px-3 text-center last:border-0">
@@ -355,27 +388,53 @@
 
         <div>
           <h5 class="font-display text-sm font-bold text-foreground">مدن نغطّيها</h5>
-          <ul class="mt-4 space-y-3 text-sm text-muted-foreground">
+          <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 text-sm text-muted-foreground">
             <li><a href="preferences.html" class="transition-colors hover:text-terracotta">القدس</a></li>
             <li><a href="preferences.html" class="transition-colors hover:text-terracotta">بيت لحم</a></li>
             <li><a href="preferences.html" class="transition-colors hover:text-terracotta">نابلس</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">رام الله والخليل وأريحا</a>
-            </li>
+            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">الخليل</a></li>
+            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">رام الله</a></li>
+            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">أريحا</a></li>
+            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">جنين</a></li>
+            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">طولكرم</a></li>
+            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">قلقيلية</a></li>
+            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">طوباس</a></li>
           </ul>
         </div>
       </div>
 
       <div
         class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
-        <span>© 2026 AI Travel Squad. جميع الحقوق محفوظة.</span>
-        <span>نكتشف <span>© 2026 دلني. جميع الحقوق محفوظة.</span>
-        فلسطين بعيون جديدة</span>
+        <span>© 2026 دلني. جميع الحقوق محفوظة.</span>
+        <span>نكتشف فلسطين بعيون جديدة</span>
       </div>
     </div>
   </footer>
 
   <script>
     lucide.createIcons();
+
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const iconOpen = document.getElementById("menu-icon-open");
+    const iconClose = document.getElementById("menu-icon-close");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "إغلاق القائمة" : "فتح القائمة");
+      iconOpen.classList.toggle("hidden", isOpen);
+      iconClose.classList.toggle("hidden", !isOpen);
+    });
+
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        iconOpen.classList.remove("hidden");
+        iconClose.classList.add("hidden");
+      });
+    });
   </script>
 </body>
 

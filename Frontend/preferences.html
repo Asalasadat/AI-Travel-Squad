@@ -260,11 +260,23 @@
       });
     }
     ["group-budget", "group-triptype", "group-agegroup"].forEach(setupChipGroup);
-
     const form = document.getElementById("prefs-form");
     const submitBtn = document.getElementById("submit-btn");
     const tripTypeError = document.getElementById("triptype-error");
     const submitError = document.getElementById("submit-error");
+    const SUBMIT_LABEL = "أعطني التوصيات";
+
+    function resetSubmit() {
+      submitBtn.disabled = false;
+      submitBtn.textContent = SUBMIT_LABEL;
+    }
+    function showError(msg) {
+      submitError.textContent = msg;
+      submitError.classList.remove("hidden");
+      resetSubmit();
+    }
+    // لما ترجعي من results بزر الرجوع (bfcache) الزر يضل "جارٍ التحميل"
+    window.addEventListener("pageshow", resetSubmit);
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -281,7 +293,7 @@
         City: document.getElementById("field-city").value,
         TripType: tripType,
         AgeGroup: document.getElementById("group-agegroup").dataset.selected,
-        GroupSize: Math.max(1, Number(document.getElementById("field-people").value) || 1),
+        GroupSize: Math.min(50, Math.max(1, Number(document.getElementById("field-people").value) || 1)),
         BudgetLevel: document.getElementById("group-budget").dataset.selected,
       };
 
@@ -294,26 +306,28 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
+        const body = await res.json().catch(() => null);
 
         if (!res.ok) {
-          const errBody = await res.json().catch(() => null);
-          const msg = errBody?.message || "تعذر جلب التوصيات، حاول مرة أخرى.";
-          submitError.textContent = msg;
-          submitError.classList.remove("hidden");
-          submitBtn.disabled = false;
-          submitBtn.textContent = "أعطني التوصيات";
+          console.error("API error", res.status, body);
+          const details = body?.errors ? Object.values(body.errors).flat().join(" • ") : "";
+          showError([body?.message || `تعذر جلب التوصيات (${res.status}).`, details].filter(Boolean).join(" — "));
           return;
         }
 
-        const data = await res.json();
-        sessionStorage.setItem("aiTravelResults", JSON.stringify(data));
+        // ASP.NET بيرجّع camelCase: recommendations / totalResults
+        if (!body || !Array.isArray(body.recommendations)) {
+          console.error("Unexpected response shape", body);
+          showError("شكل الرد من الخادم مش متوقع، افتحي الـ Console للتفاصيل.");
+          return;
+        }
+
+        sessionStorage.setItem("aiTravelResults", JSON.stringify(body));
         sessionStorage.setItem("aiTravelPrefs", JSON.stringify(payload));
         window.location.href = "results.html";
       } catch (err) {
-        submitError.textContent = "تعذر الاتصال بالخادم. تأكد أن الـ API شغّال وأن CORS مفعّل.";
-        submitError.classList.remove("hidden");
-        submitBtn.disabled = false;
-        submitBtn.textContent = "أعطني التوصيات";
+        console.error("Network/CORS error", err);
+        showError("تعذر الاتصال بالخادم. تأكدي أن الـ API شغّال، وأن الصفحة مفتوحة من أحد الـ origins المسموحة.");
       }
     });
   </script>

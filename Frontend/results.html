@@ -1,208 +1,226 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Browse destinations across Palestine, ranked and matched to your preferences by AI.">
-  <meta name="theme-color" content="#1E88F0">
-  <link rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E88F0'/%3E%3Cpath d='M32 14l6 14 14 4-14 4-6 14-6-14-14-4 14-4z' fill='white'/%3E%3C/svg%3E">
-  <title>Recommended Places — AI Travel Squad</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>التوصيات المناسبة لك — دلني</title>
+  <meta name="description" content="قائمة مرتبة بأنسب المواقع السياحية والتراثية والطبيعية في فلسطين حسب تفضيلاتك." />
+  <meta property="og:title" content="التوصيات المناسبة لك — دلني" />
+  <meta property="og:description" content="أنسب الأماكن في فلسطين حسب تفضيلاتك، مرتبة حسب الملاءمة." />
+  <meta name="theme-color" content="#3d4a30" />
+
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: "var(--background)",
+            foreground: "var(--foreground)",
+            card: "var(--card)",
+            "card-foreground": "var(--card-foreground)",
+            primary: "var(--primary)",
+            "primary-foreground": "var(--primary-foreground)",
+            secondary: "var(--secondary)",
+            "secondary-foreground": "var(--secondary-foreground)",
+            muted: "var(--muted)",
+            "muted-foreground": "var(--muted-foreground)",
+            accent: "var(--accent)",
+            "accent-foreground": "var(--accent-foreground)",
+            destructive: "var(--destructive)",
+            "destructive-foreground": "var(--destructive-foreground)",
+            border: "var(--border)",
+            input: "var(--input)",
+            ring: "var(--ring)",
+            olive: "var(--olive)",
+            "olive-foreground": "var(--olive-foreground)",
+            sand: "var(--sand)",
+            terracotta: "var(--terracotta)",
+            "terracotta-foreground": "var(--terracotta-foreground)",
+            copper: "var(--copper)",
+            hero: "var(--hero)",
+            "hero-foreground": "var(--hero-foreground)",
+          },
+          fontFamily: {
+            sans: ["Noto Kufi Arabic", "IBM Plex Sans Arabic", "ui-sans-serif", "system-ui", "sans-serif"],
+            display: ["Cairo", "sans-serif"],
+          },
+          borderRadius: {
+            sm: "calc(var(--radius) - 4px)",
+            md: "calc(var(--radius) - 2px)",
+            lg: "var(--radius)",
+            xl: "calc(var(--radius) + 4px)",
+            "2xl": "calc(var(--radius) + 8px)",
+            "3xl": "calc(var(--radius) + 12px)",
+            "4xl": "calc(var(--radius) + 16px)",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --radius: 0.625rem;
+      --background: oklch(0.955 0.019 88);
+      --foreground: oklch(0.38 0.052 119);
+      --card: oklch(0.985 0.008 88);
+      --card-foreground: oklch(0.38 0.052 119);
+      --olive: oklch(0.38 0.052 119);
+      --olive-foreground: oklch(0.97 0.015 88);
+      --sand: oklch(0.84 0.045 82);
+      --terracotta: oklch(0.49 0.11 38);
+      --terracotta-foreground: oklch(0.97 0.015 88);
+      --primary: oklch(0.38 0.052 119);
+      --primary-foreground: oklch(0.97 0.015 88);
+      --secondary: oklch(0.84 0.045 82);
+      --secondary-foreground: oklch(0.32 0.045 119);
+      --muted: oklch(0.91 0.025 87);
+      --muted-foreground: oklch(0.48 0.025 92);
+      --accent: oklch(0.49 0.11 38);
+      --accent-foreground: oklch(0.97 0.015 88);
+      --destructive: oklch(0.577 0.245 27.325);
+      --destructive-foreground: oklch(0.98 0.01 95);
+      --border: oklch(0.8 0.038 84);
+      --input: oklch(0.8 0.038 84);
+      --ring: oklch(0.49 0.11 38);
+      --copper: oklch(0.64 0.105 67);
+      --hero: oklch(0.22 0.03 105);
+      --hero-foreground: oklch(0.97 0.015 88);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Kufi Arabic", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .font-display {
+      font-family: "Cairo", sans-serif;
+    }
+  </style>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body data-page="results">
+<body class="bg-background text-foreground">
 
-  <header>
-    <nav class="nav">
-      <a href="index.html" class="brand"><span class="icon-badge"><span
-            class="material-icons">travel_explore</span></span> AI Travel Squad</a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" data-page="home">Home</a></li>
-        <li><a href="preferences.html" data-page="preferences">Plan a Trip</a></li>
-        <li><a href="results.html" data-page="results">Destinations</a></li>
-        <li class="nav-cta-wrap"><a href="preferences.html" class="nav-cta">Start Journey</a></li>
-      </ul>
-      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span class="material-icons">menu</span></button>
-    </nav>
-  </header>
+  <div class="mx-auto min-h-screen max-w-3xl px-6 py-10">
+    <a href="preferences.html"
+      class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground">
+      <i data-lucide="arrow-right" class="size-4"></i>
+      تعديل التفضيلات
+    </a>
+    <h1 class="mt-6 text-3xl font-bold">أنسب الأماكن لك</h1>
+    <p id="subtitle" class="mt-2 text-muted-foreground"></p>
+    <div id="results-container" class="mt-8"></div>
+  </div>
 
-  <main>
-    <section class="page-hero">
-      <h1>Recommended Places</h1>
-      <p>Matched to your preferences by our AI model.</p>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="results-meta" id="resultsMeta" style="display:none;"></div>
-
-        <div class="loading-state" id="loadingState" style="display:none;">
-          <div class="spinner"></div>
-          <p>عم نجيبلك أفضل الوجهات...</p>
-        </div>
-
-        <div class="error-state" id="errorState" style="display:none;">
-          <span class="material-icons">error_outline</span>
-          <p id="errorMessage"></p>
-          <button class="btn" id="retryBtn">حاول مرة ثانية</button>
-        </div>
-
-        <div class="results-grid" id="results-list"></div>
-        <div class="empty-state" id="emptyState" style="display:none;">
-          <span class="material-icons">travel_explore</span>
-          <p>No destinations match those filters yet. Try adjusting your preferences.</p>
-          <div style="margin-top:16px;"><a href="preferences.html" class="btn">Edit Preferences</a></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-grid">
-      <div>
-        <div class="brand"><span class="icon-badge"><span class="material-icons">travel_explore</span></span> AI Travel
-          Squad</div>
-        <p>Discover the best tourist destinations across Palestine, matched to you by artificial intelligence.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Explore</h5>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="preferences.html">Plan a Trip</a></li>
-          <li><a href="results.html">Destinations</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Cities</h5>
-        <ul>
-          <li><a href="results.html">Jerusalem</a></li>
-          <li><a href="results.html">Bethlehem</a></li>
-          <li><a href="results.html">Nablus</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 AI Travel Squad</span>
-      <span>Discover Palestine with AI</span>
-    </div>
-  </footer>
-
-  <script src="assets/app.js"></script>
   <script>
-    const prefs = loadPreferences();
+    lucide.createIcons();
 
-    const loadingEl = document.getElementById('loadingState');
-    const errorEl = document.getElementById('errorState');
-    const errorMsgEl = document.getElementById('errorMessage');
-    const metaEl = document.getElementById('resultsMeta');
-    const listEl = document.getElementById('results-list');
-    const emptyEl = document.getElementById('emptyState');
-    const retryBtn = document.getElementById('retryBtn');
+    const CITY_LABELS = {
+      Bethlehem: "بيت لحم", Hebron: "الخليل", Jenin: "جنين", Jericho: "أريحا",
+      Jerusalem: "القدس", Nablus: "نابلس", Qalqilya: "قلقيلية",
+      Ramallah: "رام الله", Tubas: "طوباس", Tulkarm: "طولكرم",
+    };
 
-    function showLoading() {
-      loadingEl.style.display = 'flex';
-      errorEl.style.display = 'none';
-      listEl.innerHTML = '';
-      emptyEl.style.display = 'none';
-      metaEl.style.display = 'none';
-    }
+    // Based on the real Place.PlaceType values from the backend entity
+    // (Religious / Historic / Archaeological ...). Add more keys here as
+    // the actual dataset reveals additional values; unknown values still
+    // render fine via the fallback style below.
+    const PLACE_TYPE_LABELS = {
+      Religious: "ديني", Historic: "تاريخي", Archaeological: "أثري",
+      Natural: "طبيعي", Cultural: "ثقافي", Touristic: "سياحي",
+    };
+    const PLACE_TYPE_STYLES = {
+      Religious: "bg-terracotta/10 text-terracotta",
+      Historic: "bg-sand text-foreground",
+      Archaeological: "bg-olive/10 text-olive",
+      Natural: "bg-olive/10 text-olive",
+      Cultural: "bg-secondary text-secondary-foreground",
+      Touristic: "bg-secondary text-secondary-foreground",
+    };
+    const FALLBACK_TYPE_STYLE = "bg-secondary text-secondary-foreground";
 
-    function showError(message) {
-      loadingEl.style.display = 'none';
-      errorEl.style.display = 'flex';
-      errorMsgEl.textContent = message;
-    }
+    const subtitleEl = document.getElementById("subtitle");
+    const container = document.getElementById("results-container");
 
-    function renderResults(list) {
-      listEl.innerHTML = '';
-      if (list.length === 0) {
-        emptyEl.style.display = 'block';
-        return;
-      }
-      emptyEl.style.display = 'none';
+    const raw = sessionStorage.getItem("aiTravelResults");
+    const rawPrefs = sessionStorage.getItem("aiTravelPrefs");
+    const data = raw ? JSON.parse(raw) : null;
+    const prefs = rawPrefs ? JSON.parse(rawPrefs) : null;
 
-      list.forEach((p, i) => {
-        const percent = Math.round(p.matchScore * 100);
-        const card = document.createElement('div');
-        card.className = 'place-card';
-        card.style.setProperty('--i', i);
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('aria-label', 'View details for ' + p.placeName);
-        card.onclick = () => window.location.href = 'place.html?placeId=' + p.placeId;
-        card.onkeydown = (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            window.location.href = 'place.html?placeId=' + p.placeId;
-          }
-        };
-        card.innerHTML = `
-      <div class="thumb img-error"></div>
-      <div class="place-card-body">
-        <div class="place-card-title-row">
-          <h3>${p.placeName}</h3>
-          <span class="match-badge">${percent}%</span>
-        </div>
-        <div class="city-row">
-          <span class="material-icons">location_on</span>
-          <span>${p.city}</span>
-        </div>
-        <p class="place-desc">${p.description || ''}</p>
-        <div class="progress-track"><div class="progress-fill" style="width:${percent}%;"></div></div>
-        <button class="btn view-btn" onclick="event.stopPropagation(); window.location.href='place.html?placeId=${p.placeId}'">
-          View Details <span class="material-icons" style="font-size:18px;">arrow_forward</span>
-        </button>
-      </div>
-    `;
-        listEl.appendChild(card);
+    if (!data || !Array.isArray(data.Recommendations) || data.Recommendations.length === 0) {
+      subtitleEl.textContent = "لا توجد نتائج بعد.";
+      container.innerHTML = `
+        <p class="rounded-2xl border bg-card p-8 text-center text-muted-foreground">
+          لم نجد نتائج محفوظة. جرّب تعديل تفضيلاتك من جديد.
+        </p>`;
+    } else {
+      const places = data.Recommendations;
+      const cityLabel = prefs?.City ? CITY_LABELS[prefs.City] || prefs.City : "";
+      subtitleEl.textContent = `${places.length} مواقع مرتبة من الأعلى إلى الأقل ملاءمة${cityLabel ? " — " + cityLabel + " والمناطق القريبة منها" : ""}`;
+
+      const grid = document.createElement("ol");
+      grid.className = "grid gap-4 sm:grid-cols-2";
+
+      places.forEach((place, i) => {
+        const scorePct = Math.round((place.MatchScore || 0) * 100);
+        const cityDisplay = CITY_LABELS[place.City] || place.City;
+
+        const li = document.createElement("li");
+        li.className = "relative";
+        li.innerHTML = `
+          <span class="absolute -top-2 start-4 z-10 rounded-full bg-primary px-2.5 py-0.5 text-xs font-bold text-primary-foreground">
+            #${i + 1}
+          </span>
+          <a href="place.html?id=${place.PlaceId}" class="block rounded-2xl border bg-card p-5 transition-colors hover:border-primary/40">
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="text-lg font-bold leading-snug">${place.PlaceName}</h3>
+              <span class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${PLACE_TYPE_STYLES[place.PlaceType] || FALLBACK_TYPE_STYLE}">
+                ${PLACE_TYPE_LABELS[place.PlaceType] || place.PlaceType || ""}
+              </span>
+            </div>
+            <p class="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
+              <i data-lucide="map-pin" class="size-4"></i>
+              ${cityDisplay}
+            </p>
+            <p class="mt-3 text-sm leading-relaxed text-muted-foreground">
+              ${place.Description || ""}
+            </p>
+            <div class="mt-4">
+              <div class="flex items-center justify-between text-xs font-medium text-muted-foreground">
+                <span>مؤشر الملاءمة</span>
+                <span class="font-bold text-primary">${scorePct}٪</span>
+              </div>
+              <div class="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow="${scorePct}" aria-valuemin="0" aria-valuemax="100" aria-label="مؤشر الملاءمة ${scorePct}٪">
+                <div class="h-full rounded-full bg-terracotta transition-all" style="width:${scorePct}%"></div>
+              </div>
+            </div>
+          </a>`;
+        grid.appendChild(li);
       });
+
+      container.appendChild(grid);
+      lucide.createIcons();
     }
-
-    function showResults(recommendations) {
-      loadingEl.style.display = 'none';
-      errorEl.style.display = 'none';
-      metaEl.style.display = 'flex';
-      metaEl.innerHTML = `
-    <span><strong>${recommendations.length}</strong> destination${recommendations.length === 1 ? '' : 's'} matched for
-      ${prefs.city} · ${prefs.type} · ${prefs.budget} budget</span>
-    <a href="preferences.html" class="btn outline blue-border" style="height:38px;padding:0 16px;font-size:13px;">Edit Preferences</a>
-  `;
-      renderResults(recommendations);
-    }
-
-    async function loadRecommendations() {
-      if (!prefs) {
-        window.location.href = 'preferences.html';
-        return;
-      }
-
-      showLoading();
-
-      const payload = {
-        city: prefs.city,
-        tripType: prefs.type,
-        ageGroup: prefs.age,
-        groupSize: Number(prefs.people),
-        budgetLevel: prefs.budget
-      };
-
-      try {
-        const data = await postRecommendations(payload);
-        sessionStorage.setItem('lastRecommendations', JSON.stringify(data.recommendations));
-        showResults(data.recommendations);
-      } catch (err) {
-        showError(err.message);
-      }
-    }
-
-    retryBtn.addEventListener('click', loadRecommendations);
-    loadRecommendations();
   </script>
 </body>
 
