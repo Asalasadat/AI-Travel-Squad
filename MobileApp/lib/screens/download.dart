@@ -1,7 +1,7 @@
 
-import 'package:dio/dio.dart';
+import 'dart:html' as html;
+
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 class DownloadScreen extends StatefulWidget {
   const DownloadScreen({super.key});
@@ -11,91 +11,50 @@ class DownloadScreen extends StatefulWidget {
 }
 
 class _DownloadScreenState extends State<DownloadScreen> {
-  double progress = 0.0;
+  bool isDownloading = false;
+  bool isDownloaded = false;
 
   String status = "Ready to download";
 
-  bool isDownloading = false;
+  static const String fileUrl =
+      "https://raw.githubusercontent.com/Asalasadat/AI-Travel-Squad/main/ai_travel_squad_summary.pdf";
 
-  Future<void> downloadFile() async {
-    // ضع هنا الرابط الحقيقي للملف
-    const String fileUrl =
-        "https://example.com/travel-guide.pdf";
+  void downloadGuide() {
+    setState(() {
+      isDownloading = true;
+      status = "Preparing travel guide...";
+    });
 
-    try {
-      setState(() {
-        isDownloading = true;
-        progress = 0.0;
-        status = "Connecting...";
-      });
+    final anchor = html.AnchorElement(href: fileUrl)
+      ..setAttribute(
+        "download",
+        "ai_travel_squad_summary.pdf",
+      )
+      ..target = "_blank";
 
-      final directory =
-          await getApplicationDocumentsDirectory();
+    html.document.body?.append(anchor);
 
-      final filePath =
-          "${directory.path}/travel_guide.pdf";
+    anchor.click();
 
-      final dio = Dio(
-        BaseOptions(
-          connectTimeout: const Duration(seconds: 15),
-          receiveTimeout: const Duration(minutes: 5),
+    anchor.remove();
+
+    setState(() {
+      isDownloading = false;
+      isDownloaded = true;
+      status = "Download started successfully!";
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          "Travel guide download started!",
         ),
-      );
+      ),
+    );
+  }
 
-      await dio.download(
-        fileUrl,
-        filePath,
-
-        onReceiveProgress: (received, total) {
-          if (total != -1) {
-            setState(() {
-              progress = received / total;
-
-              status =
-                  "Downloading ${(progress * 100).toStringAsFixed(0)}%";
-            });
-          }
-        },
-      );
-
-      setState(() {
-        isDownloading = false;
-        progress = 1.0;
-        status = "Download completed successfully!";
-      });
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              "File downloaded successfully!",
-            ),
-          ),
-        );
-      }
-    } on DioException catch (e) {
-      setState(() {
-        isDownloading = false;
-      });
-
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout) {
-        setState(() {
-          status =
-              "Connection is weak. Please try again.";
-        });
-      } else {
-        setState(() {
-          status =
-              "Download failed. Check your internet connection.";
-        });
-      }
-    } catch (e) {
-      setState(() {
-        isDownloading = false;
-        status = "Something went wrong.";
-      });
-    }
+  void openGuide() {
+    html.window.open(fileUrl, "_blank");
   }
 
   @override
@@ -104,81 +63,133 @@ class _DownloadScreenState extends State<DownloadScreen> {
       backgroundColor: const Color(0xffF5F7FA),
 
       appBar: AppBar(
-        title: const Text("Download Travel Guide"),
+        title: const Text(
+          "Download Travel Guide",
+        ),
         centerTitle: true,
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(20),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
 
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          children: [
-            const Icon(
-              Icons.cloud_download,
-              size: 100,
-              color: Colors.blue,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 500,
             ),
 
-            const SizedBox(height: 30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
 
-            const Text(
-              "Travel Guide",
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            Text(
-              status,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 17,
-                color: Colors.black54,
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            LinearProgressIndicator(
-              value: progress,
-              minHeight: 10,
-              borderRadius: BorderRadius.circular(10),
-            ),
-
-            const SizedBox(height: 10),
-
-            Text(
-              "${(progress * 100).toStringAsFixed(0)}%",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-
-              child: ElevatedButton.icon(
-                onPressed:
-                    isDownloading ? null : downloadFile,
-
-                icon: const Icon(Icons.download),
-
-                label: Text(
-                  isDownloading
-                      ? "Downloading..."
-                      : "Download File",
+              children: [
+                const Icon(
+                  Icons.menu_book,
+                  size: 100,
+                  color: Colors.blue,
                 ),
-              ),
+
+                const SizedBox(height: 30),
+
+                const Text(
+                  "Palestine Travel Guide",
+                  textAlign: TextAlign.center,
+
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 15),
+
+                const Text(
+                  "Download the AI Travel Squad "
+                  "tourism guide and explore Palestine.",
+                  textAlign: TextAlign.center,
+
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                Text(
+                  status,
+                  textAlign: TextAlign.center,
+
+                  style: const TextStyle(
+                    fontSize: 17,
+                    color: Colors.black87,
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+
+                  child: ElevatedButton.icon(
+                    onPressed:
+                        isDownloading
+                            ? null
+                            : downloadGuide,
+
+                    icon: Icon(
+                      isDownloaded
+                          ? Icons.check_circle
+                          : Icons.download,
+                    ),
+
+                    label: Text(
+                      isDownloaded
+                          ? "Download Again"
+                          : "Download Travel Guide",
+                    ),
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 15),
+
+                if (isDownloaded)
+                  SizedBox(
+                    width: double.infinity,
+                    height: 55,
+
+                    child: OutlinedButton.icon(
+                      onPressed: openGuide,
+
+                      icon: const Icon(
+                        Icons.menu_book,
+                      ),
+
+                      label: const Text(
+                        "Open Travel Guide",
+                      ),
+
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

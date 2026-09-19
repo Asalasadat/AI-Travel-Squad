@@ -127,4 +127,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 }
+
+
+
+
 List<PlaceModel> favorites = [];
