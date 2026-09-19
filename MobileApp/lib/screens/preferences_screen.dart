@@ -9,6 +9,8 @@ class PreferencesScreen extends StatefulWidget {
 }
 
 class _PreferencesScreenState extends State<PreferencesScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   String? city;
   String? budget;
   String? tripType;
@@ -17,174 +19,307 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   final TextEditingController peopleController = TextEditingController();
 
   @override
+  void dispose() {
+    peopleController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF5F7FA),
+      backgroundColor: const Color(0xffF4F6FA),
 
       appBar: AppBar(
         title: const Text("Travel Preferences"),
         centerTitle: true,
       ),
 
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
 
-        child: Column(
-          children: [
+          child: Form(
+            key: _formKey,
 
-            const Icon(
-              Icons.travel_explore,
-              size: 80,
-              color: Colors.blue,
-            ),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              "Plan Your Trip",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            const Text(
-              "Select your travel preferences",
-              style: TextStyle(color: Colors.grey),
-            ),
-
-            const SizedBox(height: 30),
-
-            DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: "City",
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.location_on),
-              ),
-              items: const [
-                "Jerusalem",
-                "Nablus",
-                "Ramallah",
-                "Bethlehem",
-                "Hebron",
-                "Jericho",
-              ].map((city) {
-                return DropdownMenuItem(
-                  value: city,
-                  child: Text(city),
-                );
-              }).toList(),
-              onChanged: (value) {
-                city = value;
-              },
-            ),
-
-            const SizedBox(height: 20),
-
-            DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: "Budget",
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.attach_money),
-              ),
-              items: const [
-                "Low",
-                "Medium",
-                "High",
-              ].map((budget) {
-                return DropdownMenuItem(
-                  value: budget,
-                  child: Text(budget),
-                );
-              }).toList(),
-              onChanged: (value) {
-                budget = value;
-              },
-            ),
-
-            const SizedBox(height: 20),
-
-            TextField(
-              controller: peopleController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: "Number of People",
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.people),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: "Trip Type",
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.hiking),
-              ),
-              items: const [
-                "Historical",
-                "Nature",
-                "Adventure",
-                "Family",
-              ].map((trip) {
-                return DropdownMenuItem(
-                  value: trip,
-                  child: Text(trip),
-                );
-              }).toList(),
-              onChanged: (value) {
-                tripType = value;
-              },
-            ),
-
-            const SizedBox(height: 20),
-
-            DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: "Age Group",
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.person),
-              ),
-              items: const [
-                "Children",
-                "Youth",
-                "Adults",
-                "All Ages",
-              ].map((age) {
-                return DropdownMenuItem(
-                  value: age,
-                  child: Text(age),
-                );
-              }).toList(),
-              onChanged: (value) {
-                ageGroup = value;
-              },
-            ),
-
-            const SizedBox(height: 40),
-
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ResultsScreen(),
-                    ),
-                  );
-                },
-                child: const Text(
-                  "Find Destinations",
-                  style: TextStyle(fontSize: 18),
+            child: Column(
+              children: [
+                const Icon(
+                  Icons.travel_explore,
+                  size: 90,
+                  color: Colors.blue,
                 ),
-              ),
+
+                const SizedBox(height: 15),
+
+                const Text(
+                  "Travel Preferences",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 5),
+
+                const Text(
+                  "Choose your trip information",
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+
+                DropdownButtonFormField<String>(
+                  value: city,
+
+                  decoration: InputDecoration(
+                    labelText: "City",
+                    prefixIcon: const Icon(Icons.location_on),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+
+                  items: const [
+                    "Jerusalem",
+                    "Nablus",
+                    "Ramallah",
+                    "Bethlehem",
+                    "Hebron",
+                    "Jericho",
+                    "Jenin",
+                    "Tulkarm",
+                  ]
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e),
+                        ),
+                      )
+                      .toList(),
+
+                  onChanged: (value) {
+                    setState(() {
+                      city = value;
+                    });
+                  },
+
+                  validator: (value) {
+                    if (value == null) {
+                      return "Please select city";
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 20),
+
+
+                DropdownButtonFormField<String>(
+                  value: budget,
+
+                  decoration: InputDecoration(
+                    labelText: "Budget",
+                    prefixIcon: const Icon(Icons.attach_money),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+
+                  items: const [
+                    "Low",
+                    "Medium",
+                    "High",
+                  ]
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e),
+                        ),
+                      )
+                      .toList(),
+
+                  onChanged: (value) {
+                    setState(() {
+                      budget = value;
+                    });
+                  },
+
+                  validator: (value) {
+                    if (value == null) {
+                      return "Please select budget";
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 20),
+
+
+                TextFormField(
+                  controller: peopleController,
+
+                  keyboardType: TextInputType.number,
+
+                  decoration: InputDecoration(
+                    labelText: "Number of People",
+                    prefixIcon: const Icon(Icons.groups),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Enter number of people";
+                    }
+
+                    final number = int.tryParse(value);
+
+                    if (number == null || number <= 0) {
+                      return "Enter a valid number";
+                    }
+
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 20),
+
+
+                DropdownButtonFormField<String>(
+                  value: tripType,
+
+                  decoration: InputDecoration(
+                    labelText: "Trip Type",
+                    prefixIcon: const Icon(Icons.hiking),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+
+                  items: const [
+                    "Historical",
+                    "Nature",
+                    "Adventure",
+                    "Family",
+                    "Friends",
+                  ]
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e),
+                        ),
+                      )
+                      .toList(),
+
+                  onChanged: (value) {
+                    setState(() {
+                      tripType = value;
+                    });
+                  },
+
+                  validator: (value) {
+                    if (value == null) {
+                      return "Please select trip type";
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 20),
+
+
+                DropdownButtonFormField<String>(
+                  value: ageGroup,
+
+                  decoration: InputDecoration(
+                    labelText: "Age Group",
+                    prefixIcon: const Icon(Icons.person),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+
+                  items: const [
+                    "Children",
+                    "Youth",
+                    "Adults",
+                    "All Ages",
+                  ]
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e,
+                          child: Text(e),
+                        ),
+                      )
+                      .toList(),
+
+                  onChanged: (value) {
+                    setState(() {
+                      ageGroup = value;
+                    });
+                  },
+
+                  validator: (value) {
+                    if (value == null) {
+                      return "Please select age group";
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 40),
+
+
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        final int people =
+                            int.parse(peopleController.text);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ResultsScreen(
+                              city: city!,
+                              budget: budget!,
+                              tripType: tripType!,
+                              ageGroup: ageGroup!,
+                              people: people,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+
+                    child: const Text(
+                      "Find Destinations",
+
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

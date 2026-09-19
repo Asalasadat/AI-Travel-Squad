@@ -1,60 +1,28 @@
-// ---------- Shared data ----------
-const PLACES = [
-  {
-    id: 1,
-    name: "Sebastia",
-    city: "Nablus",
-    type: "Historical",
-    score: 92,
-    image: "https://images.unsplash.com/photo-1544198365-f5d60b6d8190?q=80&w=1200&auto=format&fit=crop",
-    description: "Ancient ruins of the Roman city of Samaria-Sebaste, featuring a well-preserved theater, temple, and colonnaded street overlooking olive groves."
-  },
-  {
-    id: 2,
-    name: "Wadi Qelt",
-    city: "Jericho",
-    type: "Nature",
-    score: 88,
-    image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?q=80&w=1200&auto=format&fit=crop",
-    description: "A dramatic desert canyon with a monastery carved into the cliffside, popular for hiking trails and stunning valley views."
-  },
-  {
-    id: 3,
-    name: "Church of the Nativity",
-    city: "Bethlehem",
-    type: "Historical",
-    score: 95,
-    image: "https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1200&auto=format&fit=crop",
-    description: "One of the oldest working churches in the world, built over the traditional site of the birth of Jesus, with mosaics dating back centuries."
-  },
-  {
-    id: 4,
-    name: "Old City Ramparts",
-    city: "Jerusalem",
-    type: "Family",
-    score: 84,
-    image: "https://images.unsplash.com/photo-1552423314-cf29ab68ad73?q=80&w=1200&auto=format&fit=crop",
-    description: "Walk the ancient city walls for panoramic views over the Old City, its markets, domes, and rooftops, a great outing for all ages."
-  },
-  {
-    id: 5,
-    name: "Hisham's Palace",
-    city: "Jericho",
-    type: "Historical",
-    score: 90,
-    image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?q=80&w=1200&auto=format&fit=crop",
-    description: "Umayyad-era palace ruins famous for their intricate mosaic floor, considered one of the finest surviving examples in the region."
-  },
-  {
-    id: 6,
-    name: "Battir Terraces",
-    city: "Bethlehem",
-    type: "Nature",
-    score: 86,
-    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop",
-    description: "UNESCO-listed ancient irrigated terraces still farmed today, with gentle walking trails and panoramic valley viewpoints."
+// ---------- API config ----------
+const API_BASE_URL = 'http://localhost:5286'; // لازم يطابق البورت يلي شغال عليه الباك اند
+
+async function postRecommendations(payload) {
+  let response;
+  try {
+    response = await fetch(`${API_BASE_URL}/api/recommendations`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (networkErr) {
+    throw new Error('تعذر الاتصال بالسيرفر. تأكد إنه شغال وحاول مرة ثانية.');
   }
-];
+
+  if (!response.ok) {
+    let message = 'حدث خطأ أثناء جلب النتائج. حاول مرة ثانية.';
+    if (response.status === 400) message = 'بيانات التفضيلات غير صحيحة.';
+    else if (response.status === 404) message = 'لا توجد أماكن متاحة حاليًا بقاعدة البيانات.';
+    else if (response.status >= 500) message = 'في مشكلة بالسيرفر، جرب بعد شوي.';
+    throw new Error(message);
+  }
+
+  return response.json();
+}
 
 // ---------- Shared UI wiring ----------
 document.addEventListener('DOMContentLoaded', () => {

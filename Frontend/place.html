@@ -1,111 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Explore detailed information and AI match scoring for tourist destinations across Palestine.">
-<meta name="theme-color" content="#1E88F0">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E88F0'/%3E%3Cpath d='M32 14l6 14 14 4-14 4-6 14-6-14-14-4 14-4z' fill='white'/%3E%3C/svg%3E">
-<title>Place Details — AI Travel Squad</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تفاصيل الموقع — دلني</title>
+  <meta name="theme-color" content="#3d4a30" />
+
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: "var(--background)", foreground: "var(--foreground)",
+            card: "var(--card)", "card-foreground": "var(--card-foreground)",
+            primary: "var(--primary)", "primary-foreground": "var(--primary-foreground)",
+            secondary: "var(--secondary)", "secondary-foreground": "var(--secondary-foreground)",
+            muted: "var(--muted)", "muted-foreground": "var(--muted-foreground)",
+            accent: "var(--accent)", "accent-foreground": "var(--accent-foreground)",
+            destructive: "var(--destructive)", "destructive-foreground": "var(--destructive-foreground)",
+            border: "var(--border)", input: "var(--input)", ring: "var(--ring)",
+            olive: "var(--olive)", "olive-foreground": "var(--olive-foreground)",
+            sand: "var(--sand)", terracotta: "var(--terracotta)", "terracotta-foreground": "var(--terracotta-foreground)",
+            copper: "var(--copper)", hero: "var(--hero)", "hero-foreground": "var(--hero-foreground)",
+          },
+          fontFamily: {
+            sans: ["Noto Kufi Arabic", "IBM Plex Sans Arabic", "ui-sans-serif", "system-ui", "sans-serif"],
+            display: ["Cairo", "sans-serif"],
+          },
+          borderRadius: {
+            sm: "calc(var(--radius) - 4px)", md: "calc(var(--radius) - 2px)", lg: "var(--radius)",
+            xl: "calc(var(--radius) + 4px)", "2xl": "calc(var(--radius) + 8px)",
+            "3xl": "calc(var(--radius) + 12px)", "4xl": "calc(var(--radius) + 16px)",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --radius: 0.625rem;
+      --background: oklch(0.955 0.019 88);
+      --foreground: oklch(0.38 0.052 119);
+      --card: oklch(0.985 0.008 88);
+      --card-foreground: oklch(0.38 0.052 119);
+      --olive: oklch(0.38 0.052 119);
+      --olive-foreground: oklch(0.97 0.015 88);
+      --sand: oklch(0.84 0.045 82);
+      --terracotta: oklch(0.49 0.11 38);
+      --terracotta-foreground: oklch(0.97 0.015 88);
+      --primary: oklch(0.38 0.052 119);
+      --primary-foreground: oklch(0.97 0.015 88);
+      --secondary: oklch(0.84 0.045 82);
+      --secondary-foreground: oklch(0.32 0.045 119);
+      --muted: oklch(0.91 0.025 87);
+      --muted-foreground: oklch(0.48 0.025 92);
+      --accent: oklch(0.49 0.11 38);
+      --accent-foreground: oklch(0.97 0.015 88);
+      --destructive: oklch(0.577 0.245 27.325);
+      --destructive-foreground: oklch(0.98 0.01 95);
+      --border: oklch(0.8 0.038 84);
+      --input: oklch(0.8 0.038 84);
+      --ring: oklch(0.49 0.11 38);
+      --copper: oklch(0.64 0.105 67);
+      --hero: oklch(0.22 0.03 105);
+      --hero-foreground: oklch(0.97 0.015 88);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Kufi Arabic", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .font-display {
+      font-family: "Cairo", sans-serif;
+    }
+  </style>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body data-page="results">
 
-<header>
-  <nav class="nav">
-    <a href="index.html" class="brand"><span class="icon-badge"><span class="material-icons">travel_explore</span></span> AI Travel Squad</a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html" data-page="home">Home</a></li>
-      <li><a href="preferences.html" data-page="preferences">Plan a Trip</a></li>
-      <li><a href="results.html" data-page="results">Destinations</a></li>
-      <li class="nav-cta-wrap"><a href="preferences.html" class="nav-cta">Start Journey</a></li>
-    </ul>
-    <button class="menu-btn" id="menuBtn" aria-label="Menu"><span class="material-icons">menu</span></button>
-  </nav>
-</header>
+<body class="bg-background text-foreground">
 
-<main>
-  <div class="details-hero">
-    <button class="details-back" onclick="history.length > 1 ? history.back() : window.location.href='results.html'">
-      <span class="material-icons" style="font-size:18px;">arrow_back</span> Back
-    </button>
-    <img id="details-img" src="" alt="" onerror="handleImageError(this)">
-    <div class="overlay-title"><h1 id="details-title"></h1></div>
+  <div class="mx-auto min-h-screen max-w-2xl px-6 py-10">
+    <a href="preferences.html"
+      class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground">
+      <i data-lucide="arrow-right" class="size-4"></i>
+      بدء بحث جديد
+    </a>
+
+    <article id="place-article" class="mt-6 rounded-3xl border bg-card p-8">
+      <!-- Filled by script below -->
+    </article>
+
+    <p id="placeholder-note"
+      class="mt-4 hidden rounded-xl border border-copper/30 bg-copper/5 p-3 text-xs text-muted-foreground">
+      ⚠️ بعض الحقول (الميزانية، نوع الرحلة، الفئة العمرية) بيانات تجريبية مؤقتة لحد ما فريق الباك اند يضيف endpoint لجلب
+      تفاصيل مكان واحد بالـ id.
+    </p>
   </div>
 
-  <div class="details-body">
-    <div class="city-row" style="margin-top:0;">
-      <span class="material-icons">location_on</span>
-      <span id="details-city" style="font-size:16px;color:var(--ink);"></span>
-    </div>
-    <div class="chip" id="details-type"></div>
-    <h4>Description</h4>
-    <p class="desc" id="details-desc"></p>
-    <h4>AI Matching</h4>
-    <div class="progress-track thick"><div class="progress-fill" id="details-progress"></div></div>
-    <div class="match-percent" id="details-match"></div>
+  <script>
+    lucide.createIcons();
 
-    <div class="details-actions">
-      <button class="btn ghost-danger" onclick="toast('Added to Favorites')">
-        <span class="material-icons">favorite</span> Favorite
-      </button>
-      <button class="btn outline blue-border" onclick="toast('Opening Google Maps...')">
-        <span class="material-icons">map</span> Maps
-      </button>
-      <button class="btn green" onclick="toast('Finding similar places...')">
-        <span class="material-icons">auto_awesome</span> Similar
-      </button>
-    </div>
-  </div>
-</main>
+    const CITY_LABELS = {
+      Bethlehem: "بيت لحم", Hebron: "الخليل", Jenin: "جنين", Jericho: "أريحا",
+      Jerusalem: "القدس", Nablus: "نابلس", Qalqilya: "قلقيلية",
+      Ramallah: "رام الله", Tubas: "طوباس", Tulkarm: "طولكرم",
+    };
+    const PLACE_TYPE_LABELS = {
+      Religious: "ديني", Historic: "تاريخي", Archaeological: "أثري",
+      Natural: "طبيعي", Cultural: "ثقافي", Touristic: "سياحي",
+    };
+    const BUDGET_LABELS = { Low: "منخفضة", Medium: "متوسطة", High: "مرتفعة" };
+    const TRIP_TYPE_LABELS = {
+      Adventure: "مغامرة", Cultural: "ثقافية", Educational: "تعليمية",
+      Family: "عائلية", Relaxing: "استجمام", Religious: "دينية",
+    };
+    const AGE_GROUP_LABELS = { All: "الجميع", Family: "عائلي", Youth: "شبابي" };
 
-<footer>
-  <div class="footer-grid">
-    <div>
-      <div class="brand"><span class="icon-badge"><span class="material-icons">travel_explore</span></span> AI Travel
-        Squad</div>
-      <p>Discover the best tourist destinations across Palestine, matched to you by artificial intelligence.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Explore</h5>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="preferences.html">Plan a Trip</a></li>
-        <li><a href="results.html">Destinations</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Cities</h5>
-      <ul>
-        <li><a href="results.html">Jerusalem</a></li>
-        <li><a href="results.html">Bethlehem</a></li>
-        <li><a href="results.html">Nablus</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 AI Travel Squad</span>
-    <span>Discover Palestine with AI</span>
-  </div>
-</footer>
+    // TODO: once the backend exposes GET /api/Places/{id}, replace this
+    // whole block with a real fetch and drop the placeholder fields/note.
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
 
-<script src="assets/app.js"></script>
-<script>
-  const id = parseInt(getQueryParam('id'), 10);
-  const place = PLACES.find(p => p.id === id) || PLACES[0];
+    let place = null;
+    const raw = sessionStorage.getItem("aiTravelResults");
+    if (raw && id) {
+      try {
+        const data = JSON.parse(raw);
+        const match = (data.Recommendations || []).find((p) => String(p.PlaceId) === String(id));
+        if (match) {
+          place = {
+            name: match.PlaceName,
+            city: match.City,
+            type: match.PlaceType,
+            description: match.Description,
+            // Not returned by /api/Recommendations yet — placeholders:
+            budget_level: "Medium",
+            trip_type: ["Cultural"],
+            age_group: ["Family"],
+            isPlaceholder: true,
+          };
+        }
+      } catch (e) { }
+    }
 
-  document.title = place.name + ' — AI Travel Squad';
-  document.getElementById('details-img').src = place.image;
-  document.getElementById('details-img').alt = place.name;
-  document.getElementById('details-title').textContent = place.name;
-  document.getElementById('details-city').textContent = place.city;
-  document.getElementById('details-type').textContent = place.type;
-  document.getElementById('details-desc').textContent = place.description;
-  document.getElementById('details-progress').style.width = place.score + '%';
-  document.getElementById('details-match').textContent = place.score + '% Match';
-</script>
+    // Fallback mock example, shown when no matching place is found
+    // (e.g. the page was opened directly without going through results.html).
+    if (!place) {
+      place = {
+        name: "البلدة القديمة في نابلس",
+        city: "Nablus",
+        type: "Historic",
+        description: "حي تاريخي عريق بأسواقه المسقوفة وعمارته العثمانية والمملوكية، ويشتهر بصناعة الصابون النابلسي والكنافة.",
+        budget_level: "Medium",
+        trip_type: ["Cultural", "Family"],
+        age_group: ["Family", "Youth"],
+        isPlaceholder: true,
+      };
+    }
+
+    document.getElementById("place-article").innerHTML = `
+      <span class="inline-block rounded-full bg-sand px-4 py-1.5 text-sm font-semibold">
+        ${PLACE_TYPE_LABELS[place.type] || place.type || ""}
+      </span>
+      <h1 class="mt-4 text-3xl font-bold leading-snug">${place.name}</h1>
+      <p class="mt-4 text-lg leading-relaxed text-muted-foreground">${place.description || ""}</p>
+
+      <dl class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-2xl bg-muted p-4">
+          <dt class="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+            <i data-lucide="map-pin" class="size-4 text-olive"></i> المدينة
+          </dt>
+          <dd class="mt-1 font-bold">${CITY_LABELS[place.city] || place.city}</dd>
+        </div>
+        <div class="rounded-2xl bg-muted p-4">
+          <dt class="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+            <i data-lucide="wallet" class="size-4 text-olive"></i> مستوى الميزانية
+          </dt>
+          <dd class="mt-1 font-bold">${BUDGET_LABELS[place.budget_level] || place.budget_level}</dd>
+        </div>
+        <div class="rounded-2xl bg-muted p-4">
+          <dt class="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+            <i data-lucide="compass" class="size-4 text-olive"></i> أنواع الرحلات المناسبة
+          </dt>
+          <dd class="mt-1 flex flex-wrap gap-1.5">
+            ${(place.trip_type || []).map((t) => `<span class="rounded-full bg-card px-2.5 py-0.5 text-xs font-semibold">${TRIP_TYPE_LABELS[t] || t}</span>`).join("")}
+          </dd>
+        </div>
+        <div class="rounded-2xl bg-muted p-4">
+          <dt class="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+            <i data-lucide="star" class="size-4 text-olive"></i> الفئة العمرية المناسبة
+          </dt>
+          <dd class="mt-1 flex flex-wrap gap-1.5">
+            ${(place.age_group || []).map((g) => `<span class="rounded-full bg-card px-2.5 py-0.5 text-xs font-semibold">${AGE_GROUP_LABELS[g] || g}</span>`).join("")}
+          </dd>
+        </div>
+      </dl>
+    `;
+    lucide.createIcons();
+
+    if (place.isPlaceholder) {
+      document.getElementById("placeholder-note").classList.remove("hidden");
+    }
+  </script>
 </body>
+
 </html>

@@ -1,215 +1,394 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تفضيلات رحلتك — دلني</title>
   <meta name="description"
-    content="Tell us your city, budget, group size and trip type, and let our AI match you with the best destinations in Palestine.">
-  <meta name="theme-color" content="#1E88F0">
-  <link rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E88F0'/%3E%3Cpath d='M32 14l6 14 14 4-14 4-6 14-6-14-14-4 14-4z' fill='white'/%3E%3C/svg%3E">
-  <title>Plan Your Trip — AI Travel Squad</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css">
+    content="حدّد المدن والميزانية وعدد الأشخاص ونوع الرحلة والفئة العمرية لتحصل على توصيات سياحية فلسطينية مناسبة." />
+  <meta property="og:title" content="تفضيلات رحلتك — دلني" />
+  <meta property="og:description" content="أخبرنا بتفضيلاتك لنرشّح لك أنسب المواقع في فلسطين." />
+  <meta name="theme-color" content="#3d4a30" />
+
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: "var(--background)",
+            foreground: "var(--foreground)",
+            card: "var(--card)",
+            "card-foreground": "var(--card-foreground)",
+            primary: "var(--primary)",
+            "primary-foreground": "var(--primary-foreground)",
+            secondary: "var(--secondary)",
+            "secondary-foreground": "var(--secondary-foreground)",
+            muted: "var(--muted)",
+            "muted-foreground": "var(--muted-foreground)",
+            accent: "var(--accent)",
+            "accent-foreground": "var(--accent-foreground)",
+            destructive: "var(--destructive)",
+            "destructive-foreground": "var(--destructive-foreground)",
+            border: "var(--border)",
+            input: "var(--input)",
+            ring: "var(--ring)",
+            olive: "var(--olive)",
+            "olive-foreground": "var(--olive-foreground)",
+            sand: "var(--sand)",
+            terracotta: "var(--terracotta)",
+            "terracotta-foreground": "var(--terracotta-foreground)",
+            copper: "var(--copper)",
+            hero: "var(--hero)",
+            "hero-foreground": "var(--hero-foreground)",
+          },
+          fontFamily: {
+            sans: ["Noto Kufi Arabic", "IBM Plex Sans Arabic", "ui-sans-serif", "system-ui", "sans-serif"],
+            display: ["Cairo", "sans-serif"],
+          },
+          borderRadius: {
+            sm: "calc(var(--radius) - 4px)",
+            md: "calc(var(--radius) - 2px)",
+            lg: "var(--radius)",
+            xl: "calc(var(--radius) + 4px)",
+            "2xl": "calc(var(--radius) + 8px)",
+            "3xl": "calc(var(--radius) + 12px)",
+            "4xl": "calc(var(--radius) + 16px)",
+          },
+        },
+      },
+    };
+  </script>
+
   <style>
-    .field.error select,
-    .field.error input {
-      border-color: #E53935 !important;
+    :root {
+      --radius: 0.625rem;
+      --background: oklch(0.955 0.019 88);
+      --foreground: oklch(0.38 0.052 119);
+      --card: oklch(0.985 0.008 88);
+      --card-foreground: oklch(0.38 0.052 119);
+      --olive: oklch(0.38 0.052 119);
+      --olive-foreground: oklch(0.97 0.015 88);
+      --sand: oklch(0.84 0.045 82);
+      --terracotta: oklch(0.49 0.11 38);
+      --terracotta-foreground: oklch(0.97 0.015 88);
+      --primary: oklch(0.38 0.052 119);
+      --primary-foreground: oklch(0.97 0.015 88);
+      --secondary: oklch(0.84 0.045 82);
+      --secondary-foreground: oklch(0.32 0.045 119);
+      --muted: oklch(0.91 0.025 87);
+      --muted-foreground: oklch(0.48 0.025 92);
+      --accent: oklch(0.49 0.11 38);
+      --accent-foreground: oklch(0.97 0.015 88);
+      --destructive: oklch(0.577 0.245 27.325);
+      --destructive-foreground: oklch(0.98 0.01 95);
+      --border: oklch(0.8 0.038 84);
+      --input: oklch(0.8 0.038 84);
+      --ring: oklch(0.49 0.11 38);
+      --copper: oklch(0.64 0.105 67);
+      --hero: oklch(0.22 0.03 105);
+      --hero-foreground: oklch(0.97 0.015 88);
     }
 
-    .field-error-msg {
-      display: none;
-      color: #E53935;
-      font-size: 0.8rem;
-      margin-top: 4px;
+    html {
+      scroll-behavior: smooth;
     }
 
-    .field.error .field-error-msg {
-      display: block;
+    body {
+      font-family: "Noto Kufi Arabic", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .font-display {
+      font-family: "Cairo", sans-serif;
     }
   </style>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body data-page="preferences">
+<body class="bg-background text-foreground">
 
-  <header>
-    <nav class="nav">
-      <a href="index.html" class="brand"><span class="icon-badge"><span
-            class="material-icons">travel_explore</span></span> AI Travel Squad</a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" data-page="home">Home</a></li>
-        <li><a href="preferences.html" data-page="preferences">Plan a Trip</a></li>
-        <li><a href="results.html" data-page="results">Destinations</a></li>
-        <li class="nav-cta-wrap"><a href="preferences.html" class="nav-cta">Start Journey</a></li>
-      </ul>
-      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span class="material-icons">menu</span></button>
-    </nav>
-  </header>
+  <div class="mx-auto min-h-screen max-w-xl px-6 py-10">
+    <a href="index.html"
+      class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground">
+      <i data-lucide="arrow-right" class="size-4"></i>
+      العودة للرئيسية
+    </a>
 
-  <main>
-    <section class="page-hero">
-      <h1>Plan Your Trip</h1>
-      <p>Select your travel preferences and let our AI suggest the best destinations for you.</p>
-    </section>
+    <h1 class="mt-6 text-3xl font-bold">أخبرنا عن رحلتك</h1>
+    <p class="mt-2 text-muted-foreground">خمسة أسئلة بسيطة، ونرشّح لك أنسب الأماكن في فلسطين.</p>
 
-    <section class="section">
-      <div class="container">
-        <form class="prefs-wrap" id="prefsForm" novalidate>
-          <div class="form-grid">
-            <div class="field has-arrow">
-              <label>City</label>
-              <span class="material-icons leading">location_on</span>
-              <select id="fCity" required></select>
-              <span class="field-error-msg">Please choose a city</span>
-            </div>
-            <div class="field has-arrow">
-              <label>Budget</label>
-              <span class="material-icons leading">attach_money</span>
-              <select id="fBudget" required></select>
-              <span class="field-error-msg">Please choose a budget</span>
-            </div>
-            <div class="field">
-              <label>Number of People</label>
-              <span class="material-icons leading">people</span>
-              <input type="number" id="fPeople" min="1" placeholder="e.g. 2" required>
-              <span class="field-error-msg">Please enter number of people (1 or more)</span>
-            </div>
-            <div class="field has-arrow">
-              <label>Trip Type</label>
-              <span class="material-icons leading">hiking</span>
-              <select id="fType" required></select>
-              <span class="field-error-msg">Please choose a trip type</span>
-            </div>
-            <div class="field has-arrow full">
-              <label>Age Group</label>
-              <span class="material-icons leading">person</span>
-              <select id="fAge" required></select>
-              <span class="field-error-msg">Please choose an age group</span>
-            </div>
-          </div>
-          <button type="submit" class="btn full prefs-submit">Find Destinations</button>
-          <p class="form-hint">We'll use these preferences to score and rank destinations for you.</p>
-        </form>
-      </div>
-    </section>
-  </main>
+    <form id="prefs-form" class="mt-8 space-y-5">
 
-  <footer>
-    <div class="footer-grid">
-      <div>
-        <div class="brand"><span class="icon-badge"><span class="material-icons">travel_explore</span></span> AI Travel
-          Squad</div>
-        <p>Discover the best tourist destinations across Palestine, matched to you by artificial intelligence.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Explore</h5>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="preferences.html">Plan a Trip</a></li>
-          <li><a href="results.html">Destinations</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Cities</h5>
-        <ul>
-          <li><a href="results.html">Jerusalem</a></li>
-          <li><a href="results.html">Bethlehem</a></li>
-          <li><a href="results.html">Nablus</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 AI Travel Squad</span>
-      <span>Discover Palestine with AI</span>
-    </div>
-  </footer>
+      <!-- Cities -->
+      <fieldset class="rounded-2xl border bg-card p-5">
+        <legend class="flex items-center gap-2 px-1 text-sm font-bold">
+          <i data-lucide="map-pin" class="size-4 text-terracotta"></i>
+          المدن
+        </legend>
+        <p class="mt-1 text-xs text-muted-foreground">يمكنك اختيار أكثر من مدينة.</p>
+        <div class="mt-2 flex flex-wrap gap-2" id="group-city"></div>
+        <p id="city-error" class="mt-2 hidden text-sm font-medium text-destructive">اختر مدينة واحدة على الأقل</p>
+      </fieldset>
 
-  <script src="assets/app.js"></script>
+      <!-- Budget -->
+      <fieldset class="rounded-2xl border bg-card p-5">
+        <legend class="flex items-center gap-2 px-1 text-sm font-bold">
+          <i data-lucide="wallet" class="size-4 text-terracotta"></i>
+          الميزانية (₪)
+        </legend>
+        <div class="mt-2">
+          <input id="field-budget" type="number" min="1" step="1" inputmode="numeric" placeholder="مثال: 200"
+            aria-label="الميزانية بالشيكل"
+            class="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+        </div>
+        <p class="mt-2 text-xs text-muted-foreground">الميزانية الإجمالية لجميع الأشخاص الذين تزيد أعمارهم عن 10 سنوات،
+          وليست للفرد الواحد.</p>
+        <p id="budget-error" class="mt-2 hidden text-sm font-medium text-destructive">أدخل ميزانية صحيحة (رقم أكبر من
+          صفر)</p>
+      </fieldset>
+
+      <!-- Group size -->
+      <fieldset class="rounded-2xl border bg-card p-5">
+        <legend class="flex items-center gap-2 px-1 text-sm font-bold">
+          <i data-lucide="users" class="size-4 text-terracotta"></i>
+          عدد الأشخاص (فوق 10 سنوات)
+        </legend>
+        <div class="mt-2">
+          <input id="field-people" type="number" min="1" max="50" value="2" aria-label="عدد الأشخاص"
+            class="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+        </div>
+        <p class="mt-2 text-xs text-muted-foreground">أدخل عدد الأشخاص الذين تزيد أعمارهم عن 10 سنوات فقط، ولا يُحتسب
+          الأطفال دون 10 سنوات.</p>
+      </fieldset>
+
+      <!-- Trip type -->
+      <fieldset class="rounded-2xl border bg-card p-5">
+        <legend class="flex items-center gap-2 px-1 text-sm font-bold">
+          <i data-lucide="compass" class="size-4 text-terracotta"></i>
+          نوع الرحلة
+        </legend>
+        <p class="mt-1 text-xs text-muted-foreground">يمكنك اختيار أكثر من نوع رحلة.</p>
+        <div class="mt-2 flex flex-wrap gap-2" id="group-triptype">
+          <button type="button" data-value="Adventure"
+            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">مغامرة</button>
+          <button type="button" data-value="Cultural"
+            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">ثقافية</button>
+          <button type="button" data-value="Educational"
+            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">تعليمية</button>
+          <button type="button" data-value="Family"
+            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">عائلية</button>
+          <button type="button" data-value="Relaxing"
+            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">استجمام</button>
+          <button type="button" data-value="Religious"
+            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">دينية</button>
+        </div>
+        <p id="triptype-error" class="mt-2 hidden text-sm font-medium text-destructive">اختر نوع رحلة واحداً على الأقل
+        </p>
+      </fieldset>
+
+      <!-- Age group -->
+      <fieldset class="rounded-2xl border bg-card p-5">
+        <legend class="flex items-center gap-2 px-1 text-sm font-bold">
+          <i data-lucide="star" class="size-4 text-terracotta"></i>
+          الفئة العمرية
+        </legend>
+        <div class="mt-2 flex flex-wrap gap-2" id="group-agegroup" data-selected="Family">
+          <button type="button" data-value="All"
+            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">الجميع</button>
+          <button type="button" data-value="Family"
+            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-primary bg-primary text-primary-foreground">عائلي</button>
+          <button type="button" data-value="Youth"
+            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">شبابي</button>
+        </div>
+        <p class="mt-2 text-xs text-muted-foreground">اختر الفئة الأنسب لمجموعتك.</p>
+      </fieldset>
+
+      <p id="submit-error"
+        class="hidden rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-sm font-medium text-destructive">
+      </p>
+
+      <button id="submit-btn" type="submit"
+        class="w-full rounded-xl bg-primary px-6 py-4 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60">
+        أعطني التوصيات
+      </button>
+    </form>
+  </div>
+
   <script>
+    lucide.createIcons();
 
-    const mockPreferencesData = {
-      cities: ["Jerusalem", "Nablus", "Ramallah", "Bethlehem", "Hebron", "Jericho"],
-      budgets: ["Low", "Medium", "High"],
-      tripTypes: ["Historical", "Nature", "Adventure", "Family"],
-      ageGroups: ["Family", "Youth"]
-    };
+    const API_BASE = "http://localhost:5286";
 
-    function populateSelect(selectId, options, placeholder) {
-      const select = document.getElementById(selectId);
-      select.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
-      options.forEach(opt => {
-        const el = document.createElement('option');
-        el.value = opt;
-        el.textContent = opt;
-        select.appendChild(el);
+    const USE_MOCK = false;
+
+    function setupChipGroup(groupId) {
+      const group = document.getElementById(groupId);
+      const chips = group.querySelectorAll(".chip");
+      chips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          chips.forEach((c) => {
+            c.classList.remove("border-primary", "bg-primary", "text-primary-foreground");
+            c.classList.add("border-border", "bg-card", "hover:border-primary/40");
+          });
+          chip.classList.remove("border-border", "bg-card", "hover:border-primary/40");
+          chip.classList.add("border-primary", "bg-primary", "text-primary-foreground");
+          group.dataset.selected = chip.dataset.value;
+        });
       });
     }
+    ["group-agegroup"].forEach(setupChipGroup);
 
-    function initPreferencesForm() {
-      populateSelect('fCity', mockPreferencesData.cities, 'Choose a city');
-      populateSelect('fBudget', mockPreferencesData.budgets, 'Choose a budget');
-      populateSelect('fType', mockPreferencesData.tripTypes, 'Choose a type');
-      populateSelect('fAge', mockPreferencesData.ageGroups, 'Choose an age group');
+    const CHIP_BASE = "chip rounded-full border px-4 py-2 text-sm font-medium transition-colors";
+    const CHIP_ON = ["border-primary", "bg-primary", "text-primary-foreground"];
+    const CHIP_OFF = ["border-border", "bg-card", "hover:border-primary/40"];
+
+    const CITIES = [
+      ["Jerusalem", "القدس"], ["Bethlehem", "بيت لحم"], ["Hebron", "الخليل"],
+      ["Jenin", "جنين"], ["Jericho", "أريحا"], ["Nablus", "نابلس"],
+      ["Qalqilya", "قلقيلية"], ["Ramallah", "رام الله"], ["Tubas", "طوباس"],
+      ["Tulkarm", "طولكرم"],
+    ];
+
+    const cityGroup = document.getElementById("group-city");
+    CITIES.forEach(([value, label]) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.dataset.value = value;
+      b.className = CHIP_BASE;
+      b.textContent = label;
+      cityGroup.appendChild(b);
+    });
+
+    function setChip(chip, on) {
+      chip.classList.remove(...(on ? CHIP_OFF : CHIP_ON));
+      chip.classList.add(...(on ? CHIP_ON : CHIP_OFF));
+      chip.setAttribute("aria-pressed", String(on));
     }
 
-    function validatePrefsForm() {
-      let isValid = true;
-      const fieldIds = ['fCity', 'fBudget', 'fPeople', 'fType', 'fAge'];
-
-      fieldIds.forEach(id => {
-        const input = document.getElementById(id);
-        const fieldWrap = input.closest('.field');
-        const value = input.value;
-        const empty = !value;
-        const invalidNumber = id === 'fPeople' && value && Number(value) < 1;
-
-        if (empty || invalidNumber) {
-          fieldWrap.classList.add('error');
-          isValid = false;
-        } else {
-          fieldWrap.classList.remove('error');
-        }
-      });
-
-      return isValid;
-    }
-
-    // Clear a field's error state as soon as the user fixes it
-    function attachLiveClear() {
-      ['fCity', 'fBudget', 'fPeople', 'fType', 'fAge'].forEach(id => {
-        const input = document.getElementById(id);
-        input.addEventListener('input', () => {
-          if (input.value) input.closest('.field').classList.remove('error');
+    function setupMultiChipGroup(groupId) {
+      document.querySelectorAll(`#${groupId} .chip`).forEach((chip) => {
+        setChip(chip, false);
+        chip.addEventListener("click", () => {
+          setChip(chip, chip.getAttribute("aria-pressed") !== "true");
         });
       });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      initPreferencesForm();
-      attachLiveClear();
-    });
+    function getSelected(groupId) {
+      return [...document.querySelectorAll(`#${groupId} .chip[aria-pressed="true"]`)]
+        .map((c) => c.dataset.value);
+    }
 
-    document.getElementById('prefsForm').addEventListener('submit', function (e) {
+    setupMultiChipGroup("group-city");
+    setupMultiChipGroup("group-triptype");
+
+    const form = document.getElementById("prefs-form");
+    const submitBtn = document.getElementById("submit-btn");
+    const cityError = document.getElementById("city-error");
+    const budgetError = document.getElementById("budget-error");
+    const tripTypeError = document.getElementById("triptype-error");
+    const submitError = document.getElementById("submit-error");
+    const SUBMIT_LABEL = "أعطني التوصيات";
+
+    function resetSubmit() {
+      submitBtn.disabled = false;
+      submitBtn.textContent = SUBMIT_LABEL;
+    }
+    function showError(msg) {
+      submitError.textContent = msg;
+      submitError.classList.remove("hidden");
+      resetSubmit();
+    }
+    window.addEventListener("pageshow", resetSubmit);
+
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      submitError.classList.add("hidden");
+      cityError.classList.add("hidden");
+      budgetError.classList.add("hidden");
+      tripTypeError.classList.add("hidden");
 
-      if (!validatePrefsForm()) {
-        return;
-      }
+      const cities = getSelected("group-city");
+      const tripTypes = getSelected("group-triptype");
+      const budget = Number(document.getElementById("field-budget").value);
 
-      const prefs = {
-        city: document.getElementById('fCity').value,
-        budget: document.getElementById('fBudget').value,
-        people: document.getElementById('fPeople').value,
-        type: document.getElementById('fType').value,
-        age: document.getElementById('fAge').value
+      if (!cities.length) cityError.classList.remove("hidden");
+      if (!budget || budget <= 0) budgetError.classList.remove("hidden");
+      if (!tripTypes.length) tripTypeError.classList.remove("hidden");
+      if (!cities.length || !budget || budget <= 0 || !tripTypes.length) return;
+
+      const payload = {
+        Cities: cities,
+        TripTypes: tripTypes,
+        AgeGroup: document.getElementById("group-agegroup").dataset.selected,
+        GroupSize: Math.min(50, Math.max(1, Number(document.getElementById("field-people").value) || 1)),
+        Budget: budget,
       };
-      savePreferences(prefs);
-      showMatchOverlay('Matching you with destinations...', () => {
-        window.location.href = 'results.html';
-      });
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "جارٍ التحميل...";
+
+      try {
+        if (USE_MOCK) {
+          const mock = {
+            recommendationRequestId: 1,
+            totalResults: 3,
+            recommendations: [
+              { placeId: 1, placeName: "كنيسة المهد", placeType: "Religious", city: "Bethlehem", description: "من أقدم الكنائس المأهولة في العالم.", matchScore: 0.92, rankOrder: 1 },
+              { placeId: 2, placeName: "البلدة القديمة", placeType: "Historic Old City", city: "Nablus", description: "أسواق وحمامات وصابون نابلسي.", matchScore: 0.85, rankOrder: 2 },
+              { placeId: 3, placeName: "تل السلطان", placeType: "Archaeological", city: "Jericho", description: "من أقدم مدن العالم.", matchScore: 0.78, rankOrder: 3 },
+            ],
+          };
+          sessionStorage.setItem("aiTravelResults", JSON.stringify(mock));
+          sessionStorage.setItem("aiTravelPrefs", JSON.stringify(payload));
+          window.location.href = "results.html";
+          return;
+        }
+
+        const res = await fetch(`${API_BASE}/api/Recommendations`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        const body = await res.json().catch(() => null);
+
+        if (!res.ok) {
+          console.error("API error", res.status, body);
+          const details = body?.errors ? Object.values(body.errors).flat().join(" • ") : "";
+          showError([body?.message || `تعذر جلب التوصيات (${res.status}).`, details].filter(Boolean).join(" — "));
+          return;
+        }
+
+        if (!body || !Array.isArray(body.recommendations)) {
+          console.error("Unexpected response shape", body);
+          showError("شكل الرد من الخادم غير متوقع، افتحي الـ Console للتفاصيل.");
+          return;
+        }
+
+        sessionStorage.setItem("aiTravelResults", JSON.stringify(body));
+        sessionStorage.setItem("aiTravelPrefs", JSON.stringify(payload));
+        window.location.href = "results.html";
+      } catch (err) {
+        console.error("Network/CORS error", err);
+        showError("تعذر الاتصال بالخادم. تأكدي أن الـ API شغّال، وأن الصفحة مفتوحة من أحد الـ origins المسموحة.");
+      }
     });
   </script>
 </body>

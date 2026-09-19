@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:travelai/screens/favscreen.dart';
 
 import '../models/place_model.dart';
 
@@ -12,6 +14,8 @@ class PlaceDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isFavorite = favorites.contains(place);
+
     return Scaffold(
       backgroundColor: const Color(0xffF5F7FA),
 
@@ -25,8 +29,10 @@ class PlaceDetailsScreen extends StatelessWidget {
 
             flexibleSpace: FlexibleSpaceBar(
               title: Text(place.name),
+
               background: Hero(
                 tag: place.name,
+
                 child: Image.network(
                   place.image,
                   fit: BoxFit.cover,
@@ -44,6 +50,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                 children: [
 
+                  // City
                   Row(
                     children: [
 
@@ -60,12 +67,12 @@ class PlaceDetailsScreen extends StatelessWidget {
                           fontSize: 18,
                         ),
                       ),
-
                     ],
                   ),
 
                   const SizedBox(height: 20),
 
+                  // Type
                   Chip(
                     label: Text(place.type),
                     backgroundColor: Colors.blue.shade100,
@@ -73,6 +80,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 25),
 
+                  // Description
                   const Text(
                     "Description",
                     style: TextStyle(
@@ -93,6 +101,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 30),
 
+                  // AI Matching
                   const Text(
                     "AI Matching",
                     style: TextStyle(
@@ -105,6 +114,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
+
                     child: LinearProgressIndicator(
                       value: place.score / 100,
                       minHeight: 12,
@@ -124,33 +134,72 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 35),
 
+                  // Favorites Button
                   SizedBox(
                     width: double.infinity,
                     height: 55,
 
                     child: ElevatedButton.icon(
-                      icon: const Icon(Icons.favorite),
-                      label: const Text("Add To Favorites"),
+                      icon: Icon(
+                        isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                      ),
+
+                      label: Text(
+                        isFavorite
+                            ? "Remove From Favorites"
+                            : "Add To Favorites",
+                      ),
 
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Added to Favorites"),
-                          ),
-                        );
+
+                        if (favorites.contains(place)) {
+
+                          favorites.remove(place);
+
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Removed from Favorites",
+                              ),
+                            ),
+                          );
+
+                        } else {
+
+                          favorites.add(place);
+
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Added to Favorites",
+                              ),
+                            ),
+                          );
+                        }
+
+                        // Refresh the current screen
+                        (context as Element).markNeedsBuild();
                       },
                     ),
                   ),
 
                   const SizedBox(height: 15),
 
+                  // Google Maps
                   SizedBox(
                     width: double.infinity,
                     height: 55,
 
                     child: OutlinedButton.icon(
                       icon: const Icon(Icons.map),
-                      label: const Text("Open in Google Maps"),
+
+                      label: const Text(
+                        "Open in Google Maps",
+                      ),
 
                       onPressed: () {
                         // سيتم ربطه لاحقاً مع Google Maps
@@ -160,6 +209,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 15),
 
+                  // AI Similar Places
                   SizedBox(
                     width: double.infinity,
                     height: 55,
@@ -168,10 +218,17 @@ class PlaceDetailsScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                       ),
-                      icon: const Icon(Icons.auto_awesome),
+
+                      icon: const Icon(
+                        Icons.auto_awesome,
+                        color: Colors.white,
+                      ),
+
                       label: const Text(
                         "Recommend Similar Places",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
 
                       onPressed: () {
@@ -181,7 +238,6 @@ class PlaceDetailsScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 40),
-
                 ],
               ),
             ),
