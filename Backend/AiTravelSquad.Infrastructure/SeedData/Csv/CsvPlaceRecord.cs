@@ -4,9 +4,8 @@ namespace AiTravelSquad.Infrastructure.SeedData.Csv
 {
     /// <summary>
     /// Represents a single row exactly as it appears in
-    /// palestine_tourist_attractions_v2.csv (prepared by the AI team).
-    /// The [Name] attributes map each property to its actual CSV column header,
-    /// since the CSV headers don't match our internal property naming convention.
+    /// palestine_tourist_attractions_v3_ar_and_en.csv (prepared by the AI team).
+    /// The [Name] attributes map each property to its actual CSV column header.
     /// </summary>
     public class CsvPlaceRecord
     {
@@ -15,6 +14,9 @@ namespace AiTravelSquad.Infrastructure.SeedData.Csv
 
         [Name("Place_Name")]
         public string PlaceName { get; set; } = string.Empty;
+
+        [Name("Place_Name_AR")]
+        public string? PlaceNameAr { get; set; }
 
         [Name("type")]
         public string PlaceType { get; set; } = string.Empty;
@@ -34,14 +36,14 @@ namespace AiTravelSquad.Infrastructure.SeedData.Csv
         [Name("Description")]
         public string? Description { get; set; }
 
+        [Name("Description_AR")]
+        public string? DescriptionAr { get; set; }
+
         [Name("Latitude")]
         public double? Latitude { get; set; }
 
         [Name("Longitude")]
         public double? Longitude { get; set; }
-
-        // Coordinate_Source and Geocode_Status columns are metadata about
-        // how the AI team collected the coordinates; not needed in our database.
 
         [Name("Estimated_Cost_ILS")]
         public int? EstimatedCostIls { get; set; }

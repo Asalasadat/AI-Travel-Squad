@@ -4,20 +4,27 @@ namespace AiTravelSquad.Domain.Entities
 {
     /// <summary>
     /// Represents a single tourist place stored in the database.
-    /// This table is the main data source used by the AI model
-    /// when performing Content-Based Filtering.
-    /// Columns match the real dataset collected by the AI team
-    /// (palestine_tourist_attractions_v2.csv).
+    /// Columns match the v3 dataset (palestine_tourist_attractions_v3_ar_and_en.csv),
+    /// which adds Arabic name/description fields needed to match results
+    /// returned by the AI model's Arabic-only recommendation API.
     /// </summary>
     public class Place
     {
         [Key]
         public int Id { get; set; }
 
-        /// <summary>Official name of the tourist site</summary>
+        /// <summary>Official name of the tourist site (English)</summary>
         [Required]
         [MaxLength(150)]
         public string PlaceName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Official name of the tourist site (Arabic).
+        /// This is the field used to match results coming back from the
+        /// AI recommendation API, since that API works entirely in Arabic.
+        /// </summary>
+        [MaxLength(150)]
+        public string? PlaceNameAr { get; set; }
 
         /// <summary>City where the place is located (e.g. Nablus, Bethlehem)</summary>
         [Required]
@@ -44,9 +51,13 @@ namespace AiTravelSquad.Domain.Entities
         [MaxLength(30)]
         public string AgeGroup { get; set; } = string.Empty;
 
-        /// <summary>Short description to help the user understand the place</summary>
+        /// <summary>Short description to help the user understand the place (English)</summary>
         [MaxLength(1000)]
         public string? Description { get; set; }
+
+        /// <summary>Short description in Arabic (returned to the frontend for Arabic UI)</summary>
+        [MaxLength(1000)]
+        public string? DescriptionAr { get; set; }
 
         /// <summary>Latitude coordinate, sourced from the AI team's dataset</summary>
         public double? Latitude { get; set; }
