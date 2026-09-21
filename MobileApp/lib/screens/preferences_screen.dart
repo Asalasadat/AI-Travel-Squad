@@ -13,9 +13,7 @@ class _PreferencesScreenState
     extends State<PreferencesScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // =========================
-  // الألوان
-  // =========================
+
 
   static const Color primaryBlue = Color(0xFF1687E8);
   static const Color darkBlue = Color(0xFF102D52);
@@ -24,9 +22,7 @@ class _PreferencesScreenState
   static const Color green = Color(0xFF48B59D);
   static const Color background = Color(0xFFF8FBFF);
 
-  // =========================
-  // المدن
-  // =========================
+
 
   final List<String> cities = [
     'قلقيلية',
@@ -41,9 +37,7 @@ class _PreferencesScreenState
     'رام الله',
   ];
 
-  // =========================
-  // أنواع الرحلات
-  // =========================
+ 
 
   final List<String> tripTypes = [
     'ديني',
@@ -72,9 +66,7 @@ class _PreferencesScreenState
     super.dispose();
   }
 
-  // =========================
-  // الانتقال للنتائج
-  // =========================
+ 
 
   Future<void> continueToResults() async {
     if (!_formKey.currentState!.validate()) {
@@ -134,9 +126,7 @@ class _PreferencesScreenState
     }
   }
 
-  // =========================
-  // رسالة الخطأ
-  // =========================
+
 
   void _showMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -154,9 +144,7 @@ class _PreferencesScreenState
     );
   }
 
-  // =========================
-  // Build
-  // =========================
+
 
   @override
   Widget build(BuildContext context) {
@@ -169,9 +157,7 @@ class _PreferencesScreenState
           child: Stack(
             children: [
 
-              // =========================
-              // الزخارف الخلفية
-              // =========================
+              
 
               Positioned(
                 top: -100,
@@ -199,9 +185,7 @@ class _PreferencesScreenState
                 ),
               ),
 
-              // =========================
-              // المحتوى
-              // =========================
+              
 
               Form(
                 key: _formKey,
@@ -217,14 +201,11 @@ class _PreferencesScreenState
                         CrossAxisAlignment.start,
                     children: [
 
-                      // =========================
-                      // Header
-                      // =========================
+           
 
                       Row(
                         children: [
 
-                          // زر الرجوع
                           Container(
                             width: 48,
                             height: 48,
@@ -286,9 +267,7 @@ class _PreferencesScreenState
 
                       const SizedBox(height: 32),
 
-                      // =========================
-                      // المدن
-                      // =========================
+           
 
                       _sectionTitle(
                         icon: Icons.location_on,
@@ -302,9 +281,7 @@ class _PreferencesScreenState
 
                       const SizedBox(height: 30),
 
-                      // =========================
-                      // نوع الرحلة
-                      // =========================
+              
 
                       _sectionTitle(
                         icon: Icons.luggage,
@@ -318,10 +295,7 @@ class _PreferencesScreenState
 
                       const SizedBox(height: 30),
 
-                      // =========================
-                      // الميزانية
-                      // =========================
-
+              
                       _fieldLabel(
                         icon: Icons.location_on_outlined,
                         title: 'الميزانية الإجمالية',
@@ -401,9 +375,6 @@ class _PreferencesScreenState
 
                       const SizedBox(height: 22),
 
-                      // =========================
-                      // عدد الأشخاص
-                      // =========================
 
                       _fieldLabel(
                         icon: Icons.calendar_month_outlined,
@@ -479,9 +450,7 @@ class _PreferencesScreenState
 
                       const SizedBox(height: 30),
 
-                      // =========================
-                      // زر التوصيات
-                      // =========================
+            
 
                       SizedBox(
                         width: double.infinity,
@@ -555,9 +524,7 @@ class _PreferencesScreenState
 
                       const SizedBox(height: 25),
 
-                      // =========================
-                      // Footer
-                      // =========================
+                 
 
                       Center(
                         child: Row(
@@ -597,9 +564,6 @@ class _PreferencesScreenState
     );
   }
 
-  // =========================
-  // عنوان القسم
-  // =========================
 
   Widget _sectionTitle({
     required IconData icon,
@@ -637,9 +601,7 @@ class _PreferencesScreenState
     );
   }
 
-  // =========================
-  // عنوان الحقل
-  // =========================
+
 
   Widget _fieldLabel({
     required IconData icon,
@@ -668,9 +630,7 @@ class _PreferencesScreenState
     );
   }
 
-  // =========================
-  // المدن
-  // =========================
+
 
   Widget _buildCities() {
     return Wrap(
@@ -699,9 +659,6 @@ class _PreferencesScreenState
     );
   }
 
-  // =========================
-  // أنواع الرحلات
-  // =========================
 
   Widget _buildTripTypes() {
     return Wrap(
@@ -730,9 +687,6 @@ class _PreferencesScreenState
     );
   }
 
-  // =========================
-  // تصميم الـ Chip
-  // =========================
 
   Widget _customChip({
     required String text,
@@ -812,9 +766,7 @@ class _PreferencesScreenState
     );
   }
 
-  // =========================
-  // أيقونات المدن
-  // =========================
+
 
   IconData _cityIcon(String city) {
     switch (city) {
@@ -843,9 +795,6 @@ class _PreferencesScreenState
     }
   }
 
-  // =========================
-  // أيقونات أنواع الرحلات
-  // =========================
 
   IconData _tripIcon(String type) {
     switch (type) {
@@ -855,8 +804,6 @@ class _PreferencesScreenState
         return Icons.museum;
       case 'مغامرة':
         return Icons.terrain;
-      case 'عائلي':
-        return Icons.groups;
       case 'استرخاء':
         return Icons.spa;
       case 'تعليمي':
