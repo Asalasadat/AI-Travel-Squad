@@ -4,7 +4,7 @@ namespace AiTravelSquad.Infrastructure.SeedData.Csv
 {
     /// <summary>
     /// Represents a single row exactly as it appears in
-    /// palestine_tourist_attractions_v3_ar_and_en.csv (prepared by the AI team).
+    /// the tourist attractions CSV file with Arabic and English data and image URLs.
     /// The [Name] attributes map each property to its actual CSV column header.
     /// </summary>
     public class CsvPlaceRecord
@@ -38,6 +38,9 @@ namespace AiTravelSquad.Infrastructure.SeedData.Csv
 
         [Name("Description_AR")]
         public string? DescriptionAr { get; set; }
+
+        [Name("Image_URL")]
+        public string? ImageUrl { get; set; }
 
         [Name("Latitude")]
         public double? Latitude { get; set; }

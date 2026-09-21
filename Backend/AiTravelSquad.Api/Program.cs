@@ -96,47 +96,162 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Import the AI team's v3 dataset (Arabic + English) into the Places table
-// on startup. Only imports when the Places table is completely empty.
+
+// ============================================================
+// CSV DATA IMPORT / IMAGE URL UPDATE
+// ============================================================
+
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var dbContext =
+        scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
     var csvPath = Path.Combine(
         app.Environment.ContentRootPath,
-        "..", "AiTravelSquad.Infrastructure",
-        "Data", "Csv",
-        "palestine_tourist_attractions_v3_ar_and_en.csv");
+        "..",
+        "AiTravelSquad.Infrastructure",
+        "Data",
+        "Csv",
+        "__palestine_tourist_dat_with_images - __palestine_tourist_dat_with_images.csv.csv");
 
-    // TEMPORARY DIAGNOSTIC: confirm exactly which file is being read and
-    // whether it actually contains the Arabic columns we expect.
-    Console.WriteLine($"[CSV PATH] {Path.GetFullPath(csvPath)}");
-    Console.WriteLine($"[CSV EXISTS] {File.Exists(csvPath)}");
+    Console.WriteLine(
+        $"[CSV PATH] {Path.GetFullPath(csvPath)}");
+
+    Console.WriteLine(
+        $"[CSV EXISTS] {File.Exists(csvPath)}");
+
     if (File.Exists(csvPath))
     {
-        var firstLine = File.ReadLines(csvPath).First();
-        Console.WriteLine($"[CSV HEADER] {firstLine}");
+        var firstLine =
+            File.ReadLines(csvPath).FirstOrDefault();
+
+        Console.WriteLine(
+            $"[CSV HEADER] {firstLine}");
+
+        var csvPlaces =
+            CsvPlaceImporter.ImportFromCsv(csvPath);
+
+        Console.WriteLine(
+            $"[CSV COUNT] {csvPlaces.Count}");
+
+        // --------------------------------------------------------
+        // If Places table is empty:
+        // Import the complete dataset.
+        // --------------------------------------------------------
+
+        if (!dbContext.Places.Any())
+        {
+            dbContext.Places.AddRange(csvPlaces);
+            dbContext.SaveChanges();
+
+            Console.WriteLine(
+                $"[FULL IMPORT] Imported {csvPlaces.Count} places.");
+        }
+        else
+        {
+            // ----------------------------------------------------
+            // Places already exist:
+            // Update ImageUrl and Arabic data.
+            // ----------------------------------------------------
+
+            var existingPlaces =
+                dbContext.Places.ToList();
+
+            Console.WriteLine(
+                $"[DB COUNT] {existingPlaces.Count}");
+
+            // Diagnostic: compare first 5 records
+            foreach (var place in existingPlaces.Take(5))
+            {
+                Console.WriteLine(
+                    $"[DB PLACE] Id={place.Id}, " +
+                    $"Name={place.PlaceName}, " +
+                    $"NameAr={place.PlaceNameAr}");
+            }
+
+            foreach (var place in csvPlaces.Take(5))
+            {
+                Console.WriteLine(
+                    $"[CSV PLACE] Id={place.Id}, " +
+                    $"Name={place.PlaceName}, " +
+                    $"NameAr={place.PlaceNameAr}, " +
+                    $"Image={place.ImageUrl}");
+            }
+
+            var updatedImages = 0;
+            var updatedArabicData = 0;
+
+            foreach (var csvPlace in csvPlaces)
+            {
+                if (string.IsNullOrWhiteSpace(csvPlace.PlaceName))
+                {
+                    continue;
+                }
+
+                // Match using the English PlaceName because
+                // PlaceNameAr is currently empty in the database.
+                var existingPlace =
+                    existingPlaces.FirstOrDefault(p =>
+                        !string.IsNullOrWhiteSpace(p.PlaceName) &&
+                        p.PlaceName.Trim()
+                            .Equals(
+                                csvPlace.PlaceName.Trim(),
+                                StringComparison.OrdinalIgnoreCase));
+
+                if (existingPlace == null)
+                {
+                    continue;
+                }
+
+                // Update Arabic name if it is available.
+                if (!string.IsNullOrWhiteSpace(
+                        csvPlace.PlaceNameAr))
+                {
+                    existingPlace.PlaceNameAr =
+                        csvPlace.PlaceNameAr;
+
+                    updatedArabicData++;
+                }
+
+                // Update Arabic description if available.
+                if (!string.IsNullOrWhiteSpace(
+                        csvPlace.DescriptionAr))
+                {
+                    existingPlace.DescriptionAr =
+                        csvPlace.DescriptionAr;
+                }
+
+                // Update image URL.
+                if (!string.IsNullOrWhiteSpace(
+                        csvPlace.ImageUrl))
+                {
+                    existingPlace.ImageUrl =
+                        csvPlace.ImageUrl;
+
+                    updatedImages++;
+                }
+            }
+
+            dbContext.SaveChanges();
+
+            Console.WriteLine(
+                $"[ARABIC DATA UPDATE] Updated {updatedArabicData} Arabic names.");
+
+            Console.WriteLine(
+                $"[IMAGE UPDATE] Updated {updatedImages} image URLs.");
+        }
     }
-
-    var needsImport = !dbContext.Places.Any();
-    if (needsImport && File.Exists(csvPath))
+    else
     {
-        dbContext.RecommendationResults.RemoveRange(dbContext.RecommendationResults);
-        dbContext.RecommendationRequests.RemoveRange(dbContext.RecommendationRequests);
-        dbContext.Places.RemoveRange(dbContext.Places);
-        dbContext.SaveChanges();
-
-        var places = CsvPlaceImporter.ImportFromCsv(csvPath);
-
-        // TEMPORARY DIAGNOSTIC: confirm the parsed objects actually have
-        // PlaceNameAr populated before they even hit the database.
-        Console.WriteLine($"[IMPORTED COUNT] {places.Count}");
-        Console.WriteLine($"[FIRST PLACE] Name={places.FirstOrDefault()?.PlaceName}, NameAr={places.FirstOrDefault()?.PlaceNameAr}");
-
-        dbContext.Places.AddRange(places);
-        dbContext.SaveChanges();
+        Console.WriteLine(
+            "[CSV ERROR] Image CSV file was not found.");
     }
 }
+
+
+// ============================================================
+// HTTP PIPELINE
+// ============================================================
 
 if (app.Environment.IsDevelopment())
 {
@@ -145,9 +260,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseCors(FrontendCorsPolicy);
+
 app.UseAuthentication();
+
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

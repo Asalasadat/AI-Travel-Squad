@@ -41,6 +41,8 @@ namespace AiTravelSquad.Api.Controllers
                 .Select(ArabicEnumTranslator.ToArabic)
                 .ToList();
 
+            var ageGroupAr = ArabicEnumTranslator.ToArabic(request.AgeGroup);
+
             List<AiRecommendationItem> aiResults;
 
             try
@@ -50,6 +52,7 @@ namespace AiTravelSquad.Api.Controllers
                     {
                         CitiesAr = citiesAr,
                         TripTypesAr = tripTypesAr,
+                       AgeGroupAr = new List<string> { ageGroupAr },
                         TotalBudget = request.TotalBudget,
                         PeopleOverTen = request.PeopleOverTen,
                         TopN = 10
@@ -74,8 +77,13 @@ namespace AiTravelSquad.Api.Controllers
                 });
             }
 
+            // Sort AI results by similarity score from highest to lowest.
+            var sortedAiResults = aiResults
+                .OrderByDescending(r => r.SimilarityScore)
+                .ToList();
+
             // Match AI results with local Places table.
-            var placeNamesArTrimmed = aiResults
+            var placeNamesArTrimmed = sortedAiResults
                 .Where(r => r.PlaceNameAr != null)
                 .Select(r => r.PlaceNameAr!.Trim())
                 .Distinct()
@@ -95,14 +103,12 @@ namespace AiTravelSquad.Api.Controllers
                 UserId = User?.Identity?.Name ?? "anonymous",
                 City = string.Join(", ", request.Cities),
                 TripType = string.Join(", ", request.TripTypes),
-                AgeGroup = "N/A",
+                AgeGroup = request.AgeGroup.ToString(),
                 GroupSize = request.PeopleOverTen,
                 BudgetLevel = request.TotalBudget.ToString("0")
             };
 
-            _context.RecommendationRequests.Add(
-                recommendationRequest
-            );
+            _context.RecommendationRequests.Add(recommendationRequest);
 
             await _context.SaveChangesAsync();
 
@@ -112,9 +118,9 @@ namespace AiTravelSquad.Api.Controllers
             var results =
                 new List<RecommendationResult>();
 
-            for (int i = 0; i < aiResults.Count; i++)
+            for (int i = 0; i < sortedAiResults.Count; i++)
             {
-                var aiItem = aiResults[i];
+                var aiItem = sortedAiResults[i];
 
                 var matchedPlace = matchedPlaces.FirstOrDefault(p =>
                     p.PlaceNameAr != null &&
@@ -142,9 +148,12 @@ namespace AiTravelSquad.Api.Controllers
                         Description =
                             aiItem.DescriptionAr,
 
+                        ImageUrl =
+                            matchedPlace?.ImageUrl,
+
                         MatchScore =
                             Math.Round(
-                                aiItem.RecommendationScore,
+                                aiItem.SimilarityScore,
                                 2
                             ),
 
@@ -166,7 +175,7 @@ namespace AiTravelSquad.Api.Controllers
 
                             MatchScore =
                                 Math.Round(
-                                    aiItem.RecommendationScore,
+                                    aiItem.SimilarityScore,
                                     2
                                 ),
 
@@ -178,9 +187,7 @@ namespace AiTravelSquad.Api.Controllers
 
             if (results.Any())
             {
-                _context.RecommendationResults.AddRange(
-                    results
-                );
+                _context.RecommendationResults.AddRange(results);
 
                 await _context.SaveChangesAsync();
             }

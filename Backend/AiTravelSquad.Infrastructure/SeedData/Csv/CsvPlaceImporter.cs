@@ -35,6 +35,7 @@ namespace AiTravelSquad.Infrastructure.SeedData.Csv
                 AgeGroup = r.AgeGroup,
                 Description = r.Description,
                 DescriptionAr = r.DescriptionAr,
+                ImageUrl = r.ImageUrl,
                 Latitude = r.Latitude,
                 Longitude = r.Longitude,
                 EstimatedCostIls = r.EstimatedCostIls

@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a single recommended place returned to the client.
     /// This is the shape described in the project summary: name, type,
-    /// a short description, and a match score showing how well it fits
+    /// a short description, image, and a match score showing how well it fits
     /// the user's preferences.
     /// </summary>
     public class PlaceRecommendationDto
@@ -22,6 +22,9 @@
         /// <summary>Short description to help the user understand the place</summary>
         public string? Description { get; set; }
 
+        /// <summary>Image URL of the tourist place</summary>
+        public string? ImageUrl { get; set; }
+
         /// <summary>
         /// Match score between 0 and 1 showing how well this place fits
         /// the user's stated preferences. Returned by the AI model
@@ -33,3 +36,5 @@
         public int RankOrder { get; set; }
     }
 }
+
+
