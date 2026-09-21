@@ -34,6 +34,32 @@ namespace AiTravelSquad.Api.Controllers
             }
 
             return Ok(place);
-        }
+        }  
+        [HttpGet("debug/sample")]
+public async Task<IActionResult> GetSample()
+{
+    var sample = await _context.Places
+        .Select(p => new { p.Id, p.PlaceName, p.PlaceNameAr })
+        .Take(5)
+        .ToListAsync();
+    return Ok(sample);
+}  
+
+[HttpGet("debug/count")]
+public async Task<IActionResult> GetCount()
+{
+    var total = await _context.Places.CountAsync();
+    var withArabicName = await _context.Places.CountAsync(p => p.PlaceNameAr != null);
+    return Ok(new { total, withArabicName });
+}
+[HttpDelete("debug/clear-all")]
+public async Task<IActionResult> ClearAllPlaces()
+{
+    await _context.Database.ExecuteSqlRawAsync("DELETE FROM RecommendationResults");
+    await _context.Database.ExecuteSqlRawAsync("DELETE FROM RecommendationRequests");
+    await _context.Database.ExecuteSqlRawAsync("DELETE FROM Places");
+    await _context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('Places', RESEED, 0)");
+    return Ok(new { message = "All places cleared." });
+}
     }
 }

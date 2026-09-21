@@ -17,8 +17,6 @@ namespace AiTravelSquad.Infrastructure.SeedData.Csv
 
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                // Some description fields contain commas inside quotes; CsvHelper
-                // handles standard CSV quoting by default, so no extra config needed here.
                 HeaderValidated = null,
                 MissingFieldFound = null
             };
@@ -29,12 +27,14 @@ namespace AiTravelSquad.Infrastructure.SeedData.Csv
             return records.Select(r => new Place
             {
                 PlaceName = r.PlaceName,
+                PlaceNameAr = r.PlaceNameAr,
                 City = r.City,
                 PlaceType = r.PlaceType,
                 BudgetLevel = r.BudgetLevel,
                 TripType = r.TripType,
                 AgeGroup = r.AgeGroup,
                 Description = r.Description,
+                DescriptionAr = r.DescriptionAr,
                 Latitude = r.Latitude,
                 Longitude = r.Longitude,
                 EstimatedCostIls = r.EstimatedCostIls
