@@ -1,215 +1,338 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تفضيلات رحلتك — دلني</title>
   <meta name="description"
-    content="Tell us your city, budget, group size and trip type, and let our AI match you with the best destinations in Palestine.">
-  <meta name="theme-color" content="#1E88F0">
-  <link rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E88F0'/%3E%3Cpath d='M32 14l6 14 14 4-14 4-6 14-6-14-14-4 14-4z' fill='white'/%3E%3C/svg%3E">
-  <title>Plan Your Trip — AI Travel Squad</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css">
+    content="حدّد المدن ونوع الرحلة وعدد الأشخاص والميزانية لتحصل على توصيات سياحية فلسطينية مناسبة." />
+  <meta property="og:title" content="تفضيلات رحلتك — دلني" />
+  <meta property="og:description" content="أخبرنا بتفضيلاتك لنرشّح لك أنسب المواقع في فلسطين." />
+  <meta name="theme-color" content="#3d4a30" />
+
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: "var(--background)", foreground: "var(--foreground)", card: "var(--card)",
+            primary: "var(--primary)", "primary-foreground": "var(--primary-foreground)",
+            secondary: "var(--secondary)", "secondary-foreground": "var(--secondary-foreground)",
+            muted: "var(--muted)", "muted-foreground": "var(--muted-foreground)",
+            destructive: "var(--destructive)", border: "var(--border)", input: "var(--input)", ring: "var(--ring)",
+            olive: "var(--olive)", sand: "var(--sand)", terracotta: "var(--terracotta)",
+            "terracotta-foreground": "var(--terracotta-foreground)", copper: "var(--copper)",
+            hero: "var(--hero)", "hero-foreground": "var(--hero-foreground)",
+          },
+          fontFamily: {
+            sans: ["Noto Kufi Arabic", "IBM Plex Sans Arabic", "ui-sans-serif", "system-ui", "sans-serif"],
+            display: ["Cairo", "sans-serif"],
+          },
+          borderRadius: {
+            sm: "calc(var(--radius) - 4px)", md: "calc(var(--radius) - 2px)", lg: "var(--radius)",
+            xl: "calc(var(--radius) + 4px)", "2xl": "calc(var(--radius) + 8px)", "3xl": "calc(var(--radius) + 12px)",
+          },
+        },
+      },
+    };
+  </script>
+
   <style>
-    .field.error select,
-    .field.error input {
-      border-color: #E53935 !important;
+    :root {
+      --radius: 0.625rem;
+      --background: oklch(0.955 0.019 88);
+      --foreground: oklch(0.38 0.052 119);
+      --card: oklch(0.985 0.008 88);
+      --olive: oklch(0.38 0.052 119);
+      --sand: oklch(0.84 0.045 82);
+      --terracotta: oklch(0.49 0.11 38);
+      --terracotta-foreground: oklch(0.97 0.015 88);
+      --primary: oklch(0.38 0.052 119);
+      --primary-foreground: oklch(0.97 0.015 88);
+      --secondary: oklch(0.84 0.045 82);
+      --secondary-foreground: oklch(0.32 0.045 119);
+      --muted: oklch(0.91 0.025 87);
+      --muted-foreground: oklch(0.48 0.025 92);
+      --destructive: oklch(0.577 0.245 27.325);
+      --border: oklch(0.8 0.038 84);
+      --input: oklch(0.8 0.038 84);
+      --ring: oklch(0.49 0.11 38);
+      --copper: oklch(0.64 0.105 67);
+      --hero: oklch(0.22 0.03 105);
+      --hero-foreground: oklch(0.97 0.015 88);
     }
 
-    .field-error-msg {
-      display: none;
-      color: #E53935;
-      font-size: 0.8rem;
-      margin-top: 4px;
+    html {
+      scroll-behavior: smooth;
     }
 
-    .field.error .field-error-msg {
-      display: block;
+    body {
+      font-family: "Noto Kufi Arabic", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .font-display {
+      font-family: "Cairo", sans-serif;
+    }
+
+    .chip[aria-pressed="true"] {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
     }
   </style>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body data-page="preferences">
+<body data-nav="solid" class="bg-background text-foreground">
 
-  <header>
-    <nav class="nav">
-      <a href="index.html" class="brand"><span class="icon-badge"><span
-            class="material-icons">travel_explore</span></span> AI Travel Squad</a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" data-page="home">Home</a></li>
-        <li><a href="preferences.html" data-page="preferences">Plan a Trip</a></li>
-        <li><a href="results.html" data-page="results">Destinations</a></li>
-        <li class="nav-cta-wrap"><a href="preferences.html" class="nav-cta">Start Journey</a></li>
-      </ul>
-      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span class="material-icons">menu</span></button>
-    </nav>
-  </header>
+  <main class="mx-auto max-w-5xl px-5 pb-20 pt-10 sm:px-8">
+    <h1 class="text-3xl font-extrabold sm:text-4xl">أخبرنا عن رحلتك</h1>
+    <p class="mt-2 text-muted-foreground">خمس خطوات بسيطة، ونرشّح لك أنسب الأماكن في فلسطين.</p>
 
-  <main>
-    <section class="page-hero">
-      <h1>Plan Your Trip</h1>
-      <p>Select your travel preferences and let our AI suggest the best destinations for you.</p>
-    </section>
+    <form id="prefs-form" class="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_19rem]" novalidate>
 
-    <section class="section">
-      <div class="container">
-        <form class="prefs-wrap" id="prefsForm" novalidate>
-          <div class="form-grid">
-            <div class="field has-arrow">
-              <label>City</label>
-              <span class="material-icons leading">location_on</span>
-              <select id="fCity" required></select>
-              <span class="field-error-msg">Please choose a city</span>
-            </div>
-            <div class="field has-arrow">
-              <label>Budget</label>
-              <span class="material-icons leading">attach_money</span>
-              <select id="fBudget" required></select>
-              <span class="field-error-msg">Please choose a budget</span>
-            </div>
-            <div class="field">
-              <label>Number of People</label>
-              <span class="material-icons leading">people</span>
-              <input type="number" id="fPeople" min="1" placeholder="e.g. 2" required>
-              <span class="field-error-msg">Please enter number of people (1 or more)</span>
-            </div>
-            <div class="field has-arrow">
-              <label>Trip Type</label>
-              <span class="material-icons leading">hiking</span>
-              <select id="fType" required></select>
-              <span class="field-error-msg">Please choose a trip type</span>
-            </div>
-            <div class="field has-arrow full">
-              <label>Age Group</label>
-              <span class="material-icons leading">person</span>
-              <select id="fAge" required></select>
-              <span class="field-error-msg">Please choose an age group</span>
+      <div class="divide-y divide-border overflow-hidden rounded-3xl border bg-card">
+
+        <fieldset class="p-6 sm:p-7">
+          <legend class="flex items-center gap-2 font-display text-base font-bold">
+            <span
+              class="grid size-6 place-items-center rounded-full bg-terracotta font-display text-xs text-terracotta-foreground">1</span>
+            المدن
+          </legend>
+          <p class="mt-1 text-sm text-muted-foreground">اختر مدينة أو أكثر.</p>
+          <div id="group-city" class="mt-4 flex flex-wrap gap-2"></div>
+          <p id="city-error" class="mt-3 hidden text-sm font-medium text-destructive">اختر مدينة واحدة على الأقل</p>
+        </fieldset>
+
+        <fieldset class="p-6 sm:p-7">
+          <legend class="flex items-center gap-2 font-display text-base font-bold">
+            <span
+              class="grid size-6 place-items-center rounded-full bg-terracotta font-display text-xs text-terracotta-foreground">2</span>
+            نوع الرحلة
+          </legend>
+          <p class="mt-1 text-sm text-muted-foreground">اختر نوع أو أكثر.</p>
+          <div id="group-triptype" class="mt-4 flex flex-wrap gap-2"></div>
+          <p id="triptype-error" class="mt-3 hidden text-sm font-medium text-destructive">اختر نوع رحلة واحداً على
+            الأقل</p>
+        </fieldset>
+
+        <fieldset class="p-6 sm:p-7">
+          <legend class="flex items-center gap-2 font-display text-base font-bold">
+            <span
+              class="grid size-6 place-items-center rounded-full bg-terracotta font-display text-xs text-terracotta-foreground">3</span>
+            الفئة العمرية
+          </legend>
+          <p class="mt-1 text-sm text-muted-foreground">اختر الفئة الأنسب لمجموعتك.</p>
+          <div id="group-age" class="mt-4 flex flex-wrap gap-2"></div>
+          <p id="age-error" class="mt-3 hidden text-sm font-medium text-destructive">اختر الفئة العمرية</p>
+        </fieldset>
+
+        <fieldset class="p-6 sm:p-7">
+          <legend class="flex items-center gap-2 font-display text-base font-bold">
+            <span
+              class="grid size-6 place-items-center rounded-full bg-terracotta font-display text-xs text-terracotta-foreground">4</span>
+            عدد الأشخاص
+          </legend>
+          <div class="mt-4 flex items-center justify-between gap-4">
+            <p class="max-w-xs text-sm text-muted-foreground">احسب الأشخاص اللي أعمارهم فوق 10 سنوات بس، الأطفال دون 10
+              ما بينحسبوا.</p>
+            <div class="flex items-center gap-3">
+              <button id="n-dec" type="button" aria-label="أقل"
+                class="grid size-10 place-items-center rounded-full border border-border bg-card text-xl leading-none transition-colors hover:border-primary/40 disabled:opacity-40">−</button>
+              <output id="n-val" class="w-8 text-center font-display text-2xl font-extrabold"
+                aria-live="polite">2</output>
+              <button id="n-inc" type="button" aria-label="أكثر"
+                class="grid size-10 place-items-center rounded-full border border-border bg-card text-xl leading-none transition-colors hover:border-primary/40 disabled:opacity-40">+</button>
             </div>
           </div>
-          <button type="submit" class="btn full prefs-submit">Find Destinations</button>
-          <p class="form-hint">We'll use these preferences to score and rank destinations for you.</p>
-        </form>
+        </fieldset>
+
+        <fieldset class="p-6 sm:p-7">
+          <legend class="flex items-center gap-2 font-display text-base font-bold">
+            <span
+              class="grid size-6 place-items-center rounded-full bg-terracotta font-display text-xs text-terracotta-foreground">5</span>
+            الميزانية
+          </legend>
+          <p class="mt-1 text-sm text-muted-foreground">الميزانية الإجمالية لكل المجموعة بالشيكل، مش للفرد الواحد.</p>
+          <div class="relative mt-4">
+            <input id="field-budget" type="number" min="1" step="1" inputmode="numeric" placeholder="مثال: 500"
+              aria-label="الميزانية بالشيكل"
+              class="w-full rounded-xl border border-input bg-card px-4 py-3 pe-12 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+            <span
+              class="pointer-events-none absolute end-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-muted-foreground">₪</span>
+          </div>
+          <div id="budget-quick" class="mt-3 flex flex-wrap gap-2"></div>
+          <p id="budget-error" class="mt-3 hidden text-sm font-medium text-destructive">أدخل ميزانية صحيحة (رقم أكبر من
+            صفر)</p>
+        </fieldset>
       </div>
-    </section>
+
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <div class="rounded-3xl border bg-card p-6">
+          <h2 class="font-display text-base font-bold">ملخص رحلتك</h2>
+          <dl class="mt-4 space-y-4 text-sm">
+            <div>
+              <dt class="text-xs font-bold text-muted-foreground">المدن</dt>
+              <dd id="sum-cities" class="mt-1"></dd>
+            </div>
+            <div>
+              <dt class="text-xs font-bold text-muted-foreground">نوع الرحلة</dt>
+              <dd id="sum-trips" class="mt-1"></dd>
+            </div>
+            <div>
+              <dt class="text-xs font-bold text-muted-foreground">الفئة العمرية</dt>
+              <dd id="sum-age" class="mt-1 font-semibold"></dd>
+            </div>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <dt class="text-xs font-bold text-muted-foreground">الأشخاص</dt>
+                <dd id="sum-people" class="mt-1 font-semibold"></dd>
+              </div>
+              <div class="text-end">
+                <dt class="text-xs font-bold text-muted-foreground">الميزانية</dt>
+                <dd id="sum-budget" class="mt-1 font-semibold"></dd>
+              </div>
+            </div>
+            <p id="sum-per" class="hidden rounded-xl bg-muted px-3 py-2 text-xs text-muted-foreground"></p>
+          </dl>
+
+          <p id="submit-error" role="alert"
+            class="mt-4 hidden rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-sm font-medium text-destructive">
+          </p>
+
+          <button id="submit-btn" type="submit"
+            class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60">
+            أعطني التوصيات <i data-lucide="arrow-left" class="size-5"></i>
+          </button>
+        </div>
+      </aside>
+    </form>
   </main>
 
-  <footer>
-    <div class="footer-grid">
-      <div>
-        <div class="brand"><span class="icon-badge"><span class="material-icons">travel_explore</span></span> AI Travel
-          Squad</div>
-        <p>Discover the best tourist destinations across Palestine, matched to you by artificial intelligence.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Explore</h5>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="preferences.html">Plan a Trip</a></li>
-          <li><a href="results.html">Destinations</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Cities</h5>
-        <ul>
-          <li><a href="results.html">Jerusalem</a></li>
-          <li><a href="results.html">Bethlehem</a></li>
-          <li><a href="results.html">Nablus</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 AI Travel Squad</span>
-      <span>Discover Palestine with AI</span>
-    </div>
-  </footer>
-
-  <script src="assets/app.js"></script>
+  <script src="assets/layout.js"></script>
   <script>
+    const CITIES = [["Jerusalem", "القدس"], ["Bethlehem", "بيت لحم"], ["Hebron", "الخليل"], ["Jenin", "جنين"], ["Jericho", "أريحا"], ["Nablus", "نابلس"], ["Qalqilya", "قلقيلية"], ["Ramallah", "رام الله"], ["Tubas", "طوباس"], ["Tulkarm", "طولكرم"]];
+    const HIDDEN_TRIPS = window.Dalni?.HIDDEN_TRIP_TYPES || ["Family"];
+    const TRIPS = [["Adventure", "مغامرة", "mountain"], ["Cultural", "ثقافية", "theater"], ["Educational", "تعليمية", "graduation-cap"], ["Family", "عائلية", "users"], ["Relaxing", "استجمام", "sun"], ["Religious", "دينية", "church"]]
+      .filter((t) => !HIDDEN_TRIPS.includes(t[0]));
+    const AGES = [["All", "الجميع"], ["Family", "عائلي"], ["Youth", "شبابي"]];
+    const QUICK = [100, 300, 500, 1000];
+    const CITY_LABEL = Object.fromEntries(CITIES), TRIP_LABEL = Object.fromEntries(TRIPS.map((t) => [t[0], t[1]])), AGE_LABEL = Object.fromEntries(AGES);
 
-    const mockPreferencesData = {
-      cities: ["Jerusalem", "Nablus", "Ramallah", "Bethlehem", "Hebron", "Jericho"],
-      budgets: ["Low", "Medium", "High"],
-      tripTypes: ["Historical", "Nature", "Adventure", "Family"],
-      ageGroups: ["Family", "Youth"]
-    };
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const encodePayload = (p) => btoa(JSON.stringify(p)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 
-    function populateSelect(selectId, options, placeholder) {
-      const select = document.getElementById(selectId);
-      select.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
-      options.forEach(opt => {
-        const el = document.createElement('option');
-        el.value = opt;
-        el.textContent = opt;
-        select.appendChild(el);
+    const state = { cities: new Set(), trips: new Set(), age: "", size: 2, budget: "" };
+    (function prefill() {
+      let saved = null; try { saved = JSON.parse(sessionStorage.getItem("aiTravelPrefs") || "null"); } catch { }
+      if (saved) {
+        (saved.Cities || []).filter((c) => c in CITY_LABEL).forEach((c) => state.cities.add(c));
+        (saved.TripTypes || []).filter((t) => t in TRIP_LABEL).forEach((t) => state.trips.add(t));
+        if (saved.AgeGroup in AGE_LABEL) state.age = saved.AgeGroup;
+        state.size = Math.min(50, Math.max(1, parseInt(saved.GroupSize, 10) || 2));
+        if (Number(saved.Budget) > 0) state.budget = String(Number(saved.Budget));
+      }
+      const qc = new URLSearchParams(location.search).get("city");
+      if (qc && qc in CITY_LABEL) { state.cities = new Set([qc]); }
+    })();
+
+    const CHIP = "chip inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium transition-colors hover:border-primary/40";
+    function buildChips(groupId, list, set, withIcon) {
+      const g = $(groupId);
+      g.innerHTML = list.map(([v, l, icon]) => `<button type="button" data-value="${v}" aria-pressed="${set.has(v)}" class="${CHIP}">${withIcon ? `<i data-lucide="${icon}" class="size-4"></i>` : ""}${l}</button>`).join("");
+      g.addEventListener("click", (e) => {
+        const b = e.target.closest(".chip"); if (!b) return;
+        const v = b.dataset.value; set.has(v) ? set.delete(v) : set.add(v);
+        b.setAttribute("aria-pressed", String(set.has(v)));
+        $(groupId === "group-city" ? "city-error" : "triptype-error").classList.add("hidden");
+        paint();
       });
     }
-
-    function initPreferencesForm() {
-      populateSelect('fCity', mockPreferencesData.cities, 'Choose a city');
-      populateSelect('fBudget', mockPreferencesData.budgets, 'Choose a budget');
-      populateSelect('fType', mockPreferencesData.tripTypes, 'Choose a type');
-      populateSelect('fAge', mockPreferencesData.ageGroups, 'Choose an age group');
-    }
-
-    function validatePrefsForm() {
-      let isValid = true;
-      const fieldIds = ['fCity', 'fBudget', 'fPeople', 'fType', 'fAge'];
-
-      fieldIds.forEach(id => {
-        const input = document.getElementById(id);
-        const fieldWrap = input.closest('.field');
-        const value = input.value;
-        const empty = !value;
-        const invalidNumber = id === 'fPeople' && value && Number(value) < 1;
-
-        if (empty || invalidNumber) {
-          fieldWrap.classList.add('error');
-          isValid = false;
-        } else {
-          fieldWrap.classList.remove('error');
-        }
-      });
-
-      return isValid;
-    }
-
-    // Clear a field's error state as soon as the user fixes it
-    function attachLiveClear() {
-      ['fCity', 'fBudget', 'fPeople', 'fType', 'fAge'].forEach(id => {
-        const input = document.getElementById(id);
-        input.addEventListener('input', () => {
-          if (input.value) input.closest('.field').classList.remove('error');
-        });
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      initPreferencesForm();
-      attachLiveClear();
+    buildChips("group-city", CITIES, state.cities, false);
+    buildChips("group-triptype", TRIPS, state.trips, true);
+    $("group-age").innerHTML = AGES.map(([v, l]) => `<button type="button" data-value="${v}" aria-pressed="${state.age === v}" class="${CHIP}">${l}</button>`).join("");
+    $("group-age").addEventListener("click", (e) => {
+      const b = e.target.closest(".chip"); if (!b) return;
+      state.age = b.dataset.value;
+      $("group-age").querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c === b)));
+      $("age-error").classList.add("hidden"); paint();
+    });
+    $("budget-quick").innerHTML = QUICK.map((n) => `<button type="button" data-q="${n}" class="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground">${n} ₪</button>`).join("");
+    $("budget-quick").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-q]"); if (!b) return;
+      $("field-budget").value = b.dataset.q; state.budget = b.dataset.q; $("budget-error").classList.add("hidden"); paint();
     });
 
-    document.getElementById('prefsForm').addEventListener('submit', function (e) {
+    $("n-dec").addEventListener("click", () => { if (state.size > 1) { state.size--; paint(); } });
+    $("n-inc").addEventListener("click", () => { if (state.size < 50) { state.size++; paint(); } });
+    $("field-budget").value = state.budget;
+    $("field-budget").addEventListener("input", (e) => { state.budget = e.target.value; $("budget-error").classList.add("hidden"); paint(); });
+
+    const pill = (t) => `<span class="rounded-full bg-muted px-2.5 py-1 text-xs font-semibold">${esc(t)}</span>`;
+    const empty = `<span class="text-muted-foreground">—</span>`;
+    function paint() {
+      $("n-val").textContent = state.size; $("n-dec").disabled = state.size <= 1; $("n-inc").disabled = state.size >= 50;
+      $("sum-cities").innerHTML = state.cities.size ? `<div class="flex flex-wrap gap-1.5">${[...state.cities].map((c) => pill(CITY_LABEL[c])).join("")}</div>` : empty;
+      $("sum-trips").innerHTML = state.trips.size ? `<div class="flex flex-wrap gap-1.5">${[...state.trips].map((t) => pill(TRIP_LABEL[t])).join("")}</div>` : empty;
+      $("sum-age").innerHTML = state.age ? esc(AGE_LABEL[state.age]) : empty;
+      $("sum-people").textContent = `${state.size} ${state.size === 1 ? "شخص" : "أشخاص"}`;
+      const b = Number(state.budget), ok = b > 0;
+      $("sum-budget").textContent = ok ? `${b} ₪` : "—";
+      const per = $("sum-per");
+      per.classList.toggle("hidden", !ok);
+      if (ok) per.textContent = `يعني تقريباً ${Math.round(b / state.size)} ₪ للشخص الواحد.`;
+    }
+    lucide.createIcons(); paint();
+
+    const form = $("prefs-form"), submitBtn = $("submit-btn");
+    window.addEventListener("pageshow", () => { submitBtn.disabled = false; });
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
-
-      if (!validatePrefsForm()) {
-        return;
+      $("submit-error").classList.add("hidden");
+      const budget = Number(state.budget);
+      const badCity = !state.cities.size, badTrip = !state.trips.size, badAge = !state.age, badBudget = !(budget > 0) || budget > 1e7;
+      $("city-error").classList.toggle("hidden", !badCity);
+      $("triptype-error").classList.toggle("hidden", !badTrip);
+      $("age-error").classList.toggle("hidden", !badAge);
+      $("budget-error").classList.toggle("hidden", !badBudget);
+      if (badCity || badTrip || badAge || badBudget) {
+        const first = badCity ? "group-city" : badTrip ? "group-triptype" : badAge ? "group-age" : "field-budget";
+        $(first).scrollIntoView({ behavior: "smooth", block: "center" }); return;
       }
-
-      const prefs = {
-        city: document.getElementById('fCity').value,
-        budget: document.getElementById('fBudget').value,
-        people: document.getElementById('fPeople').value,
-        type: document.getElementById('fType').value,
-        age: document.getElementById('fAge').value
-      };
-      savePreferences(prefs);
-      showMatchOverlay('Matching you with destinations...', () => {
-        window.location.href = 'results.html';
-      });
+      const payload = { Cities: [...state.cities], TripTypes: [...state.trips], AgeGroup: state.age, GroupSize: state.size, Budget: budget };
+      submitBtn.disabled = true;
+      try {
+        sessionStorage.setItem("aiTravelPrefs", JSON.stringify(payload));
+        sessionStorage.removeItem("aiTravelResults"); sessionStorage.removeItem("dalni:items");
+      } catch { }
+      window.location.href = "results.html?s=" + encodePayload(payload);
     });
   </script>
 </body>

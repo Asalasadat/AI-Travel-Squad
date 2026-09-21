@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:travelai/screens/favscreen.dart';
+import 'package:travelai/screens/similar_screen.dart';
+
 import '../models/place_model.dart';
+import '../data/place_data.dart';
 
 class PlaceDetailsScreen extends StatelessWidget {
   final PlaceModel place;
@@ -10,26 +14,87 @@ class PlaceDetailsScreen extends StatelessWidget {
     required this.place,
   });
 
+  // Find similar places
+  List<PlaceModel> getSimilarPlaces(PlaceModel currentPlace) {
+    final results = places
+        .where((place) => place.name != currentPlace.name)
+        .map((place) {
+      int similarityScore = 0;
+
+      // Same city
+      if (place.city == currentPlace.city) {
+        similarityScore += 50;
+      }
+
+      // Same type
+      if (place.type == currentPlace.type) {
+        similarityScore += 40;
+      }
+
+      // Similar place score
+      final difference =
+          (place.score - currentPlace.score).abs();
+
+      if (difference <= 10) {
+        similarityScore += 10;
+      }
+
+      return MapEntry(place, similarityScore);
+    }).toList();
+
+    // Sort from highest similarity to lowest
+    results.sort(
+      (a, b) => b.value.compareTo(a.value),
+    );
+
+    // Return maximum 3 places
+    return results
+        .take(3)
+        .map((entry) => entry.key)
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bool isFavorite = favorites.contains(place);
+
     return Scaffold(
       backgroundColor: const Color(0xffF5F7FA),
 
       body: CustomScrollView(
         slivers: [
-
+       
           SliverAppBar(
             expandedHeight: 280,
             pinned: true,
             backgroundColor: Colors.blue,
 
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(place.name),
+              title: Text(
+                place.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
               background: Hero(
                 tag: place.name,
+
                 child: Image.network(
                   place.image,
                   fit: BoxFit.cover,
+
+                  errorBuilder:
+                      (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.grey.shade300,
+                      child: const Icon(
+                        Icons.image_not_supported,
+                        size: 60,
+                        color: Colors.grey,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -40,13 +105,15 @@ class PlaceDetailsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
 
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
 
                 children: [
-
+                  // =========================
+                  // City
+                  // =========================
                   Row(
                     children: [
-
                       const Icon(
                         Icons.location_on,
                         color: Colors.red,
@@ -58,17 +125,30 @@ class PlaceDetailsScreen extends StatelessWidget {
                         place.city,
                         style: const TextStyle(
                           fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-
                     ],
                   ),
 
                   const SizedBox(height: 20),
 
+        
                   Chip(
-                    label: Text(place.type),
-                    backgroundColor: Colors.blue.shade100,
+                    avatar: const Icon(
+                      Icons.category,
+                      size: 18,
+                    ),
+
+                    label: Text(
+                      place.type,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+
+                    backgroundColor:
+                        Colors.blue.shade100,
                   ),
 
                   const SizedBox(height: 25),
@@ -93,6 +173,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 30),
 
+                  
                   const Text(
                     "AI Matching",
                     style: TextStyle(
@@ -104,10 +185,14 @@ class PlaceDetailsScreen extends StatelessWidget {
                   const SizedBox(height: 15),
 
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius:
+                        BorderRadius.circular(20),
+
                     child: LinearProgressIndicator(
                       value: place.score / 100,
                       minHeight: 12,
+                      backgroundColor:
+                          Colors.grey.shade300,
                     ),
                   ),
 
@@ -124,18 +209,81 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 35),
 
+              
                   SizedBox(
                     width: double.infinity,
                     height: 55,
 
                     child: ElevatedButton.icon(
-                      icon: const Icon(Icons.favorite),
-                      label: const Text("Add To Favorites"),
+                      icon: Icon(
+                        isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                      ),
+
+                      label: Text(
+                        isFavorite
+                            ? "Remove From Favorites"
+                            : "Add To Favorites",
+                      ),
 
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        if (favorites.contains(place)) {
+                          favorites.remove(place);
+
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Removed from Favorites",
+                              ),
+                            ),
+                          );
+                        } else {
+                          favorites.add(place);
+
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Added to Favorites",
+                              ),
+                            ),
+                          );
+                        }
+
+                        // Refresh screen
+                        (context as Element)
+                            .markNeedsBuild();
+                      },
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  // =========================
+                  // Google Maps
+                  // =========================
+                  SizedBox(
+                    width: double.infinity,
+                    height: 55,
+
+                    child: OutlinedButton.icon(
+                      icon: const Icon(
+                        Icons.map,
+                      ),
+
+                      label: const Text(
+                        "Open in Google Maps",
+                      ),
+
+                      onPressed: () {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(
                           const SnackBar(
-                            content: Text("Added to Favorites"),
+                            content: Text(
+                              "Google Maps will be connected later",
+                            ),
                           ),
                         );
                       },
@@ -144,44 +292,56 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 15),
 
-                  SizedBox(
-                    width: double.infinity,
-                    height: 55,
-
-                    child: OutlinedButton.icon(
-                      icon: const Icon(Icons.map),
-                      label: const Text("Open in Google Maps"),
-
-                      onPressed: () {
-                        // سيتم ربطه لاحقاً مع Google Maps
-                      },
-                    ),
-                  ),
-
-                  const SizedBox(height: 15),
-
+      
                   SizedBox(
                     width: double.infinity,
                     height: 55,
 
                     child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
+                      style:
+                          ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        shape:
+                            RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(12),
+                        ),
                       ),
-                      icon: const Icon(Icons.auto_awesome),
+
+                      icon: const Icon(
+                        Icons.auto_awesome,
+                        color: Colors.white,
+                      ),
+
                       label: const Text(
                         "Recommend Similar Places",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
                       ),
 
                       onPressed: () {
-                        // سيتم ربطه مع نموذج الذكاء الاصطناعي
+                        // Get similar places
+                        final similarPlaces =
+                            getSimilarPlaces(place);
+
+                        // Open Similar Places screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                SimilarPlacesScreen(
+                              places: similarPlaces,
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ),
 
                   const SizedBox(height: 40),
-
                 ],
               ),
             ),

@@ -1,151 +1,737 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Browse destinations across Palestine, ranked and matched to your preferences by AI.">
-<meta name="theme-color" content="#1E88F0">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E88F0'/%3E%3Cpath d='M32 14l6 14 14 4-14 4-6 14-6-14-14-4 14-4z' fill='white'/%3E%3C/svg%3E">
-<title>Recommended Places — AI Travel Squad</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>التوصيات المناسبة لك — دلني</title>
+  <meta name="description" content="قائمة مرتبة بأنسب المواقع السياحية والتراثية والطبيعية في فلسطين حسب تفضيلاتك." />
+  <meta property="og:title" content="التوصيات المناسبة لك — دلني" />
+  <meta property="og:description" content="أنسب الأماكن في فلسطين حسب تفضيلاتك، مرتبة حسب الملاءمة." />
+  <meta name="theme-color" content="#3d4a30" />
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <link rel="apple-touch-icon" href="assets/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: "var(--background)", foreground: "var(--foreground)", card: "var(--card)",
+            primary: "var(--primary)", "primary-foreground": "var(--primary-foreground)",
+            secondary: "var(--secondary)", "secondary-foreground": "var(--secondary-foreground)",
+            muted: "var(--muted)", "muted-foreground": "var(--muted-foreground)",
+            destructive: "var(--destructive)", border: "var(--border)", input: "var(--input)", ring: "var(--ring)",
+            olive: "var(--olive)", sand: "var(--sand)", terracotta: "var(--terracotta)",
+            "terracotta-foreground": "var(--terracotta-foreground)", copper: "var(--copper)",
+            hero: "var(--hero)", "hero-foreground": "var(--hero-foreground)",
+          },
+          fontFamily: { sans: ["Noto Kufi Arabic", "IBM Plex Sans Arabic", "system-ui", "sans-serif"], display: ["Cairo", "sans-serif"] },
+          borderRadius: { sm: "calc(var(--radius) - 4px)", md: "calc(var(--radius) - 2px)", lg: "var(--radius)", xl: "calc(var(--radius) + 4px)", "2xl": "calc(var(--radius) + 8px)", "3xl": "calc(var(--radius) + 12px)" },
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --radius: 0.625rem;
+      --background: oklch(0.955 0.019 88);
+      --foreground: oklch(0.38 0.052 119);
+      --card: oklch(0.985 0.008 88);
+      --olive: oklch(0.38 0.052 119);
+      --sand: oklch(0.84 0.045 82);
+      --terracotta: oklch(0.49 0.11 38);
+      --terracotta-foreground: oklch(0.97 0.015 88);
+      --primary: oklch(0.38 0.052 119);
+      --primary-foreground: oklch(0.97 0.015 88);
+      --secondary: oklch(0.84 0.045 82);
+      --secondary-foreground: oklch(0.32 0.045 119);
+      --muted: oklch(0.91 0.025 87);
+      --muted-foreground: oklch(0.48 0.025 92);
+      --destructive: oklch(0.577 0.245 27.325);
+      --border: oklch(0.8 0.038 84);
+      --input: oklch(0.8 0.038 84);
+      --ring: oklch(0.49 0.11 38);
+      --copper: oklch(0.64 0.105 67);
+      --hero: oklch(0.22 0.03 105);
+      --hero-foreground: oklch(0.97 0.015 88);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Kufi Arabic", "IBM Plex Sans Arabic", system-ui, sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .font-display {
+      font-family: "Cairo", sans-serif;
+    }
+
+    .fav-btn[aria-pressed="true"] {
+      color: var(--terracotta);
+      border-color: var(--terracotta);
+    }
+
+    .fav-btn[aria-pressed="true"] svg {
+      fill: currentColor;
+    }
+
+    .cmp-btn[aria-pressed="true"] {
+      color: var(--primary-foreground);
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .chip[aria-pressed="true"] {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    #map {
+      z-index: 0;
+    }
+
+    .leaflet-container {
+      font-family: inherit;
+    }
+
+    .leaflet-popup-content {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .pin {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      color: #fff;
+      font: 700 13px Cairo, sans-serif;
+      display: grid;
+      place-items: center;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 6px #0005;
+    }
+
+    .pin-city {
+      width: 34px;
+      height: 34px;
+      background: var(--card);
+      color: var(--terracotta);
+      border: 2px dashed var(--terracotta);
+    }
+
+    .card-on article {
+      outline: 2px solid var(--terracotta);
+      outline-offset: 2px;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .reveal {
+      animation: rise .5s cubic-bezier(.2, .7, .2, 1) both;
+      animation-delay: var(--d, 0ms);
+    }
+
+    .no-scrollbar {
+      scrollbar-width: none;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body data-page="results">
 
-<header>
-  <nav class="nav">
-    <a href="index.html" class="brand"><span class="icon-badge"><span class="material-icons">travel_explore</span></span> AI Travel Squad</a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html" data-page="home">Home</a></li>
-      <li><a href="preferences.html" data-page="preferences">Plan a Trip</a></li>
-      <li><a href="results.html" data-page="results">Destinations</a></li>
-      <li class="nav-cta-wrap"><a href="preferences.html" class="nav-cta">Start Journey</a></li>
-    </ul>
-    <button class="menu-btn" id="menuBtn" aria-label="Menu"><span class="material-icons">menu</span></button>
-  </nav>
-</header>
+<body data-nav="solid" class="bg-background text-foreground">
 
-<main>
-  <section class="page-hero">
-    <h1>Recommended Places</h1>
-    <p>Matched to your preferences by our AI model.</p>
-  </section>
+  <main id="main" class="mx-auto max-w-7xl px-5 pb-32 pt-8 sm:px-8">
 
-  <section class="section">
-    <div class="container">
-      <div class="results-meta" id="resultsMeta" style="display:none;"></div>
-      <div class="results-grid" id="results-list"></div>
-      <div class="empty-state" id="emptyState" style="display:none;">
-        <span class="material-icons">travel_explore</span>
-        <p>No destinations match those filters yet. Try adjusting your preferences.</p>
-        <div style="margin-top:16px;"><a href="preferences.html" class="btn">Edit Preferences</a></div>
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h1 class="text-3xl font-extrabold sm:text-4xl">أنسب الأماكن لك</h1>
+        <p id="subtitle" class="mt-2 text-sm text-muted-foreground"></p>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="preferences.html"
+          class="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold transition-colors hover:border-primary/40"><i
+            data-lucide="sliders-horizontal" class="size-4"></i>تعديل التفضيلات</a>
+        <button id="share-btn" type="button"
+          class="hidden items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"><i
+            data-lucide="share-2" class="size-4"></i>مشاركة</button>
       </div>
     </div>
-  </section>
-</main>
+    <div id="pref-chips" class="mt-5 flex flex-wrap gap-2"></div>
+    <div id="stats" class="mt-4"></div>
 
-<footer>
-  <div class="footer-grid">
-    <div>
-      <div class="brand"><span class="icon-badge"><span class="material-icons">travel_explore</span></span> AI Travel
-        Squad</div>
-      <p>Discover the best tourist destinations across Palestine, matched to you by artificial intelligence.</p>
+    <div class="mt-7 inline-flex rounded-full border border-border bg-card p-1" role="tablist">
+      <button id="tab-results" type="button" role="tab" aria-selected="true"
+        class="tab rounded-full px-5 py-2 text-sm font-semibold transition-colors">التوصيات</button>
+      <button id="tab-saved" type="button" role="tab" aria-selected="false"
+        class="tab rounded-full px-5 py-2 text-sm font-semibold transition-colors">المحفوظة
+        <span id="saved-count" class="ms-1 rounded-full bg-muted px-2 py-0.5 text-xs text-foreground">0</span></button>
     </div>
-    <div class="footer-col">
-      <h5>Explore</h5>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="preferences.html">Plan a Trip</a></li>
-        <li><a href="results.html">Destinations</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Cities</h5>
-      <ul>
-        <li><a href="results.html">Jerusalem</a></li>
-        <li><a href="results.html">Bethlehem</a></li>
-        <li><a href="results.html">Nablus</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 AI Travel Squad</span>
-    <span>Discover Palestine with AI</span>
-  </div>
-</footer>
 
-<script src="assets/app.js"></script>
-<script>
-  const prefs = loadPreferences();
-  let matches = PLACES;
-
-  if (prefs) {
-    matches = PLACES.filter(p =>
-      (!prefs.city || p.city === prefs.city) &&
-      (!prefs.type || p.type === prefs.type)
-    );
-    // Fall back to all places if the filters were too narrow
-    if (matches.length === 0) matches = [];
-
-    const metaEl = document.getElementById('resultsMeta');
-    metaEl.style.display = 'flex';
-    metaEl.innerHTML = `
-      <span><strong>${matches.length}</strong> destination${matches.length === 1 ? '' : 's'} matched for
-        ${prefs.city ? prefs.city : 'any city'} · ${prefs.type ? prefs.type : 'any type'} · ${prefs.budget || 'any'} budget</span>
-      <a href="preferences.html" class="btn outline blue-border" style="height:38px;padding:0 16px;font-size:13px;">Edit Preferences</a>
-    `;
-  }
-
-  function renderResults(list) {
-    const container = document.getElementById('results-list');
-    const emptyState = document.getElementById('emptyState');
-    container.innerHTML = '';
-
-    if (list.length === 0) {
-      emptyState.style.display = 'block';
-      return;
-    }
-    emptyState.style.display = 'none';
-
-    list.forEach((p, i) => {
-      const card = document.createElement('div');
-      card.className = 'place-card';
-      card.style.setProperty('--i', i);
-      card.setAttribute('role', 'button');
-      card.setAttribute('tabindex', '0');
-      card.setAttribute('aria-label', 'View details for ' + p.name);
-      card.onclick = () => window.location.href = 'place.html?id=' + p.id;
-      card.onkeydown = (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          window.location.href = 'place.html?id=' + p.id;
-        }
-      };
-      card.innerHTML = `
-        <div class="thumb"><img src="${p.image}" alt="${p.name}" onerror="handleImageError(this)"></div>
-        <div class="place-card-body">
-          <div class="place-card-title-row">
-            <h3>${p.name}</h3>
-            <span class="match-badge">${p.score}%</span>
-          </div>
-          <div class="city-row">
-            <span class="material-icons">location_on</span>
-            <span>${p.city}</span>
-          </div>
-          <p class="place-desc">${p.description}</p>
-          <div class="progress-track"><div class="progress-fill" style="width:${p.score}%;"></div></div>
-          <button class="btn view-btn" onclick="event.stopPropagation(); window.location.href='place.html?id=${p.id}'">
-            View Details <span class="material-icons" style="font-size:18px;">arrow_forward</span>
-          </button>
+    <div id="view-results" class="mt-6">
+      <div id="toolbar" class="mb-6 hidden flex-wrap items-center justify-between gap-3">
+        <div id="type-filters" class="flex flex-wrap gap-2"></div>
+        <div class="flex flex-wrap items-center gap-2">
+          <div id="toggle-filters" class="flex flex-wrap gap-2"></div>
+          <label class="flex items-center gap-2 text-sm text-muted-foreground">ترتيب
+            <select id="sort"
+              class="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground">
+              <option value="match">الأعلى ملاءمة</option>
+              <option value="cost">الأقل تكلفة</option>
+            </select>
+          </label>
         </div>
-      `;
-      container.appendChild(card);
-    });
-  }
+      </div>
 
-  renderResults(matches);
-</script>
+      <div id="results-container"></div>
+
+      <section id="map-wrap" class="mt-12 hidden">
+        <h2 class="text-xl font-bold">على الخريطة</h2>
+        <p id="map-note" class="mt-1 text-xs leading-6 text-muted-foreground"></p>
+        <div id="map" class="mt-3 h-[420px] w-full overflow-hidden rounded-2xl border"></div>
+      </section>
+    </div>
+
+    <div id="view-saved" class="mt-6 hidden"></div>
+  </main>
+
+  <div id="compare-bar" class="pointer-events-none fixed inset-x-0 bottom-5 z-40 hidden justify-center px-4">
+    <div
+      class="pointer-events-auto flex w-full max-w-xl items-center gap-3 rounded-2xl border bg-card px-4 py-3 shadow-xl">
+      <i data-lucide="columns-2" class="size-5 shrink-0 text-terracotta"></i>
+      <p id="compare-text" class="min-w-0 flex-1 truncate text-sm font-medium"></p>
+      <button id="compare-clear" type="button"
+        class="rounded-full px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground">مسح</button>
+      <button id="compare-go" type="button"
+        class="rounded-xl bg-primary px-5 py-2 text-sm font-bold text-primary-foreground hover:bg-primary/90 disabled:opacity-50">قارن</button>
+    </div>
+  </div>
+
+  <div id="modal-share" class="fixed inset-0 z-50 hidden items-center justify-center bg-hero/60 p-4" role="dialog"
+    aria-modal="true" aria-labelledby="share-title">
+    <div class="w-full max-w-md rounded-2xl border bg-card p-6">
+      <div class="flex items-start justify-between gap-3">
+        <h2 id="share-title" class="text-xl font-bold">شارك رحلتك</h2>
+        <button type="button" data-close="modal-share" aria-label="إغلاق"
+          class="grid size-8 place-items-center rounded-full hover:bg-muted"><i data-lucide="x"
+            class="size-4"></i></button>
+      </div>
+      <p class="mt-2 text-sm text-muted-foreground">أي شخص يفتح الرابط سيحصل على توصيات بنفس تفضيلاتك.</p>
+      <div class="mt-4 flex gap-2">
+        <input id="share-link" type="text" readonly dir="ltr"
+          class="min-w-0 flex-1 rounded-xl border border-input bg-card px-3 py-2.5 text-xs" />
+        <button id="share-copy" type="button"
+          class="shrink-0 rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground">نسخ</button>
+      </div>
+      <div class="mt-5 flex justify-center">
+        <div id="share-qr" class="rounded-xl bg-white p-3"></div>
+      </div>
+      <button id="share-native" type="button"
+        class="mt-5 hidden w-full rounded-xl border border-border px-4 py-2.5 text-sm font-semibold hover:border-primary/40">مشاركة
+        عبر التطبيقات</button>
+      <p id="share-warning" class="mt-4 hidden text-xs text-destructive">هذا الرابط يعمل على جهازك فقط (localhost)، ولن
+        يفتح عند الآخرين قبل نشر الموقع.</p>
+    </div>
+  </div>
+
+  <div id="modal-compare" class="fixed inset-0 z-50 hidden items-center justify-center bg-hero/60 p-4" role="dialog"
+    aria-modal="true" aria-labelledby="compare-title">
+    <div class="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border bg-card p-6">
+      <div class="flex items-start justify-between gap-3">
+        <h2 id="compare-title" class="text-xl font-bold">مقارنة بين مكانين</h2>
+        <button type="button" data-close="modal-compare" aria-label="إغلاق"
+          class="grid size-8 place-items-center rounded-full hover:bg-muted"><i data-lucide="x"
+            class="size-4"></i></button>
+      </div>
+      <div id="compare-body" class="mt-4 overflow-x-auto"></div>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"
+    class="pointer-events-none fixed inset-x-0 bottom-24 z-[60] hidden justify-center px-6">
+    <span id="toast-text" class="rounded-full bg-hero px-4 py-2 text-sm font-medium text-hero-foreground"></span>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="assets/layout.js"></script>
+  <script>
+    const API_BASE = "http://localhost:5286";
+    const LS_FAV = "dalni:favorites";
+    const CITY_FALLBACK = { Bethlehem: [31.702327, 35.187644], Hebron: [31.533628, 35.097976], Jenin: [32.468789, 35.296756], Jericho: [31.859361, 35.459795], Jerusalem: [31.695506, 35.187508], Nablus: [32.228066, 35.237042], Qalqilya: [32.190557, 34.966009], Ramallah: [31.898619, 35.178064], Tubas: [32.323439, 35.369366], Tulkarm: [32.313376, 35.022438] };
+
+    const CITY_LABELS = { Bethlehem: "بيت لحم", Hebron: "الخليل", Jenin: "جنين", Jericho: "أريحا", Jerusalem: "القدس", Nablus: "نابلس", Qalqilya: "قلقيلية", Ramallah: "رام الله", Tubas: "طوباس", Tulkarm: "طولكرم" };
+    const CITY_BY_AR = { "بيت لحم": "Bethlehem", "الخليل": "Hebron", "جنين": "Jenin", "أريحا": "Jericho", "القدس": "Jerusalem", "نابلس": "Nablus", "قلقيلية": "Qalqilya", "رام الله": "Ramallah", "طوباس": "Tubas", "طولكرم": "Tulkarm" };
+    const CITY_XY = { Bethlehem: [31.7054, 35.2024], Hebron: [31.5326, 35.0998], Jenin: [32.461, 35.3], Jericho: [31.8667, 35.4444], Jerusalem: [31.7683, 35.2137], Nablus: [32.2211, 35.2544], Qalqilya: [32.1897, 34.9706], Ramallah: [31.9038, 35.2034], Tubas: [32.3208, 35.3695], Tulkarm: [32.3104, 35.0286] };
+    const TRIP_LABELS = { Adventure: "مغامرة", Cultural: "ثقافية", Educational: "تعليمية", Family: "عائلية", Relaxing: "استجمام", Religious: "دينية" };
+    const AGE_LABELS = { All: "الجميع", Family: "عائلي", Youth: "شبابي" };
+    const BUDGET_LABELS = { Low: "منخفضة", Medium: "متوسطة", High: "مرتفعة" };
+    const PLACE_TYPE_LABELS = { "Religious": "ديني", "Historic Old City": "بلدة قديمة", "Archaeological": "أثري", "Museum": "متحف", "Family/Recreational": "ترفيهي عائلي", "Nature & Trails": "طبيعة ومسارات", "Education": "تعليمي", "Historic": "تاريخي", "Cultural": "ثقافي" };
+    const TYPE_ICON = { "Religious": "church", "Historic Old City": "castle", "Historic": "castle", "Archaeological": "landmark", "Museum": "building-2", "Family/Recreational": "ferris-wheel", "Nature & Trails": "trees", "Education": "graduation-cap", "Cultural": "theater" };
+
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const pick = (o, ...ks) => { for (const k of ks) if (o && o[k] != null) return o[k]; };
+    const safeUrl = (u) => (typeof u === "string" && /^(https?:\/\/|assets\/)/i.test(u)) ? u : null;
+    const isAr = (s) => /[\u0600-\u06FF]/.test(s || "");
+    const cityLabel = (c) => CITY_LABELS[c] || c;
+    const typeLabel = (t) => PLACE_TYPE_LABELS[t] || t || "";
+    const km = (a, b) => { const r = Math.PI / 180, x = Math.sin((b[0] - a[0]) * r / 2) ** 2 + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin((b[1] - a[1]) * r / 2) ** 2; return 12742 * Math.asin(Math.sqrt(x)); };
+    const okPt = (lat, lng, city, max = 45) => { lat = +lat; lng = +lng; const c = CITY_XY[city]; return isFinite(lat) && isFinite(lng) && (lat || lng) && (!c || km([lat, lng], c) <= max); };
+    const CHIP = "chip rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold transition-colors hover:border-primary/40";
+
+    let toastTimer;
+    function toast(msg) {
+      $("toast-text").textContent = msg; $("toast").classList.remove("hidden"); $("toast").classList.add("flex");
+      clearTimeout(toastTimer); toastTimer = setTimeout(() => { $("toast").classList.add("hidden"); $("toast").classList.remove("flex"); }, 2200);
+    }
+    const openModal = (id) => { $(id).classList.remove("hidden"); $(id).classList.add("flex"); lucide.createIcons(); };
+    const closeModal = (id) => { $(id).classList.add("hidden"); $(id).classList.remove("flex"); };
+    document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => closeModal(b.dataset.close)));
+    ["modal-share", "modal-compare"].forEach((id) => $(id).addEventListener("click", (e) => { if (e.target === $(id)) closeModal(id); }));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") ["modal-share", "modal-compare"].forEach(closeModal); });
+
+    function sanitizePayload(o) {
+      if (!o || typeof o !== "object") return null;
+      const cities = (Array.isArray(o.Cities) ? o.Cities : (o.City ? [o.City] : [])).filter((c) => c in CITY_LABELS);
+      const hidden = window.Dalni?.HIDDEN_TRIP_TYPES || ["Family"];
+      const trips = (Array.isArray(o.TripTypes) ? o.TripTypes : (o.TripType ? [o.TripType] : [])).filter((t) => t in TRIP_LABELS && !hidden.includes(t));
+      const age = o.AgeGroup in AGE_LABELS ? o.AgeGroup : "All";
+      const size = Math.min(50, Math.max(1, parseInt(o.GroupSize, 10) || 1));
+      const budget = Number(o.Budget);
+      if (!cities.length || !trips.length || !(budget > 0) || budget > 1e7) return null;
+      return { Cities: cities, TripTypes: trips, AgeGroup: age, GroupSize: size, Budget: budget };
+    }
+    const encodePayload = (p) => btoa(JSON.stringify(p)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    function decodePayload(s) {
+      try { const b = s.replace(/-/g, "+").replace(/_/g, "/"); return sanitizePayload(JSON.parse(atob(b + "=".repeat((4 - (b.length % 4)) % 4)))); } catch { return null; }
+    }
+
+    const isPrecise = (lat, lng, city) => {
+      const f = CITY_FALLBACK[city];
+      return okPt(lat, lng, city, 15) && !(f && Math.abs(lat - f[0]) < 1e-5 && Math.abs(lng - f[1]) < 1e-5);
+    };
+    async function loadMeta(item) {
+      try {
+        const res = await fetch(`${API_BASE}/api/Places/${encodeURIComponent(item.id)}`);
+        if (!res.ok) return null;
+        const d = await res.json(), lat = pick(d, "latitude", "Latitude"), lng = pick(d, "longitude", "Longitude");
+        return {
+          nameEn: pick(d, "placeName", "PlaceName"), city: pick(d, "city", "City"),
+          nameAr: pick(d, "placeNameAr", "PlaceNameAr"), descAr: pick(d, "descriptionAr", "DescriptionAr"),
+          image: safeUrl(pick(d, "imageUrl", "ImageUrl", "image", "Image")),
+          costIls: pick(d, "estimatedCostIls", "EstimatedCostIls") ?? null,
+          budgetLevel: pick(d, "budgetLevel", "BudgetLevel"), tripType: pick(d, "tripType", "TripType"), ageGroup: pick(d, "ageGroup", "AgeGroup"),
+          lat, lng, preciseLocation: lat != null && lng != null && isPrecise(+lat, +lng, item.city),
+        };
+      } catch { return null; }
+    }
+
+    function normalizeResponse(d) {
+      const list = pick(d, "recommendations", "Recommendations");
+      if (!Array.isArray(list)) return null;
+      return list.map((p, i) => {
+        const s = Number(pick(p, "matchScore", "MatchScore")) || 0;
+        const id = Number(pick(p, "placeId", "PlaceId")) || 0, rawCity = String(pick(p, "city", "City") || "").trim();
+        return {
+          id, linked: id > 0,
+          name: String(pick(p, "placeName", "PlaceName") || "").trim(), type: pick(p, "placeType", "PlaceType") || "",
+          city: CITY_BY_AR[rawCity] || rawCity, description: pick(p, "description", "Description") || "",
+          pct: Math.round(s <= 1 ? s * 100 : s), rank: pick(p, "rankOrder", "RankOrder") ?? i + 1,
+          image: safeUrl(pick(p, "imageUrl", "ImageUrl", "image", "Image", "photoUrl", "PhotoUrl")),
+        };
+      });
+    }
+    async function fetchRecommendations(pl) {
+      const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), 90000);
+      try {
+        const res = await fetch(`${API_BASE}/api/Recommendations`, {
+          method: "POST", headers: { "Content-Type": "application/json" }, signal: ctrl.signal,
+          body: JSON.stringify({ Cities: pl.Cities, TripTypes: pl.TripTypes, AgeGroup: pl.AgeGroup, Budget: pl.Budget, GroupSize: pl.GroupSize }),
+        });
+        const body = await res.json().catch(() => null);
+        if (!res.ok) { const e = new Error(body?.message || `HTTP ${res.status}`); e.status = res.status; throw e; }
+        return body;
+      } finally { clearTimeout(timer); }
+    }
+    function errText(e) {
+      if (e?.status === 404) return "ما لقينا أماكن بتناسب ميزانيتك وتفضيلاتك. جرّب ترفع الميزانية أو تضيف مدينة.";
+      if (e?.status === 502) return "خدمة التوصيات مش متاحة حالياً. جرّب بعد شوي.";
+      if (e?.status === 400) return "في مشكلة بالبيانات المُدخلة. عدّل تفضيلاتك وجرّبي من جديد.";
+      if (e?.name === "AbortError") return "خدمة التوصيات تأخرت بالرد. جرّب مرة ثانية.";
+      return "تعذر الاتصال بالخادم. تأكد إن الـ API شغال وجرّبي مرة ثانية.";
+    }
+
+    const nameOf = (i) => i.meta?.nameAr || i.name;
+    const imgOf = (i) => safeUrl(i.image) || safeUrl(i.meta?.image) || null;
+    const autoDesc = (i) => { const m = i.meta; return `${typeLabel(i.type) || "مكان"} في ${cityLabel(i.city)}` + (m ? `، مناسب لرحلة ${TRIP_LABELS[m.tripType] || ""} (${AGE_LABELS[m.ageGroup] || ""})` : ""); };
+    const descOf = (i) => i.meta?.descAr || (isAr(i.description) ? i.description : "");
+    function locOf(i) {
+      const m = i.meta, c = CITY_XY[i.city];
+      if (m?.preciseLocation && okPt(m.lat, m.lng, i.city, 15)) return { ll: [+m.lat, +m.lng], exact: true };
+      return c ? { ll: c, exact: false } : null;
+    }
+    function budgetFit(i) {
+      const pl = state.payload, m = i.meta; if (!pl || !m || m.costIls == null) return null;
+      if (m.costIls === 0) return { ok: true, t: "دخول مجاني" };
+      return m.costIls * pl.GroupSize <= pl.Budget ? { ok: true, t: "ضمن ميزانيتك" } : { ok: false, t: "أعلى من ميزانيتك" };
+    }
+
+    const loadFavs = () => { try { const v = JSON.parse(localStorage.getItem(LS_FAV) || "[]"); return Array.isArray(v) ? v : []; } catch { return []; } };
+    const saveFavs = (l) => {
+      try { localStorage.setItem(LS_FAV, JSON.stringify(l)); } catch { toast("تعذر الحفظ على هذا المتصفح"); }
+      $("saved-count").textContent = l.length; window.Dalni?.refreshFavBadge();
+    };
+    let favs = loadFavs();
+    const isFav = (id) => favs.some((f) => String(f.id) === String(id));
+    function toggleFav(i) {
+      if (isFav(i.id)) favs = favs.filter((f) => String(f.id) !== String(i.id));
+      else favs.push({ id: i.id, name: nameOf(i), city: i.city, type: i.type });
+      saveFavs(favs); return isFav(i.id);
+    }
+
+    const state = { items: [], payload: null, compare: [], map: null, layer: null, markers: {}, cityPins: {}, filter: "all", sort: "match", fitOnly: false, freeOnly: false, first: true };
+    const byIdItem = (id) => state.items.find((i) => String(i.id) === String(id));
+    function visible() {
+      let a = state.items.filter((i) =>
+        (state.filter === "all" || i.type === state.filter) &&
+        (!state.fitOnly || budgetFit(i)?.ok) &&
+        (!state.freeOnly || i.meta?.costIls === 0));
+      if (state.sort === "cost") a = [...a].sort((x, y) => (x.meta?.costIls ?? 1e9) - (y.meta?.costIls ?? 1e9));
+      return a;
+    }
+    function reasonTags(i) {
+      const r = [], pl = state.payload, m = i.meta; if (!pl) return r;
+      if (pl.Cities.includes(i.city)) r.push("مدينتك");
+      if (m) {
+        if (pl.TripTypes.includes(m.tripType)) r.push("نوع الرحلة");
+        if (m.ageGroup === "All" || m.ageGroup === pl.AgeGroup) r.push("الفئة العمرية");
+      }
+      return r;
+    }
+    function directionsUrl(i) {
+      const p = locOf(i);
+      const q = p?.exact ? p.ll.join(",") : encodeURIComponent(`${nameOf(i)} ${cityLabel(i.city)} فلسطين`);
+      return `https://www.google.com/maps/search/?api=1&query=${q}`;
+    }
+
+    function ring(pct) {
+      const r = 15.5, c = 2 * Math.PI * r;
+      return `<div class="relative size-11 rounded-full bg-card shadow-md ring-2 ring-card" role="img" aria-label="ملاءمة ${pct}٪" title="ملاءمة ${pct}٪">
+        <svg viewBox="0 0 40 40" class="size-11 -rotate-90"><circle cx="20" cy="20" r="${r}" fill="none" stroke="var(--muted)" stroke-width="4"/><circle cx="20" cy="20" r="${r}" fill="none" stroke="var(--terracotta)" stroke-width="4" stroke-linecap="round" stroke-dasharray="${(c * pct / 100).toFixed(1)} ${c.toFixed(1)}"/></svg>
+        <span class="absolute inset-0 grid place-items-center font-display text-[13px] font-bold">${pct}</span></div>`;
+    }
+    const iconBtn = "grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground";
+
+    function cardHTML(i, idx = 0) {
+      const m = i.meta, bf = budgetFit(i), img = imgOf(i), p = locOf(i), d = descOf(i) || autoDesc(i);
+      const tags = reasonTags(i), fav = isFav(i.id), cmp = state.compare.includes(String(i.id)), name = nameOf(i);
+      const free = m?.costIls === 0;
+      const pills = [
+        free ? `<span class="rounded-full bg-olive/10 px-2.5 py-1 font-semibold text-olive">دخول مجاني</span>` : "",
+        !free && m?.costIls != null ? `<span class="text-muted-foreground">${esc(m.costIls)} ₪ للشخص</span>` : "",
+        !free && bf ? `<span class="rounded-full px-2.5 py-1 font-semibold ${bf.ok ? "bg-olive/10 text-olive" : "bg-terracotta/10 text-terracotta"}">${bf.t}</span>` : "",
+      ].join("");
+      return `
+      <li id="card-${esc(i.id)}" class="${state.first ? "reveal" : ""}" style="--d:${Math.min(idx, 8) * 60}ms">
+        <article class="flex h-full flex-col overflow-hidden rounded-2xl border bg-card transition-shadow hover:shadow-lg hover:shadow-primary/10">
+          <div class="relative aspect-[16/10] w-full">
+            <div class="absolute inset-0 overflow-hidden" style="background:linear-gradient(135deg,var(--olive),var(--terracotta))">
+              <div class="tatreez-pattern absolute inset-0 opacity-[0.12]"></div>
+              <div class="absolute inset-0 grid place-items-center text-white/70"><i data-lucide="${TYPE_ICON[i.type] || "map-pin"}" class="size-10"></i></div>
+              ${img ? `<img src="${esc(img)}" alt="${esc(name)}" loading="lazy" class="absolute inset-0 h-full w-full object-cover" onerror="this.remove()" />` : ""}
+              <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-hero/40 to-transparent"></div>
+            </div>
+            <span class="absolute start-3 top-3 rounded-full bg-hero/75 px-2.5 py-1 font-display text-xs font-bold text-hero-foreground backdrop-blur">#${esc(i.rank)}</span>
+            <span class="absolute bottom-3 start-3 rounded-full bg-card/90 px-2.5 py-1 text-xs font-semibold backdrop-blur">${esc(typeLabel(i.type))}</span>
+            <div class="absolute -bottom-5 end-4 z-10">${ring(i.pct)}</div>
+          </div>
+          <div class="flex flex-1 flex-col px-5 pb-5 pt-7">
+            <h3 class="text-lg font-bold leading-snug">${i.linked ? `<a href="place.html?id=${encodeURIComponent(i.id)}" class="hover:text-terracotta">${esc(name)}</a>` : esc(name)}</h3>
+            <p class="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground"><i data-lucide="map-pin" class="size-4"></i>${esc(cityLabel(i.city))}${p && !p.exact ? `<span class="text-xs">— موقع تقريبي</span>` : ""}</p>
+            <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">${esc(d)}</p>
+            ${pills ? `<div class="mt-3 flex flex-wrap items-center gap-2 text-xs">${pills}</div>` : ""}
+            ${tags.length ? `<p class="mt-3 text-xs text-muted-foreground"><span class="font-bold text-terracotta">مطابق لـ</span> ${tags.map(esc).join("، ")}</p>` : ""}
+            <div class="mt-auto flex items-center justify-between gap-2 pt-5">
+              ${i.linked ? `<a href="place.html?id=${encodeURIComponent(i.id)}" class="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:text-terracotta">عرض التفاصيل <i data-lucide="arrow-left" class="size-4"></i></a>` : "<span></span>"}
+              <div class="flex items-center gap-1.5">
+                ${i.linked ? `<button type="button" data-fav="${esc(i.id)}" aria-pressed="${fav}" class="fav-btn inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-3 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"><i data-lucide="heart" class="size-4"></i><span>${fav ? "محفوظ" : "حفظ"}</span></button>` : ""}
+                <button type="button" data-cmp="${esc(i.id)}" aria-pressed="${cmp}" aria-label="أضف للمقارنة" title="أضف للمقارنة" class="cmp-btn ${iconBtn}"><i data-lucide="columns-2" class="size-4"></i></button>
+                <button type="button" data-map="${esc(i.id)}" aria-label="على الخريطة" title="على الخريطة" class="${iconBtn}"><i data-lucide="map-pinned" class="size-4"></i></button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </li>`;
+    }
+    const refreshCard = (i) => { const li = $("card-" + i.id); if (li) { li.outerHTML = cardHTML(i); lucide.createIcons(); } };
+
+    function renderFilters() {
+      const types = [...new Set(state.items.map((i) => i.type).filter(Boolean))];
+      const chip = (v, l, n) => `<button type="button" data-type="${esc(v)}" aria-pressed="${state.filter === v}" class="${CHIP}">${esc(l)} <span class="opacity-70">${n}</span></button>`;
+      $("type-filters").innerHTML = chip("all", "الكل", state.items.length) + types.map((t) => chip(t, typeLabel(t), state.items.filter((i) => i.type === t).length)).join("");
+      const tg = (k, l, on) => `<button type="button" data-toggle="${k}" aria-pressed="${on}" class="${CHIP}">${l}</button>`;
+      $("toggle-filters").innerHTML = (state.payload ? tg("fit", "ضمن ميزانيتي", state.fitOnly) : "") + tg("free", "دخول مجاني", state.freeOnly);
+      $("toolbar").classList.remove("hidden"); $("toolbar").classList.add("flex");
+    }
+    function renderSummary() {
+      const a = state.items, avg = a.length ? Math.round(a.reduce((s, i) => s + i.pct, 0) / a.length) : 0;
+      const free = a.filter((i) => i.meta?.costIls === 0).length;
+      const n = (v) => `<b class="font-display text-base text-foreground">${v}</b>`;
+      $("stats").className = "mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground";
+      $("stats").innerHTML = `<span>${n(a.length)} مكان مقترح</span><span>${n(avg + "٪")} متوسط الملاءمة</span>${free ? `<span>${n(free)} بدخول مجاني</span>` : ""}`;
+      const pl = state.payload; if (!pl) return;
+      const c = (t) => `<span class="rounded-full border border-border bg-card px-3 py-1 text-xs font-medium">${esc(t)}</span>`;
+      $("pref-chips").innerHTML = [...pl.Cities.map(cityLabel), ...pl.TripTypes.map((t) => TRIP_LABELS[t]), AGE_LABELS[pl.AgeGroup], `${pl.GroupSize} أشخاص`, `ميزانية ${pl.Budget} ₪`].map(c).join("");
+    }
+    function showSkeleton() {
+      const card = `<li class="overflow-hidden rounded-2xl border bg-card"><div class="aspect-[16/10] animate-pulse bg-muted"></div><div class="space-y-3 p-5 pt-7"><div class="h-5 w-2/3 animate-pulse rounded bg-muted"></div><div class="h-4 w-1/3 animate-pulse rounded bg-muted"></div><div class="h-4 w-full animate-pulse rounded bg-muted"></div></div></li>`;
+      $("results-container").innerHTML = `<ol class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true">${card.repeat(6)}</ol>`;
+    }
+    function renderResults() {
+      const list = visible();
+      $("results-container").innerHTML = list.length
+        ? `<ol id="grid" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">${list.map((i, k) => cardHTML(i, k)).join("")}</ol>`
+        : `<div class="rounded-2xl border bg-card p-10 text-center text-muted-foreground"><p>ما في أماكن بهاي الفلاتر.</p><button type="button" data-reset class="mt-4 rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:border-primary/40">إلغاء الفلاتر</button></div>`;
+      state.first = false; lucide.createIcons(); renderMap();
+    }
+    function renderEmpty(msg) {
+      $("results-container").innerHTML = `<div class="rounded-2xl border bg-card p-10 text-center text-muted-foreground"><p>${esc(msg)}</p>
+        <div class="mt-5 flex flex-wrap justify-center gap-2"><a href="preferences.html" class="rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground">عدّل تفضيلاتك</a>
+        <button type="button" id="empty-saved" class="rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:border-primary/40">عرض المحفوظة</button></div></div>`;
+      $("empty-saved").addEventListener("click", () => showTab("saved"));
+    }
+
+    function renderSaved() {
+      const v = $("view-saved");
+      if (!favs.length) {
+        v.innerHTML = `<div class="rounded-2xl border bg-card p-10 text-center"><i data-lucide="heart" class="mx-auto size-8 text-terracotta"></i>
+          <p class="mt-3 font-bold">ما حفظت أي مكان لسا</p><p class="mt-1 text-sm text-muted-foreground">اضغط على القلب بأي بطاقة وبيظهر المكان هون.</p>
+          <button type="button" data-goto="results" class="mt-5 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground">شوف التوصيات</button></div>`;
+        lucide.createIcons(); return;
+      }
+      v.innerHTML = `<div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-lg font-bold">أماكنك المحفوظة <span class="text-sm font-medium text-muted-foreground">(${favs.length})</span></h2>
+          <div class="flex gap-2">
+            <button type="button" id="saved-copy" class="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold hover:border-primary/40"><i data-lucide="copy" class="size-4"></i>نسخ القائمة</button>
+            <button type="button" id="saved-clear" class="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold text-muted-foreground hover:border-destructive/40 hover:text-destructive"><i data-lucide="trash-2" class="size-4"></i>مسح الكل</button>
+          </div></div>
+        <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">${favs.map((f) => `
+        <li class="flex items-start justify-between gap-3 rounded-2xl border bg-card p-4">
+          <div class="min-w-0">
+            <a href="place.html?id=${encodeURIComponent(f.id)}" class="block font-bold leading-snug hover:text-terracotta">${esc(f.name)}</a>
+            <p class="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground"><i data-lucide="map-pin" class="size-4"></i>${esc(cityLabel(f.city))}${f.type ? ` — ${esc(typeLabel(f.type))}` : ""}</p>
+          </div>
+          <button type="button" data-unsave="${esc(f.id)}" aria-label="إزالة من المحفوظة" class="grid size-8 shrink-0 place-items-center rounded-full text-muted-foreground hover:bg-muted hover:text-destructive"><i data-lucide="trash-2" class="size-4"></i></button>
+        </li>`).join("")}</ul>`;
+      lucide.createIcons();
+    }
+    function showTab(name) {
+      const saved = name === "saved";
+      $("view-results").classList.toggle("hidden", saved); $("view-saved").classList.toggle("hidden", !saved);
+      $("tab-results").setAttribute("aria-selected", String(!saved)); $("tab-saved").setAttribute("aria-selected", String(saved));
+      if (saved) renderSaved(); else if (state.map) setTimeout(() => state.map.invalidateSize(), 50);
+    }
+    $("tab-results").addEventListener("click", () => showTab("results"));
+    $("tab-saved").addEventListener("click", () => showTab("saved"));
+    $("view-saved").addEventListener("click", async (e) => {
+      const un = e.target.closest("[data-unsave]"), go = e.target.closest("[data-goto]");
+      if (go) return showTab("results");
+      if (e.target.closest("#saved-copy")) {
+        const text = "أماكني المحفوظة — دلني\n" + favs.map((f, k) => `${k + 1}. ${f.name} (${cityLabel(f.city)})`).join("\n");
+        try { await navigator.clipboard.writeText(text); toast("تم نسخ القائمة"); } catch { toast("تعذر النسخ"); }
+        return;
+      }
+      if (e.target.closest("#saved-clear")) {
+        if (!confirm("بدك تمسح كل الأماكن المحفوظة؟")) return;
+        favs = []; saveFavs(favs); renderSaved(); if (state.items.length) renderResults(); return;
+      }
+      if (!un) return;
+      favs = favs.filter((f) => String(f.id) !== un.dataset.unsave); saveFavs(favs); renderSaved();
+      const h = document.querySelector(`[data-fav="${CSS.escape(un.dataset.unsave)}"]`);
+      if (h) { h.setAttribute("aria-pressed", "false"); h.querySelector("span").textContent = "حفظ"; }
+    });
+
+    const linkTo = (i) => `<a href="place.html?id=${encodeURIComponent(i.id)}">${esc(nameOf(i))}</a>`;
+    function renderMap() {
+      const wrap = $("map-wrap");
+      if (typeof L === "undefined") { wrap.classList.add("hidden"); return; }
+      wrap.classList.remove("hidden");
+      if (!state.map) {
+        state.map = L.map("map", { scrollWheelZoom: false });
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, attribution: "&copy; OpenStreetMap" }).addTo(state.map);
+        state.layer = L.layerGroup().addTo(state.map);
+      }
+      state.layer.clearLayers(); state.markers = {}; state.cityPins = {};
+      const list = visible(), pts = [], approx = {}; let exactN = 0, approxN = 0;
+      list.forEach((i) => {
+        const p = locOf(i); if (!p) return;
+        if (p.exact) {
+          exactN++; pts.push(p.ll);
+          const mk = L.marker(p.ll, { icon: L.divIcon({ className: "", html: `<div class="pin">${esc(i.rank)}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] }) })
+            .addTo(state.layer).bindPopup(`<strong>${esc(nameOf(i))}</strong><br>${esc(cityLabel(i.city))}<br>${linkTo(i)}`);
+          mk.on("click", () => hilite(i.id)); state.markers[i.id] = mk;
+        } else { approxN++; (approx[i.city] = approx[i.city] || { ll: p.ll, items: [] }).items.push(i); }
+      });
+      Object.entries(approx).forEach(([city, g]) => {
+        pts.push(g.ll);
+        state.cityPins[city] = L.marker(g.ll, { icon: L.divIcon({ className: "", html: `<div class="pin pin-city">${g.items.length}</div>`, iconSize: [34, 34], iconAnchor: [17, 17] }) })
+          .addTo(state.layer).bindPopup(`<strong>${esc(cityLabel(city))}</strong><br><small>موقع تقريبي: مركز المدينة</small><ul style="margin:.4rem 0 0;padding:0;list-style:none">${g.items.map((i) => `<li>${linkTo(i)}</li>`).join("")}</ul>`);
+      });
+      const parts = [];
+      if (exactN) parts.push(`${exactN} ${exactN === 1 ? "مكان" : "أماكن"} بموقع دقيق (دبوس مرقّم)`);
+      if (approxN) parts.push(`${approxN} ${approxN === 1 ? "مكان" : "أماكن"} عند مركز مدينتها (دائرة منقطة بعددها)`);
+      $("map-note").textContent = parts.join(" — ");
+      if (pts.length) state.map.fitBounds(pts, { padding: [30, 30], maxZoom: 14 }); else state.map.setView([31.95, 35.25], 8);
+      setTimeout(() => state.map.invalidateSize(), 50);
+    }
+    function hilite(id, scroll = true) {
+      document.querySelectorAll(".card-on").forEach((e) => e.classList.remove("card-on"));
+      const li = $("card-" + id); if (!li) return; li.classList.add("card-on");
+      if (scroll) li.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    function focusMap(id) {
+      const i = byIdItem(id), p = i && locOf(i); if (!p) return toast("ما في موقع متاح لهذا المكان");
+      const mk = state.markers[id] || state.cityPins[i.city]; if (!mk) return;
+      $("map-wrap").scrollIntoView({ behavior: "smooth", block: "center" });
+      state.map.flyTo(p.ll, p.exact ? 15 : 11, { duration: 0.8 });
+      setTimeout(() => mk.openPopup(), 850); hilite(id, false);
+    }
+
+    function updateCompareBar() {
+      const n = state.compare.length, names = state.compare.map((id) => byIdItem(id)).filter(Boolean).map(nameOf);
+      $("compare-bar").classList.toggle("hidden", n === 0); $("compare-bar").classList.toggle("flex", n > 0);
+      $("compare-text").textContent = n === 1 ? `${names[0]} — اختر مكاناً ثانياً` : names.join("  ⇄  ");
+      $("compare-go").disabled = n < 2;
+    }
+    function compareRows(a, b) {
+      const dash = "—", f = (fn) => [fn(a), fn(b)];
+      const row = (l, x, y) => `<tr class="border-t"><th scope="row" class="w-1/4 py-3 pe-3 text-start align-top text-xs font-bold text-muted-foreground">${l}</th><td class="py-3 pe-3 align-top text-sm">${x}</td><td class="py-3 align-top text-sm">${y}</td></tr>`;
+      const rows = [
+        ["المدينة", ...f((i) => esc(cityLabel(i.city)))],
+        ["النوع", ...f((i) => esc(typeLabel(i.type)) || dash)],
+        ["مؤشر الملاءمة", ...f((i) => `<strong>${i.pct}٪</strong>`)],
+        ["التكلفة التقديرية", ...f((i) => (i.meta && i.meta.costIls != null ? (i.meta.costIls === 0 ? "مجاني" : `${i.meta.costIls} ₪ للشخص`) : dash))],
+        ["ملاءمة الميزانية", ...f((i) => budgetFit(i)?.t || dash)],
+        ["مستوى الميزانية", ...f((i) => (i.meta ? esc(BUDGET_LABELS[i.meta.budgetLevel] || i.meta.budgetLevel) : dash))],
+        ["نوع الرحلة", ...f((i) => (i.meta ? esc(TRIP_LABELS[i.meta.tripType] || i.meta.tripType) : dash))],
+        ["الفئة العمرية", ...f((i) => (i.meta ? esc(AGE_LABELS[i.meta.ageGroup] || i.meta.ageGroup) : dash))],
+        ["الوصف", ...f((i) => `<span class="leading-relaxed text-muted-foreground">${esc(descOf(i) || autoDesc(i))}</span>`)],
+      ];
+      const head = (i) => `<th class="pb-3 pe-3 text-start align-top">${imgOf(i) ? `<img src="${esc(imgOf(i))}" alt="" referrerpolicy="no-referrer" class="mb-2 h-24 w-full rounded-xl object-cover" onerror="this.remove()" />` : ""}<span class="text-base font-bold">${esc(nameOf(i))}</span></th>`;
+      return `<table class="w-full min-w-[460px] table-fixed border-collapse"><thead><tr><th class="w-1/4"></th>${head(a)}${head(b)}</tr></thead><tbody>${rows.map((r) => row(...r)).join("")}</tbody></table>`;
+    }
+    $("compare-go").addEventListener("click", () => {
+      const [a, b] = state.compare.map(byIdItem); if (!a || !b) return;
+      $("compare-body").innerHTML = compareRows(a, b); openModal("modal-compare");
+    });
+    $("compare-clear").addEventListener("click", () => {
+      state.compare = []; document.querySelectorAll(".cmp-btn").forEach((b) => b.setAttribute("aria-pressed", "false")); updateCompareBar();
+    });
+
+    $("view-results").addEventListener("click", (e) => {
+      const t = e.target, favB = t.closest("[data-fav]"), cmpB = t.closest("[data-cmp]"), mapB = t.closest("[data-map]"),
+        typeB = t.closest("[data-type]"), togB = t.closest("[data-toggle]"), resetB = t.closest("[data-reset]");
+      if (resetB) { state.filter = "all"; state.fitOnly = false; state.freeOnly = false; renderFilters(); renderResults(); }
+      else if (typeB) { state.filter = typeB.dataset.type; renderFilters(); renderResults(); }
+      else if (togB) { const k = togB.dataset.toggle === "fit" ? "fitOnly" : "freeOnly"; state[k] = !state[k]; renderFilters(); renderResults(); }
+      else if (mapB) focusMap(mapB.dataset.map);
+      else if (favB) {
+        const i = byIdItem(favB.dataset.fav); if (!i) return;
+        const on = toggleFav(i); favB.setAttribute("aria-pressed", String(on)); favB.querySelector("span").textContent = on ? "محفوظ" : "حفظ";
+        if (on) toast("انحفظ المكان");
+      } else if (cmpB) {
+        const id = cmpB.dataset.cmp;
+        if (state.compare.includes(id)) state.compare = state.compare.filter((x) => x !== id);
+        else if (state.compare.length >= 2) return toast("بتقدر تقارن مكانين بس");
+        else state.compare.push(id);
+        cmpB.setAttribute("aria-pressed", String(state.compare.includes(id))); updateCompareBar();
+      }
+    });
+    $("sort").addEventListener("change", (e) => { state.sort = e.target.value; renderResults(); });
+
+    const shareUrl = () => location.href.split(/[?#]/)[0] + "?s=" + encodePayload(state.payload);
+    $("share-btn").addEventListener("click", () => {
+      if (!state.payload) return;
+      const url = shareUrl(); $("share-link").value = url;
+      $("share-warning").classList.toggle("hidden", !/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && location.protocol !== "file:");
+      const qr = $("share-qr"); qr.innerHTML = "";
+      try { new QRCode(qr, { text: url, width: 176, height: 176, correctLevel: QRCode.CorrectLevel.M }); } catch { qr.textContent = "تعذر إنشاء رمز QR"; }
+      $("share-native").classList.toggle("hidden", !navigator.share); openModal("modal-share");
+    });
+    $("share-copy").addEventListener("click", async () => {
+      const input = $("share-link");
+      try { await navigator.clipboard.writeText(input.value); } catch { input.select(); document.execCommand("copy"); }
+      toast("تم نسخ الرابط");
+    });
+    $("share-native").addEventListener("click", () => navigator.share({ title: "توصياتي على دلني", url: $("share-link").value }).catch(() => { }));
+
+    (async function init() {
+      lucide.createIcons(); $("saved-count").textContent = favs.length;
+      const subtitle = $("subtitle"), params = new URLSearchParams(location.search);
+      if (params.get("tab") === "saved") showTab("saved");
+      let payload = null, raw = null; const shared = params.get("s");
+      if (shared) {
+        payload = decodePayload(shared);
+        if (!payload) { subtitle.textContent = "الرابط غير صالح."; renderEmpty("هذا الرابط غير صالح أو تالف."); return; }
+        subtitle.textContent = "جارٍ تحميل التوصيات... (أول طلب ممكن ياخد لحظات)"; showSkeleton();
+        try {
+          raw = await fetchRecommendations(payload);
+          sessionStorage.setItem("aiTravelResults", JSON.stringify(raw)); sessionStorage.setItem("aiTravelPrefs", JSON.stringify(payload));
+        } catch (err) { console.error(err); subtitle.textContent = ""; renderEmpty(errText(err)); return; }
+      } else {
+        try { raw = JSON.parse(sessionStorage.getItem("aiTravelResults") || "null"); payload = sanitizePayload(JSON.parse(sessionStorage.getItem("aiTravelPrefs") || "null")); } catch { raw = null; }
+      }
+      const items = raw ? normalizeResponse(raw) : null;
+      if (!items || !items.length) { subtitle.textContent = "لا توجد نتائج بعد."; renderEmpty("ما لقينا نتائج محفوظة. جرّب تعدّل تفضيلاتك من جديد."); return; }
+
+      subtitle.textContent = "جارٍ تحميل تفاصيل الأماكن..."; showSkeleton();
+      const imgIdx = window.Dalni ? await window.Dalni.imageIndex() : new Map();
+      await Promise.all(items.map(async (i) => {
+        i.meta = i.linked ? await loadMeta(i) : null;
+        if (i.meta?.city) i.city = i.meta.city;
+        if (!imgOf(i)) { const n = window.Dalni.normName, e = imgIdx.get(n(i.meta?.nameEn || "")) || imgIdx.get(n(i.name)); if (e) i.image = safeUrl(e.image); }
+      }));
+      state.items = items; state.payload = payload;
+      subtitle.textContent = "مرتبة من الأعلى إلى الأقل ملاءمة لتفضيلاتك";
+      if (payload) { $("share-btn").classList.remove("hidden"); $("share-btn").classList.add("inline-flex"); }
+      try { sessionStorage.setItem("dalni:items", JSON.stringify(items.map((i) => ({ id: i.id, linked: i.linked, name: nameOf(i), city: i.city, type: i.type, pct: i.pct, rank: i.rank })))); } catch { }
+      renderSummary(); renderFilters(); renderResults();
+    })();
+  </script>
 </body>
+
 </html>
