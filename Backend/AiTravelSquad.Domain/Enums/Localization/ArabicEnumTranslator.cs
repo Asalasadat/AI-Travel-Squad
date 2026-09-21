@@ -3,39 +3,46 @@
 namespace AiTravelSquad.Domain.Enums.Localization
 {
     /// <summary>
-    /// Translates our English-based enums (used internally and with the
-    /// frontend's English contract) into the exact Arabic strings the
-    /// AI team's model expects, since their API and dataset work in Arabic
-    /// for these categorical inputs.
+    /// Translates our English-based enums into the exact Arabic strings
+    /// expected by the AI recommendation model.
     /// </summary>
     public static class ArabicEnumTranslator
     {
         private static readonly Dictionary<City, string> CityMap = new()
         {
-            [Domain.Enums.City.Qalqilya] = "قلقيلية",
-            [Domain.Enums.City.Tubas] = "طوباس",
-            [Domain.Enums.City.Jenin] = "جنين",
-            [Domain.Enums.City.Tulkarm] = "طولكرم",
-            [Domain.Enums.City.Nablus] = "نابلس",
-            [Domain.Enums.City.Jerusalem] = "القدس",
-            [Domain.Enums.City.Bethlehem] = "بيت لحم",
-            [Domain.Enums.City.Jericho] = "أريحا",
-            [Domain.Enums.City.Hebron] = "الخليل",
-            [Domain.Enums.City.Ramallah] = "رام الله"
+            [City.Qalqilya] = "قلقيلية",
+            [City.Tubas] = "طوباس",
+            [City.Jenin] = "جنين",
+            [City.Tulkarm] = "طولكرم",
+            [City.Nablus] = "نابلس",
+            [City.Jerusalem] = "القدس",
+            [City.Bethlehem] = "بيت لحم",
+            [City.Jericho] = "أريحا",
+            [City.Hebron] = "الخليل",
+            [City.Ramallah] = "رام الله"
         };
 
         private static readonly Dictionary<TripType, string> TripTypeMap = new()
         {
-            [Domain.Enums.TripType.Religious] = "ديني",
-            [Domain.Enums.TripType.Cultural] = "ثقافي",
-            [Domain.Enums.TripType.Adventure] = "مغامرة",
-            [Domain.Enums.TripType.Family] = "عائلي",
-            [Domain.Enums.TripType.Relaxing] = "استرخاء",
-            [Domain.Enums.TripType.Educational] = "تعليمي"
+            [TripType.Religious] = "ديني",
+            [TripType.Cultural] = "ثقافي",
+            [TripType.Adventure] = "مغامرة",
+            [TripType.Family] = "عائلي",
+            [TripType.Relaxing] = "استرخاء",
+            [TripType.Educational] = "تعليمي"
+        };
+
+        private static readonly Dictionary<AgeGroup, string> AgeGroupMap = new()
+        {
+            [AgeGroup.All] = "الجميع",
+            [AgeGroup.Family] = "عائلة",
+            [AgeGroup.Youth] = "شباب"
         };
 
         public static string ToArabic(City city) => CityMap[city];
 
         public static string ToArabic(TripType tripType) => TripTypeMap[tripType];
+
+        public static string ToArabic(AgeGroup ageGroup) => AgeGroupMap[ageGroup];
     }
 }

@@ -16,6 +16,9 @@ namespace AiTravelSquad.Infrastructure.ExternalServices.AiModel
         [JsonPropertyName("trip_types_ar")]
         public List<string> TripTypesAr { get; set; } = new();
 
+        [JsonPropertyName("ages_ar")]
+        public List<string> AgeGroupAr { get; set; } = new();
+
         [JsonPropertyName("total_budget")]
         public decimal TotalBudget { get; set; }
 
@@ -26,3 +29,4 @@ namespace AiTravelSquad.Infrastructure.ExternalServices.AiModel
         public int TopN { get; set; } = 10;
     }
 }
+

@@ -59,6 +59,10 @@ namespace AiTravelSquad.Domain.Entities
         [MaxLength(1000)]
         public string? DescriptionAr { get; set; }
 
+        /// <summary>Image URL of the tourist place</summary>
+      [MaxLength(2000)]
+public string? ImageUrl { get; set; }
+
         /// <summary>Latitude coordinate, sourced from the AI team's dataset</summary>
         public double? Latitude { get; set; }
 
