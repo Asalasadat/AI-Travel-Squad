@@ -18,14 +18,12 @@ class RecommendationService {
     final url = Uri.parse('$baseUrl/recommendations');
 
     try {
-      debugPrint('==============================');
       debugPrint('START RECOMMENDATION REQUEST');
       debugPrint('URL: $url');
       debugPrint('Cities: $cities');
       debugPrint('Trip Types: $tripTypes');
       debugPrint('Budget: $totalBudget');
       debugPrint('People: $peopleOver10');
-      debugPrint('==============================');
 
       final requestBody = {
         'cities': cities,
