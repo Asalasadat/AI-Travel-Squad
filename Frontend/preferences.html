@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>تفضيلات رحلتك — دلني</title>
   <meta name="description"
-    content="حدّد المدن والميزانية وعدد الأشخاص ونوع الرحلة والفئة العمرية لتحصل على توصيات سياحية فلسطينية مناسبة." />
+    content="حدّد المدن ونوع الرحلة وعدد الأشخاص والميزانية لتحصل على توصيات سياحية فلسطينية مناسبة." />
   <meta property="og:title" content="تفضيلات رحلتك — دلني" />
   <meta property="og:description" content="أخبرنا بتفضيلاتك لنرشّح لك أنسب المواقع في فلسطين." />
   <meta name="theme-color" content="#3d4a30" />
@@ -27,44 +27,22 @@
       theme: {
         extend: {
           colors: {
-            background: "var(--background)",
-            foreground: "var(--foreground)",
-            card: "var(--card)",
-            "card-foreground": "var(--card-foreground)",
-            primary: "var(--primary)",
-            "primary-foreground": "var(--primary-foreground)",
-            secondary: "var(--secondary)",
-            "secondary-foreground": "var(--secondary-foreground)",
-            muted: "var(--muted)",
-            "muted-foreground": "var(--muted-foreground)",
-            accent: "var(--accent)",
-            "accent-foreground": "var(--accent-foreground)",
-            destructive: "var(--destructive)",
-            "destructive-foreground": "var(--destructive-foreground)",
-            border: "var(--border)",
-            input: "var(--input)",
-            ring: "var(--ring)",
-            olive: "var(--olive)",
-            "olive-foreground": "var(--olive-foreground)",
-            sand: "var(--sand)",
-            terracotta: "var(--terracotta)",
-            "terracotta-foreground": "var(--terracotta-foreground)",
-            copper: "var(--copper)",
-            hero: "var(--hero)",
-            "hero-foreground": "var(--hero-foreground)",
+            background: "var(--background)", foreground: "var(--foreground)", card: "var(--card)",
+            primary: "var(--primary)", "primary-foreground": "var(--primary-foreground)",
+            secondary: "var(--secondary)", "secondary-foreground": "var(--secondary-foreground)",
+            muted: "var(--muted)", "muted-foreground": "var(--muted-foreground)",
+            destructive: "var(--destructive)", border: "var(--border)", input: "var(--input)", ring: "var(--ring)",
+            olive: "var(--olive)", sand: "var(--sand)", terracotta: "var(--terracotta)",
+            "terracotta-foreground": "var(--terracotta-foreground)", copper: "var(--copper)",
+            hero: "var(--hero)", "hero-foreground": "var(--hero-foreground)",
           },
           fontFamily: {
             sans: ["Noto Kufi Arabic", "IBM Plex Sans Arabic", "ui-sans-serif", "system-ui", "sans-serif"],
             display: ["Cairo", "sans-serif"],
           },
           borderRadius: {
-            sm: "calc(var(--radius) - 4px)",
-            md: "calc(var(--radius) - 2px)",
-            lg: "var(--radius)",
-            xl: "calc(var(--radius) + 4px)",
-            "2xl": "calc(var(--radius) + 8px)",
-            "3xl": "calc(var(--radius) + 12px)",
-            "4xl": "calc(var(--radius) + 16px)",
+            sm: "calc(var(--radius) - 4px)", md: "calc(var(--radius) - 2px)", lg: "var(--radius)",
+            xl: "calc(var(--radius) + 4px)", "2xl": "calc(var(--radius) + 8px)", "3xl": "calc(var(--radius) + 12px)",
           },
         },
       },
@@ -77,9 +55,7 @@
       --background: oklch(0.955 0.019 88);
       --foreground: oklch(0.38 0.052 119);
       --card: oklch(0.985 0.008 88);
-      --card-foreground: oklch(0.38 0.052 119);
       --olive: oklch(0.38 0.052 119);
-      --olive-foreground: oklch(0.97 0.015 88);
       --sand: oklch(0.84 0.045 82);
       --terracotta: oklch(0.49 0.11 38);
       --terracotta-foreground: oklch(0.97 0.015 88);
@@ -89,10 +65,7 @@
       --secondary-foreground: oklch(0.32 0.045 119);
       --muted: oklch(0.91 0.025 87);
       --muted-foreground: oklch(0.48 0.025 92);
-      --accent: oklch(0.49 0.11 38);
-      --accent-foreground: oklch(0.97 0.015 88);
       --destructive: oklch(0.577 0.245 27.325);
-      --destructive-foreground: oklch(0.98 0.01 95);
       --border: oklch(0.8 0.038 84);
       --input: oklch(0.8 0.038 84);
       --ring: oklch(0.49 0.11 38);
@@ -115,280 +88,251 @@
     .font-display {
       font-family: "Cairo", sans-serif;
     }
+
+    .chip[aria-pressed="true"] {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
   </style>
 
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body class="bg-background text-foreground">
+<body data-nav="solid" class="bg-background text-foreground">
 
-  <div class="mx-auto min-h-screen max-w-xl px-6 py-10">
-    <a href="index.html"
-      class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground">
-      <i data-lucide="arrow-right" class="size-4"></i>
-      العودة للرئيسية
-    </a>
+  <main class="mx-auto max-w-5xl px-5 pb-20 pt-10 sm:px-8">
+    <h1 class="text-3xl font-extrabold sm:text-4xl">أخبرنا عن رحلتك</h1>
+    <p class="mt-2 text-muted-foreground">خمس خطوات بسيطة، ونرشّح لك أنسب الأماكن في فلسطين.</p>
 
-    <h1 class="mt-6 text-3xl font-bold">أخبرنا عن رحلتك</h1>
-    <p class="mt-2 text-muted-foreground">خمسة أسئلة بسيطة، ونرشّح لك أنسب الأماكن في فلسطين.</p>
+    <form id="prefs-form" class="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_19rem]" novalidate>
 
-    <form id="prefs-form" class="mt-8 space-y-5">
+      <div class="divide-y divide-border overflow-hidden rounded-3xl border bg-card">
 
-      <!-- Cities -->
-      <fieldset class="rounded-2xl border bg-card p-5">
-        <legend class="flex items-center gap-2 px-1 text-sm font-bold">
-          <i data-lucide="map-pin" class="size-4 text-terracotta"></i>
-          المدن
-        </legend>
-        <p class="mt-1 text-xs text-muted-foreground">يمكنك اختيار أكثر من مدينة.</p>
-        <div class="mt-2 flex flex-wrap gap-2" id="group-city"></div>
-        <p id="city-error" class="mt-2 hidden text-sm font-medium text-destructive">اختر مدينة واحدة على الأقل</p>
-      </fieldset>
+        <fieldset class="p-6 sm:p-7">
+          <legend class="flex items-center gap-2 font-display text-base font-bold">
+            <span
+              class="grid size-6 place-items-center rounded-full bg-terracotta font-display text-xs text-terracotta-foreground">1</span>
+            المدن
+          </legend>
+          <p class="mt-1 text-sm text-muted-foreground">اختر مدينة أو أكثر.</p>
+          <div id="group-city" class="mt-4 flex flex-wrap gap-2"></div>
+          <p id="city-error" class="mt-3 hidden text-sm font-medium text-destructive">اختر مدينة واحدة على الأقل</p>
+        </fieldset>
 
-      <!-- Budget -->
-      <fieldset class="rounded-2xl border bg-card p-5">
-        <legend class="flex items-center gap-2 px-1 text-sm font-bold">
-          <i data-lucide="wallet" class="size-4 text-terracotta"></i>
-          الميزانية (₪)
-        </legend>
-        <div class="mt-2">
-          <input id="field-budget" type="number" min="1" step="1" inputmode="numeric" placeholder="مثال: 200"
-            aria-label="الميزانية بالشيكل"
-            class="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+        <fieldset class="p-6 sm:p-7">
+          <legend class="flex items-center gap-2 font-display text-base font-bold">
+            <span
+              class="grid size-6 place-items-center rounded-full bg-terracotta font-display text-xs text-terracotta-foreground">2</span>
+            نوع الرحلة
+          </legend>
+          <p class="mt-1 text-sm text-muted-foreground">اختر نوع أو أكثر.</p>
+          <div id="group-triptype" class="mt-4 flex flex-wrap gap-2"></div>
+          <p id="triptype-error" class="mt-3 hidden text-sm font-medium text-destructive">اختر نوع رحلة واحداً على
+            الأقل</p>
+        </fieldset>
+
+        <fieldset class="p-6 sm:p-7">
+          <legend class="flex items-center gap-2 font-display text-base font-bold">
+            <span
+              class="grid size-6 place-items-center rounded-full bg-terracotta font-display text-xs text-terracotta-foreground">3</span>
+            الفئة العمرية
+          </legend>
+          <p class="mt-1 text-sm text-muted-foreground">اختر الفئة الأنسب لمجموعتك.</p>
+          <div id="group-age" class="mt-4 flex flex-wrap gap-2"></div>
+          <p id="age-error" class="mt-3 hidden text-sm font-medium text-destructive">اختر الفئة العمرية</p>
+        </fieldset>
+
+        <fieldset class="p-6 sm:p-7">
+          <legend class="flex items-center gap-2 font-display text-base font-bold">
+            <span
+              class="grid size-6 place-items-center rounded-full bg-terracotta font-display text-xs text-terracotta-foreground">4</span>
+            عدد الأشخاص
+          </legend>
+          <div class="mt-4 flex items-center justify-between gap-4">
+            <p class="max-w-xs text-sm text-muted-foreground">احسب الأشخاص اللي أعمارهم فوق 10 سنوات بس، الأطفال دون 10
+              ما بينحسبوا.</p>
+            <div class="flex items-center gap-3">
+              <button id="n-dec" type="button" aria-label="أقل"
+                class="grid size-10 place-items-center rounded-full border border-border bg-card text-xl leading-none transition-colors hover:border-primary/40 disabled:opacity-40">−</button>
+              <output id="n-val" class="w-8 text-center font-display text-2xl font-extrabold"
+                aria-live="polite">2</output>
+              <button id="n-inc" type="button" aria-label="أكثر"
+                class="grid size-10 place-items-center rounded-full border border-border bg-card text-xl leading-none transition-colors hover:border-primary/40 disabled:opacity-40">+</button>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="p-6 sm:p-7">
+          <legend class="flex items-center gap-2 font-display text-base font-bold">
+            <span
+              class="grid size-6 place-items-center rounded-full bg-terracotta font-display text-xs text-terracotta-foreground">5</span>
+            الميزانية
+          </legend>
+          <p class="mt-1 text-sm text-muted-foreground">الميزانية الإجمالية لكل المجموعة بالشيكل، مش للفرد الواحد.</p>
+          <div class="relative mt-4">
+            <input id="field-budget" type="number" min="1" step="1" inputmode="numeric" placeholder="مثال: 500"
+              aria-label="الميزانية بالشيكل"
+              class="w-full rounded-xl border border-input bg-card px-4 py-3 pe-12 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+            <span
+              class="pointer-events-none absolute end-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-muted-foreground">₪</span>
+          </div>
+          <div id="budget-quick" class="mt-3 flex flex-wrap gap-2"></div>
+          <p id="budget-error" class="mt-3 hidden text-sm font-medium text-destructive">أدخل ميزانية صحيحة (رقم أكبر من
+            صفر)</p>
+        </fieldset>
+      </div>
+
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <div class="rounded-3xl border bg-card p-6">
+          <h2 class="font-display text-base font-bold">ملخص رحلتك</h2>
+          <dl class="mt-4 space-y-4 text-sm">
+            <div>
+              <dt class="text-xs font-bold text-muted-foreground">المدن</dt>
+              <dd id="sum-cities" class="mt-1"></dd>
+            </div>
+            <div>
+              <dt class="text-xs font-bold text-muted-foreground">نوع الرحلة</dt>
+              <dd id="sum-trips" class="mt-1"></dd>
+            </div>
+            <div>
+              <dt class="text-xs font-bold text-muted-foreground">الفئة العمرية</dt>
+              <dd id="sum-age" class="mt-1 font-semibold"></dd>
+            </div>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <dt class="text-xs font-bold text-muted-foreground">الأشخاص</dt>
+                <dd id="sum-people" class="mt-1 font-semibold"></dd>
+              </div>
+              <div class="text-end">
+                <dt class="text-xs font-bold text-muted-foreground">الميزانية</dt>
+                <dd id="sum-budget" class="mt-1 font-semibold"></dd>
+              </div>
+            </div>
+            <p id="sum-per" class="hidden rounded-xl bg-muted px-3 py-2 text-xs text-muted-foreground"></p>
+          </dl>
+
+          <p id="submit-error" role="alert"
+            class="mt-4 hidden rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-sm font-medium text-destructive">
+          </p>
+
+          <button id="submit-btn" type="submit"
+            class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60">
+            أعطني التوصيات <i data-lucide="arrow-left" class="size-5"></i>
+          </button>
         </div>
-        <p class="mt-2 text-xs text-muted-foreground">الميزانية الإجمالية لجميع الأشخاص الذين تزيد أعمارهم عن 10 سنوات،
-          وليست للفرد الواحد.</p>
-        <p id="budget-error" class="mt-2 hidden text-sm font-medium text-destructive">أدخل ميزانية صحيحة (رقم أكبر من
-          صفر)</p>
-      </fieldset>
-
-      <!-- Group size -->
-      <fieldset class="rounded-2xl border bg-card p-5">
-        <legend class="flex items-center gap-2 px-1 text-sm font-bold">
-          <i data-lucide="users" class="size-4 text-terracotta"></i>
-          عدد الأشخاص (فوق 10 سنوات)
-        </legend>
-        <div class="mt-2">
-          <input id="field-people" type="number" min="1" max="50" value="2" aria-label="عدد الأشخاص"
-            class="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
-        </div>
-        <p class="mt-2 text-xs text-muted-foreground">أدخل عدد الأشخاص الذين تزيد أعمارهم عن 10 سنوات فقط، ولا يُحتسب
-          الأطفال دون 10 سنوات.</p>
-      </fieldset>
-
-      <!-- Trip type -->
-      <fieldset class="rounded-2xl border bg-card p-5">
-        <legend class="flex items-center gap-2 px-1 text-sm font-bold">
-          <i data-lucide="compass" class="size-4 text-terracotta"></i>
-          نوع الرحلة
-        </legend>
-        <p class="mt-1 text-xs text-muted-foreground">يمكنك اختيار أكثر من نوع رحلة.</p>
-        <div class="mt-2 flex flex-wrap gap-2" id="group-triptype">
-          <button type="button" data-value="Adventure"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">مغامرة</button>
-          <button type="button" data-value="Cultural"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">ثقافية</button>
-          <button type="button" data-value="Educational"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">تعليمية</button>
-          <button type="button" data-value="Family"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">عائلية</button>
-          <button type="button" data-value="Relaxing"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">استجمام</button>
-          <button type="button" data-value="Religious"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">دينية</button>
-        </div>
-        <p id="triptype-error" class="mt-2 hidden text-sm font-medium text-destructive">اختر نوع رحلة واحداً على الأقل
-        </p>
-      </fieldset>
-
-      <!-- Age group -->
-      <fieldset class="rounded-2xl border bg-card p-5">
-        <legend class="flex items-center gap-2 px-1 text-sm font-bold">
-          <i data-lucide="star" class="size-4 text-terracotta"></i>
-          الفئة العمرية
-        </legend>
-        <div class="mt-2 flex flex-wrap gap-2" id="group-agegroup" data-selected="Family">
-          <button type="button" data-value="All"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">الجميع</button>
-          <button type="button" data-value="Family"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-primary bg-primary text-primary-foreground">عائلي</button>
-          <button type="button" data-value="Youth"
-            class="chip rounded-full border px-4 py-2 text-sm font-medium transition-colors border-border bg-card hover:border-primary/40">شبابي</button>
-        </div>
-        <p class="mt-2 text-xs text-muted-foreground">اختر الفئة الأنسب لمجموعتك.</p>
-      </fieldset>
-
-      <p id="submit-error"
-        class="hidden rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-sm font-medium text-destructive">
-      </p>
-
-      <button id="submit-btn" type="submit"
-        class="w-full rounded-xl bg-primary px-6 py-4 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60">
-        أعطني التوصيات
-      </button>
+      </aside>
     </form>
-  </div>
+  </main>
 
+  <script src="assets/layout.js"></script>
   <script>
-    lucide.createIcons();
+    const CITIES = [["Jerusalem", "القدس"], ["Bethlehem", "بيت لحم"], ["Hebron", "الخليل"], ["Jenin", "جنين"], ["Jericho", "أريحا"], ["Nablus", "نابلس"], ["Qalqilya", "قلقيلية"], ["Ramallah", "رام الله"], ["Tubas", "طوباس"], ["Tulkarm", "طولكرم"]];
+    const HIDDEN_TRIPS = window.Dalni?.HIDDEN_TRIP_TYPES || ["Family"];
+    const TRIPS = [["Adventure", "مغامرة", "mountain"], ["Cultural", "ثقافية", "theater"], ["Educational", "تعليمية", "graduation-cap"], ["Family", "عائلية", "users"], ["Relaxing", "استجمام", "sun"], ["Religious", "دينية", "church"]]
+      .filter((t) => !HIDDEN_TRIPS.includes(t[0]));
+    const AGES = [["All", "الجميع"], ["Family", "عائلي"], ["Youth", "شبابي"]];
+    const QUICK = [100, 300, 500, 1000];
+    const CITY_LABEL = Object.fromEntries(CITIES), TRIP_LABEL = Object.fromEntries(TRIPS.map((t) => [t[0], t[1]])), AGE_LABEL = Object.fromEntries(AGES);
 
-    const API_BASE = "http://localhost:5286";
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const encodePayload = (p) => btoa(JSON.stringify(p)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 
-    const USE_MOCK = false;
+    const state = { cities: new Set(), trips: new Set(), age: "", size: 2, budget: "" };
+    (function prefill() {
+      let saved = null; try { saved = JSON.parse(sessionStorage.getItem("aiTravelPrefs") || "null"); } catch { }
+      if (saved) {
+        (saved.Cities || []).filter((c) => c in CITY_LABEL).forEach((c) => state.cities.add(c));
+        (saved.TripTypes || []).filter((t) => t in TRIP_LABEL).forEach((t) => state.trips.add(t));
+        if (saved.AgeGroup in AGE_LABEL) state.age = saved.AgeGroup;
+        state.size = Math.min(50, Math.max(1, parseInt(saved.GroupSize, 10) || 2));
+        if (Number(saved.Budget) > 0) state.budget = String(Number(saved.Budget));
+      }
+      const qc = new URLSearchParams(location.search).get("city");
+      if (qc && qc in CITY_LABEL) { state.cities = new Set([qc]); }
+    })();
 
-    function setupChipGroup(groupId) {
-      const group = document.getElementById(groupId);
-      const chips = group.querySelectorAll(".chip");
-      chips.forEach((chip) => {
-        chip.addEventListener("click", () => {
-          chips.forEach((c) => {
-            c.classList.remove("border-primary", "bg-primary", "text-primary-foreground");
-            c.classList.add("border-border", "bg-card", "hover:border-primary/40");
-          });
-          chip.classList.remove("border-border", "bg-card", "hover:border-primary/40");
-          chip.classList.add("border-primary", "bg-primary", "text-primary-foreground");
-          group.dataset.selected = chip.dataset.value;
-        });
+    const CHIP = "chip inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium transition-colors hover:border-primary/40";
+    function buildChips(groupId, list, set, withIcon) {
+      const g = $(groupId);
+      g.innerHTML = list.map(([v, l, icon]) => `<button type="button" data-value="${v}" aria-pressed="${set.has(v)}" class="${CHIP}">${withIcon ? `<i data-lucide="${icon}" class="size-4"></i>` : ""}${l}</button>`).join("");
+      g.addEventListener("click", (e) => {
+        const b = e.target.closest(".chip"); if (!b) return;
+        const v = b.dataset.value; set.has(v) ? set.delete(v) : set.add(v);
+        b.setAttribute("aria-pressed", String(set.has(v)));
+        $(groupId === "group-city" ? "city-error" : "triptype-error").classList.add("hidden");
+        paint();
       });
     }
-    ["group-agegroup"].forEach(setupChipGroup);
-
-    const CHIP_BASE = "chip rounded-full border px-4 py-2 text-sm font-medium transition-colors";
-    const CHIP_ON = ["border-primary", "bg-primary", "text-primary-foreground"];
-    const CHIP_OFF = ["border-border", "bg-card", "hover:border-primary/40"];
-
-    const CITIES = [
-      ["Jerusalem", "القدس"], ["Bethlehem", "بيت لحم"], ["Hebron", "الخليل"],
-      ["Jenin", "جنين"], ["Jericho", "أريحا"], ["Nablus", "نابلس"],
-      ["Qalqilya", "قلقيلية"], ["Ramallah", "رام الله"], ["Tubas", "طوباس"],
-      ["Tulkarm", "طولكرم"],
-    ];
-
-    const cityGroup = document.getElementById("group-city");
-    CITIES.forEach(([value, label]) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.dataset.value = value;
-      b.className = CHIP_BASE;
-      b.textContent = label;
-      cityGroup.appendChild(b);
+    buildChips("group-city", CITIES, state.cities, false);
+    buildChips("group-triptype", TRIPS, state.trips, true);
+    $("group-age").innerHTML = AGES.map(([v, l]) => `<button type="button" data-value="${v}" aria-pressed="${state.age === v}" class="${CHIP}">${l}</button>`).join("");
+    $("group-age").addEventListener("click", (e) => {
+      const b = e.target.closest(".chip"); if (!b) return;
+      state.age = b.dataset.value;
+      $("group-age").querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c === b)));
+      $("age-error").classList.add("hidden"); paint();
+    });
+    $("budget-quick").innerHTML = QUICK.map((n) => `<button type="button" data-q="${n}" class="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground">${n} ₪</button>`).join("");
+    $("budget-quick").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-q]"); if (!b) return;
+      $("field-budget").value = b.dataset.q; state.budget = b.dataset.q; $("budget-error").classList.add("hidden"); paint();
     });
 
-    function setChip(chip, on) {
-      chip.classList.remove(...(on ? CHIP_OFF : CHIP_ON));
-      chip.classList.add(...(on ? CHIP_ON : CHIP_OFF));
-      chip.setAttribute("aria-pressed", String(on));
+    $("n-dec").addEventListener("click", () => { if (state.size > 1) { state.size--; paint(); } });
+    $("n-inc").addEventListener("click", () => { if (state.size < 50) { state.size++; paint(); } });
+    $("field-budget").value = state.budget;
+    $("field-budget").addEventListener("input", (e) => { state.budget = e.target.value; $("budget-error").classList.add("hidden"); paint(); });
+
+    const pill = (t) => `<span class="rounded-full bg-muted px-2.5 py-1 text-xs font-semibold">${esc(t)}</span>`;
+    const empty = `<span class="text-muted-foreground">—</span>`;
+    function paint() {
+      $("n-val").textContent = state.size; $("n-dec").disabled = state.size <= 1; $("n-inc").disabled = state.size >= 50;
+      $("sum-cities").innerHTML = state.cities.size ? `<div class="flex flex-wrap gap-1.5">${[...state.cities].map((c) => pill(CITY_LABEL[c])).join("")}</div>` : empty;
+      $("sum-trips").innerHTML = state.trips.size ? `<div class="flex flex-wrap gap-1.5">${[...state.trips].map((t) => pill(TRIP_LABEL[t])).join("")}</div>` : empty;
+      $("sum-age").innerHTML = state.age ? esc(AGE_LABEL[state.age]) : empty;
+      $("sum-people").textContent = `${state.size} ${state.size === 1 ? "شخص" : "أشخاص"}`;
+      const b = Number(state.budget), ok = b > 0;
+      $("sum-budget").textContent = ok ? `${b} ₪` : "—";
+      const per = $("sum-per");
+      per.classList.toggle("hidden", !ok);
+      if (ok) per.textContent = `يعني تقريباً ${Math.round(b / state.size)} ₪ للشخص الواحد.`;
     }
+    lucide.createIcons(); paint();
 
-    function setupMultiChipGroup(groupId) {
-      document.querySelectorAll(`#${groupId} .chip`).forEach((chip) => {
-        setChip(chip, false);
-        chip.addEventListener("click", () => {
-          setChip(chip, chip.getAttribute("aria-pressed") !== "true");
-        });
-      });
-    }
-
-    function getSelected(groupId) {
-      return [...document.querySelectorAll(`#${groupId} .chip[aria-pressed="true"]`)]
-        .map((c) => c.dataset.value);
-    }
-
-    setupMultiChipGroup("group-city");
-    setupMultiChipGroup("group-triptype");
-
-    const form = document.getElementById("prefs-form");
-    const submitBtn = document.getElementById("submit-btn");
-    const cityError = document.getElementById("city-error");
-    const budgetError = document.getElementById("budget-error");
-    const tripTypeError = document.getElementById("triptype-error");
-    const submitError = document.getElementById("submit-error");
-    const SUBMIT_LABEL = "أعطني التوصيات";
-
-    function resetSubmit() {
-      submitBtn.disabled = false;
-      submitBtn.textContent = SUBMIT_LABEL;
-    }
-    function showError(msg) {
-      submitError.textContent = msg;
-      submitError.classList.remove("hidden");
-      resetSubmit();
-    }
-    window.addEventListener("pageshow", resetSubmit);
-
-    form.addEventListener("submit", async (e) => {
+    const form = $("prefs-form"), submitBtn = $("submit-btn");
+    window.addEventListener("pageshow", () => { submitBtn.disabled = false; });
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
-      submitError.classList.add("hidden");
-      cityError.classList.add("hidden");
-      budgetError.classList.add("hidden");
-      tripTypeError.classList.add("hidden");
-
-      const cities = getSelected("group-city");
-      const tripTypes = getSelected("group-triptype");
-      const budget = Number(document.getElementById("field-budget").value);
-
-      if (!cities.length) cityError.classList.remove("hidden");
-      if (!budget || budget <= 0) budgetError.classList.remove("hidden");
-      if (!tripTypes.length) tripTypeError.classList.remove("hidden");
-      if (!cities.length || !budget || budget <= 0 || !tripTypes.length) return;
-
-      const payload = {
-        Cities: cities,
-        TripTypes: tripTypes,
-        AgeGroup: document.getElementById("group-agegroup").dataset.selected,
-        GroupSize: Math.min(50, Math.max(1, Number(document.getElementById("field-people").value) || 1)),
-        Budget: budget,
-      };
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = "جارٍ التحميل...";
-
-      try {
-        if (USE_MOCK) {
-          const mock = {
-            recommendationRequestId: 1,
-            totalResults: 3,
-            recommendations: [
-              { placeId: 1, placeName: "كنيسة المهد", placeType: "Religious", city: "Bethlehem", description: "من أقدم الكنائس المأهولة في العالم.", matchScore: 0.92, rankOrder: 1 },
-              { placeId: 2, placeName: "البلدة القديمة", placeType: "Historic Old City", city: "Nablus", description: "أسواق وحمامات وصابون نابلسي.", matchScore: 0.85, rankOrder: 2 },
-              { placeId: 3, placeName: "تل السلطان", placeType: "Archaeological", city: "Jericho", description: "من أقدم مدن العالم.", matchScore: 0.78, rankOrder: 3 },
-            ],
-          };
-          sessionStorage.setItem("aiTravelResults", JSON.stringify(mock));
-          sessionStorage.setItem("aiTravelPrefs", JSON.stringify(payload));
-          window.location.href = "results.html";
-          return;
-        }
-
-        const res = await fetch(`${API_BASE}/api/Recommendations`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
-        const body = await res.json().catch(() => null);
-
-        if (!res.ok) {
-          console.error("API error", res.status, body);
-          const details = body?.errors ? Object.values(body.errors).flat().join(" • ") : "";
-          showError([body?.message || `تعذر جلب التوصيات (${res.status}).`, details].filter(Boolean).join(" — "));
-          return;
-        }
-
-        if (!body || !Array.isArray(body.recommendations)) {
-          console.error("Unexpected response shape", body);
-          showError("شكل الرد من الخادم غير متوقع، افتحي الـ Console للتفاصيل.");
-          return;
-        }
-
-        sessionStorage.setItem("aiTravelResults", JSON.stringify(body));
-        sessionStorage.setItem("aiTravelPrefs", JSON.stringify(payload));
-        window.location.href = "results.html";
-      } catch (err) {
-        console.error("Network/CORS error", err);
-        showError("تعذر الاتصال بالخادم. تأكدي أن الـ API شغّال، وأن الصفحة مفتوحة من أحد الـ origins المسموحة.");
+      $("submit-error").classList.add("hidden");
+      const budget = Number(state.budget);
+      const badCity = !state.cities.size, badTrip = !state.trips.size, badAge = !state.age, badBudget = !(budget > 0) || budget > 1e7;
+      $("city-error").classList.toggle("hidden", !badCity);
+      $("triptype-error").classList.toggle("hidden", !badTrip);
+      $("age-error").classList.toggle("hidden", !badAge);
+      $("budget-error").classList.toggle("hidden", !badBudget);
+      if (badCity || badTrip || badAge || badBudget) {
+        const first = badCity ? "group-city" : badTrip ? "group-triptype" : badAge ? "group-age" : "field-budget";
+        $(first).scrollIntoView({ behavior: "smooth", block: "center" }); return;
       }
+      const payload = { Cities: [...state.cities], TripTypes: [...state.trips], AgeGroup: state.age, GroupSize: state.size, Budget: budget };
+      submitBtn.disabled = true;
+      try {
+        sessionStorage.setItem("aiTravelPrefs", JSON.stringify(payload));
+        sessionStorage.removeItem("aiTravelResults"); sessionStorage.removeItem("dalni:items");
+      } catch { }
+      window.location.href = "results.html?s=" + encodePayload(payload);
     });
   </script>
 </body>
