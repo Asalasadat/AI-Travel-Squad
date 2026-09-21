@@ -63,9 +63,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
       body: CustomScrollView(
         slivers: [
-          // =========================
-          // Header Image
-          // =========================
+       
           SliverAppBar(
             expandedHeight: 280,
             pinned: true,
@@ -102,9 +100,6 @@ class PlaceDetailsScreen extends StatelessWidget {
             ),
           ),
 
-          // =========================
-          // Page Content
-          // =========================
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -138,9 +133,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  // =========================
-                  // Type
-                  // =========================
+        
                   Chip(
                     avatar: const Icon(
                       Icons.category,
@@ -160,9 +153,6 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 25),
 
-                  // =========================
-                  // Description
-                  // =========================
                   const Text(
                     "Description",
                     style: TextStyle(
@@ -183,9 +173,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 30),
 
-                  // =========================
-                  // AI Matching
-                  // =========================
+                  
                   const Text(
                     "AI Matching",
                     style: TextStyle(
@@ -221,9 +209,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 35),
 
-                  // =========================
-                  // Favorite Button
-                  // =========================
+              
                   SizedBox(
                     width: double.infinity,
                     height: 55,
@@ -306,9 +292,7 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 15),
 
-                  // =========================
-                  // Similar Places
-                  // =========================
+      
                   SizedBox(
                     width: double.infinity,
                     height: 55,
