@@ -153,7 +153,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body class="overflow-x-hidden bg-background text-foreground">
+<body data-nav="overlay" class="overflow-x-hidden bg-background text-foreground">
 
   <section class="relative min-h-[94svh] bg-hero text-hero-foreground">
     <img src="assets/jerusalem-hero.jpg" width="1920" height="1080" alt="إطلالة على البلدة القديمة في القدس عند الغروب"
@@ -161,52 +161,8 @@
     <div class="absolute inset-0 hero-gradient"></div>
     <div class="absolute inset-0 tatreez-pattern opacity-10"></div>
 
-    <header class="relative z-30 border-b border-hero-foreground/20 text-hero-foreground">
-      <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
-        <a href="index.html" class="group flex items-center gap-3" aria-label="دلني — الرئيسية">
-          <span class="grid size-14 shrink-0 place-items-center rounded-xl bg-background/95 p-1">
-            <img src="assets/logo.png" alt="" class="h-full w-full object-contain" />
-          </span></a>
-        <nav class="hidden items-center gap-8 text-sm font-semibold md:flex" aria-label="التنقل الرئيسي">
-          <a href="index.html" class="transition-colors hover:text-copper">الرئيسية</a>
-          <a href="#how" class="transition-colors hover:text-copper">كيف يعمل</a>
-          <a href="#places" class="transition-colors hover:text-copper">وجهات مختارة</a>
-        </nav>
-        <a href="preferences.html"
-          class="hidden items-center rounded-md bg-sand px-5 py-2.5 text-sm font-bold text-foreground transition-all hover:-translate-y-0.5 hover:bg-sand/90 sm:inline-flex">
-          خطط رحلتك
-        </a>
-        <button type="button" id="menu-toggle" class="grid size-10 place-items-center sm:hidden"
-          aria-label="فتح القائمة" aria-expanded="false" aria-controls="mobile-menu">
-          <i data-lucide="menu" class="size-5" id="menu-icon-open"></i>
-          <i data-lucide="x" class="size-5 hidden" id="menu-icon-close"></i>
-        </button>
-      </div>
-
-      <!-- dropdown menu -->
-      <nav id="mobile-menu" class="border-t border-hero-foreground/20 bg-hero/95 backdrop-blur-md sm:hidden"
-        aria-label="التنقل - موبايل">
-        <ul class="flex flex-col gap-1 px-5 py-4 text-sm font-semibold">
-          <li><a href="index.html"
-              class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-hero-foreground/10 hover:text-copper">الرئيسية</a>
-          </li>
-          <li><a href="#how"
-              class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-hero-foreground/10 hover:text-copper">كيف
-              يعمل</a></li>
-          <li><a href="#places"
-              class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-hero-foreground/10 hover:text-copper">وجهات
-              مختارة</a></li>
-          <li class="pt-1">
-            <a href="preferences.html"
-              class="block rounded-md bg-sand px-3 py-2.5 text-center font-bold text-foreground transition-colors hover:bg-sand/90">خطط
-              رحلتك</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-
     <div
-      class="relative z-20 mx-auto flex min-h-[calc(94svh-5rem)] max-w-7xl items-center px-5 pb-32 pt-12 sm:px-8 sm:pb-28">
+      class="relative z-20 mx-auto flex min-h-[94svh] max-w-7xl items-center px-5 pb-32 pt-28 sm:px-8 sm:pb-28">
       <div class="max-w-3xl">
         <p class="mb-6 inline-flex items-center gap-2 border-r-2 border-copper pr-3 text-sm font-semibold text-sand">
           <i data-lucide="sparkles" class="size-4"></i> توصيات ذكية بروح فلسطينية
@@ -233,7 +189,7 @@
     <div class="absolute inset-x-0 bottom-0 z-10 border-t border-hero-foreground/20 bg-hero/45 backdrop-blur-md">
       <div class="mx-auto grid max-w-7xl grid-cols-3 px-5 py-4 sm:px-8">
         <div class="border-l border-hero-foreground/15 px-3 text-center last:border-0">
-          <strong class="block font-display text-lg text-sand sm:text-2xl">+18</strong>
+          <strong class="block font-display text-lg text-sand sm:text-2xl">+300</strong>
           <span class="text-[10px] text-hero-foreground/70 sm:text-xs">وجهة حقيقية</span>
         </div>
         <div class="border-l border-hero-foreground/15 px-3 text-center last:border-0">
@@ -346,96 +302,7 @@
       </a>
     </div>
   </section>
-
-  <footer class="relative overflow-hidden border-t bg-card">
-    <div class="absolute inset-y-0 left-0 w-1/4 tatreez-pattern opacity-[0.08]"></div>
-    <div class="relative mx-auto max-w-7xl px-5 py-16 sm:px-8">
-      <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-4">
-        <div class="md:col-span-2">
-          <div class="flex items-center gap-3">
-            <span class="grid size-12 shrink-0 place-items-center rounded-xl bg-background/90 p-1">
-              <img src="assets/logo.png" alt="" class="h-full w-full object-contain" />
-            </span>
-            <span class="font-display text-lg font-extrabold">دلني</span>
-          </div>
-          <p class="mt-4 max-w-sm text-sm leading-7 text-muted-foreground">نساعدك تكتشف فلسطين من زاوية أقرب لك —
-            وجهات حقيقية، مرتبة بذكاء حسب اهتماماتك وميزانيتك ووقتك.</p>
-          <div class="mt-5 flex items-center gap-3">
-            <a href="#" aria-label="إنستغرام"
-              class="grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-terracotta hover:text-terracotta">
-              <i data-lucide="instagram" class="size-4"></i>
-            </a>
-            <a href="#" aria-label="فيسبوك"
-              class="grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-terracotta hover:text-terracotta">
-              <i data-lucide="facebook" class="size-4"></i>
-            </a>
-            <a href="mailto:hello@aitravelsquad.ps" aria-label="راسلنا"
-              class="grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-terracotta hover:text-terracotta">
-              <i data-lucide="mail" class="size-4"></i>
-            </a>
-          </div>
-        </div>
-
-        <div>
-          <h5 class="font-display text-sm font-bold text-foreground">استكشف</h5>
-          <ul class="mt-4 space-y-3 text-sm text-muted-foreground">
-            <li><a href="index.html" class="transition-colors hover:text-terracotta">الرئيسية</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">خطط رحلتك</a></li>
-            <li><a href="#places" class="transition-colors hover:text-terracotta">وجهات مختارة</a></li>
-            <li><a href="#how" class="transition-colors hover:text-terracotta">كيف يعمل</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h5 class="font-display text-sm font-bold text-foreground">مدن نغطّيها</h5>
-          <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 text-sm text-muted-foreground">
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">القدس</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">بيت لحم</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">نابلس</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">الخليل</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">رام الله</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">أريحا</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">جنين</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">طولكرم</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">قلقيلية</a></li>
-            <li><a href="preferences.html" class="transition-colors hover:text-terracotta">طوباس</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div
-        class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
-        <span>© 2026 دلني. جميع الحقوق محفوظة.</span>
-        <span>نكتشف فلسطين بعيون جديدة</span>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    lucide.createIcons();
-
-    const menuToggle = document.getElementById("menu-toggle");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const iconOpen = document.getElementById("menu-icon-open");
-    const iconClose = document.getElementById("menu-icon-close");
-
-    menuToggle.addEventListener("click", () => {
-      const isOpen = mobileMenu.classList.toggle("open");
-      menuToggle.setAttribute("aria-expanded", String(isOpen));
-      menuToggle.setAttribute("aria-label", isOpen ? "إغلاق القائمة" : "فتح القائمة");
-      iconOpen.classList.toggle("hidden", isOpen);
-      iconClose.classList.toggle("hidden", !isOpen);
-    });
-
-    mobileMenu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        mobileMenu.classList.remove("open");
-        menuToggle.setAttribute("aria-expanded", "false");
-        iconOpen.classList.remove("hidden");
-        iconClose.classList.add("hidden");
-      });
-    });
-  </script>
+  <script src="assets/layout.js"></script>
 </body>
 
 </html>
