@@ -476,8 +476,7 @@
               <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-hero/40 to-transparent"></div>
             </div>
             <span class="absolute start-3 top-3 rounded-full bg-hero/75 px-2.5 py-1 font-display text-xs font-bold text-hero-foreground backdrop-blur">#${esc(i.rank)}</span>
-            <span class="absolute bottom-3 start-3 rounded-full bg-card/90 px-2.5 py-1 text-xs font-semibold backdrop-blur">${esc(typeLabel(i.type))}</span>
-            <div class="absolute -bottom-5 end-4 z-10">${ring(i.pct)}</div>
+<span class="absolute bottom-3 start-3 rounded-full border border-sand bg-sand px-3 py-1 text-xs font-bold text-secondary-foreground shadow-md">${esc(typeLabel(i.type))}</span>            <div class="absolute -bottom-5 end-4 z-10">${ring(i.pct)}</div>
           </div>
           <div class="flex flex-1 flex-col px-5 pb-5 pt-7">
             <h3 class="text-lg font-bold leading-snug">${i.linked ? `<a href="place.html?id=${encodeURIComponent(i.id)}" class="hover:text-terracotta">${esc(name)}</a>` : esc(name)}</h3>
