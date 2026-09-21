@@ -18,7 +18,7 @@
 ## ⚙️ مبدأ عمل التطبيق:
 تتم رحلة المستخدم داخل التطبيق بالشكل التالي:
 
-```text
+
 شاشة البداية
      ↓
 الصفحة الرئيسية
@@ -83,7 +83,7 @@
 
 حاليًا يعتمد نظام المطابقة بشكل أساسي على:
 
-```text
+
 المدينة
    +
 نوع الرحلة
@@ -91,11 +91,11 @@
 مطابقة الأماكن
    ↓
 عرض الأماكن المناسبة
-```
+
 
 ويتم عرض نسبة توافق لكل مكان مثل:
 
-```text
+
 AI Match: 95%
 ```
 
@@ -109,7 +109,6 @@ AI Match: 95%
 
 في أعلى الشاشة يتم عرض التفضيلات التي اختارها المستخدم:
 
-```text
 Your Preferences
 
 📍 Nablus
@@ -117,7 +116,6 @@ Your Preferences
 🥾 Historical
 👤 Adults
 👥 2 People
-```
 
 ثم تظهر قائمة الأماكن المناسبة.
 
@@ -158,13 +156,12 @@ Your Preferences
 
 مثال:
 
-```text
+
 Favorites
 
 ❤️ البلدة القديمة
 ❤️ قصر هشام
 ❤️ سبسطية
-```
 
 ---
 
@@ -187,12 +184,10 @@ Edit Preferences
    ↓
 Find Destinations
    ↓
-نتائج جديدة
-```
+نتائج جديدة`
 
 وبذلك يستطيع المستخدم تجربة أكثر من مجموعة من التفضيلات.
 
----
 
 # 📥 9️⃣ تحميل دليل السفر
 
@@ -202,7 +197,6 @@ Find Destinations
 
 ويتم عرض حالة التحميل للمستخدم مثل:
 
-```text
 Connecting...
 Downloading 35%
 Downloading 80%
@@ -212,7 +206,6 @@ Download completed successfully!
 
 وفي حالة ضعف الاتصال يتم إظهار رسالة مناسبة للمستخدم بدل فشل العملية بدون توضيح.
 
----
 
 # 🧩 أهم خصائص التطبيق
 
@@ -247,7 +240,7 @@ Download completed successfully!
 
 تم استخدام مكونات Flutter الجاهزة مثل:
 
-```text
+
 Scaffold
 AppBar
 Card
@@ -256,13 +249,12 @@ TextFormField
 ElevatedButton
 LinearProgressIndicator
 ListView
-```
 
----
+
+
 
 # 📂 هيكل المشروع
 
-```text
 lib/
 │
 ├── main.dart
@@ -282,15 +274,10 @@ lib/
     ├── place_details.dart
     ├── favorites_screen.dart
     └── download_screen.dart
-```
-
----
 
 # 🔄 تدفق البيانات داخل التطبيق
 
-تنتقل بيانات المستخدم من شاشة التفضيلات إلى شاشة النتائج:
-
-```text
+تنتقل بيانات المستخدم من شاشة التفضيلات إلى شاشة النتائج 
 Preferences Screen
         │
         ├── City
@@ -320,7 +307,7 @@ Preferences Screen
 
 مثال:
 
-```dart
+
 PlaceModel(
   name: "Old City",
   city: "Jerusalem",
@@ -329,11 +316,11 @@ PlaceModel(
   image: "...",
   score: 98,
 )
-```
+
 
 ويحتوي النموذج على:
 
-```text
+
 name
 city
 type
