@@ -14,7 +14,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
   bool isDownloading = false;
   bool isDownloaded = false;
 
-  String status = "Ready to download";
+  String status = "الدليل جاهز للتنزيل";
 
   static const String fileUrl =
       "https://raw.githubusercontent.com/Asalasadat/AI-Travel-Squad/main/ai_travel_squad_summary.pdf";
@@ -22,12 +22,12 @@ class _DownloadScreenState extends State<DownloadScreen> {
   void downloadGuide() {
     setState(() {
       isDownloading = true;
-      status = "Preparing travel guide...";
+      status = "الدليل جاهز للتنزيل";
     });
 
     final anchor = html.AnchorElement(href: fileUrl)
       ..setAttribute(
-        "download",
+        "تحميل",
         "ai_travel_squad_summary.pdf",
       )
       ..target = "_blank";
@@ -41,13 +41,13 @@ class _DownloadScreenState extends State<DownloadScreen> {
     setState(() {
       isDownloading = false;
       isDownloaded = true;
-      status = "Download started successfully!";
+      status = "جارٍ تنزيل الدليل السياحي...";
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
-          "Travel guide download started!",
+          "بدأ تنزيل الدليل السياحي!",
         ),
       ),
     );
@@ -64,7 +64,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
 
       appBar: AppBar(
         title: const Text(
-          "Download Travel Guide",
+          "تحميل الدليل السياحي",
         ),
         centerTitle: true,
       ),
@@ -91,7 +91,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                 const SizedBox(height: 30),
 
                 const Text(
-                  "Palestine Travel Guide",
+                  "دليل السفر في فلسطين",
                   textAlign: TextAlign.center,
 
                   style: TextStyle(
@@ -103,8 +103,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                 const SizedBox(height: 15),
 
                 const Text(
-                  "Download the AI Travel Squad "
-                  "tourism guide and explore Palestine.",
+                  "حمّل دليل AI Travel Squad السياحي واستكشف أجمل الوجهات السياحية في فلسطين.",
                   textAlign: TextAlign.center,
 
                   style: TextStyle(
@@ -145,8 +144,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
 
                     label: Text(
                       isDownloaded
-                          ? "Download Again"
-                          : "Download Travel Guide",
+                          ? "تحميل الدليل مرة أخرى"
+                          : "تحميل الدليل السياحي",
                     ),
 
                     style: ElevatedButton.styleFrom(
@@ -176,7 +175,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                       ),
 
                       label: const Text(
-                        "Open Travel Guide",
+                        "فتح الدليل السياحي",
                       ),
 
                       style: OutlinedButton.styleFrom(
