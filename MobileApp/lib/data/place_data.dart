@@ -537,4 +537,3 @@ PlaceModel(
   longitude: 35.5495,
 ),
 ];
-
