@@ -3,22 +3,33 @@ using AiTravelSquad.Infrastructure.ExternalServices.AiModel;
 using AiTravelSquad.Infrastructure.SeedData.Csv;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add database context
+// ============================================================
+// DATABASE
+// ============================================================
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add Identity
+// ============================================================
+// IDENTITY
+// ============================================================
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// AI Recommendation API client
+// ============================================================
+// AI RECOMMENDATION API CLIENT
+// ============================================================
+
 builder.Services.AddHttpClient<AiRecommendationClient>(client =>
 {
     var aiApiBaseUrl = builder.Configuration["AiApi:BaseUrl"]
@@ -28,7 +39,10 @@ builder.Services.AddHttpClient<AiRecommendationClient>(client =>
     client.Timeout = TimeSpan.FromSeconds(60);
 });
 
+// ============================================================
 // CORS
+// ============================================================
+
 const string FrontendCorsPolicy = "FrontendCorsPolicy";
 
 builder.Services.AddCors(options =>
@@ -51,6 +65,46 @@ builder.Services.AddCors(options =>
     });
 });
 
+// ============================================================
+// RATE LIMITING
+// ============================================================
+
+// Protects the recommendation endpoint from receiving
+// an unlimited number of requests from the same IP.
+//
+// Limit: 10 requests per minute per IP address.
+// Extra requests receive HTTP 429 Too Many Requests.
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode =
+        StatusCodes.Status429TooManyRequests;
+
+    options.AddPolicy("recommendations", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey:
+                httpContext.Connection.RemoteIpAddress?.ToString()
+                ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+
+                Window = TimeSpan.FromMinutes(1),
+
+                QueueProcessingOrder =
+                    QueueProcessingOrder.OldestFirst,
+
+                // Do not queue requests after reaching the limit.
+                QueueLimit = 0,
+
+                AutoReplenishment = true
+            }));
+});
+
+// ============================================================
+// CONTROLLERS
+// ============================================================
+
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
     {
@@ -67,7 +121,8 @@ builder.Services.AddControllers()
                             .ToArray();
 
                         if (x.Key == "request" &&
-                            context.ModelState.Keys.Any(k => k.StartsWith("$.")))
+                            context.ModelState.Keys.Any(
+                                k => k.StartsWith("$.")))
                         {
                             return Array.Empty<string>();
                         }
@@ -75,7 +130,9 @@ builder.Services.AddControllers()
                         return messages;
                     })
                 .Where(x => x.Value.Length > 0)
-                .ToDictionary(x => x.Key, x => x.Value);
+                .ToDictionary(
+                    x => x.Key,
+                    x => x.Value);
 
             return new BadRequestObjectResult(new
             {
@@ -95,7 +152,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
 
 // ============================================================
 // CSV DATA IMPORT / IMAGE URL UPDATE
@@ -183,13 +239,14 @@ using (var scope = app.Services.CreateScope())
 
             foreach (var csvPlace in csvPlaces)
             {
-                if (string.IsNullOrWhiteSpace(csvPlace.PlaceName))
+                if (string.IsNullOrWhiteSpace(
+                        csvPlace.PlaceName))
                 {
                     continue;
                 }
 
                 // Match using the English PlaceName because
-                // PlaceNameAr is currently empty in the database.
+                // PlaceNameAr may be empty in existing database records.
                 var existingPlace =
                     existingPlaces.FirstOrDefault(p =>
                         !string.IsNullOrWhiteSpace(p.PlaceName) &&
@@ -203,7 +260,7 @@ using (var scope = app.Services.CreateScope())
                     continue;
                 }
 
-                // Update Arabic name if it is available.
+                // Update Arabic name.
                 if (!string.IsNullOrWhiteSpace(
                         csvPlace.PlaceNameAr))
                 {
@@ -213,7 +270,7 @@ using (var scope = app.Services.CreateScope())
                     updatedArabicData++;
                 }
 
-                // Update Arabic description if available.
+                // Update Arabic description.
                 if (!string.IsNullOrWhiteSpace(
                         csvPlace.DescriptionAr))
                 {
@@ -248,7 +305,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-
 // ============================================================
 // HTTP PIPELINE
 // ============================================================
@@ -261,10 +317,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseCors(FrontendCorsPolicy);
 
-app.UseAuthentication();
+// Rate limiting middleware
+app.UseRateLimiter();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
