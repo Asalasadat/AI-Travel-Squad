@@ -1,39 +1,55 @@
-
 class RecommendationModel {
+  final int placeId;
   final String placeName;
-  final String description;
+  final String placeType;
   final String city;
-  final String tripType;
-  final double estimatedCost;
-  final double totalCost;
-  final double recommendationScore;
+  final String description;
+  final String? imageUrl;
+  final double matchScore;
+  final int rankOrder;
 
   RecommendationModel({
+    required this.placeId,
     required this.placeName,
-    required this.description,
+    required this.placeType,
     required this.city,
-    required this.tripType,
-    required this.estimatedCost,
-    required this.totalCost,
-    required this.recommendationScore,
+    required this.description,
+    required this.imageUrl,
+    required this.matchScore,
+    required this.rankOrder,
   });
 
   factory RecommendationModel.fromMap(Map<String, dynamic> map) {
     return RecommendationModel(
-      placeName: map['Place_Name_AR']?.toString() ?? '',
-      description: map['Description_AR']?.toString() ?? '',
-      city: map['City']?.toString() ?? '',
-      tripType: map['Trip_Type']?.toString() ?? '',
-      estimatedCost:
-          double.tryParse(map['Estimated_Cost_ILS']?.toString() ?? '0') ?? 0,
-      totalCost:
-          double.tryParse(map['Total_Cost_ILS']?.toString() ?? '0') ?? 0,
-      recommendationScore:
-          double.tryParse(
-                map['Recommendation_Score']?.toString() ?? '0',
-              ) ??
-              0,
+      placeId: map['placeId'] ?? map['PlaceId'] ?? 0,
+
+      placeName: map['placeName'] ??
+          map['PlaceName'] ??
+          '',
+
+      placeType: map['placeType'] ??
+          map['PlaceType'] ??
+          '',
+
+      city: map['city'] ??
+          map['City'] ??
+          '',
+
+      description: map['description'] ??
+          map['Description'] ??
+          '',
+
+      imageUrl: map['imageUrl'] ??
+          map['ImageUrl'],
+
+      matchScore: (map['matchScore'] ??
+                  map['MatchScore'] ??
+                  0)
+              .toDouble(),
+
+      rankOrder: map['rankOrder'] ??
+          map['RankOrder'] ??
+          0,
     );
   }
 }
-
