@@ -1,17 +1,16 @@
-# *AI Travel Squad* : 
-هو تطبيق موبايل تم تطويره باستخدام **Flutter**، ويهدف إلى مساعدة المستخدمين على اكتشاف الأماكن السياحية في فلسطين واختيار الوجهات المناسبة لهم بناءً على تفضيلات الرحلة.
+# *AI Travel Squad* : This is a mobile application developed using Flutter, designed to help users discover tourist attractions in Palestine and select destinations that suit their specific travel preferences.
 
-يوفر التطبيق تجربة بسيطة وتفاعلية تبدأ من إدخال معلومات الرحلة، ثم تحليل التفضيلات وعرض الأماكن السياحية المناسبة للمستخدم.
+The app offers a simple, interactive experience that begins with the user entering trip details; it then analyzes these preferences to display suitable tourist spots.
 
-## 📌 فكرة المشروع
-تقوم فكرة *AI Travel Squad** على إنشاء مساعد سياحي ذكي يساعد المستخدم على اختيار الأماكن السياحية المناسبة دون الحاجة إلى البحث بشكل يدوي.
-يقوم المستخدم بإدخال معلومات الرحلة مثل:
-* 📍 المدينة
-* 💰 الميزانية
-* 👥 عدد الأشخاص
-* 🥾 نوع الرحلة
-* 👤 الفئة العمرية
-بعد ذلك يقوم التطبيق باستخدام هذه البيانات لعرض الوجهات السياحية الأكثر توافقًا مع اختيارات المستخدم.
+📌 Project Concept
+The "AI Travel Squad" concept centers on creating an intelligent travel assistant that helps users select appropriate tourist attractions without the need for manual searching. Users input trip details such as:
+
+📍 City
+💰 Budget
+👥 Number of people
+🥾 Trip type
+👤 Age group
+The app then uses this data to display the tourist destinations that best align with the user's choices..
 ## ⚙️ مبدأ عمل التطبيق:
 تتم رحلة المستخدم داخل التطبيق بالشكل التالي:
 
