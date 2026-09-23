@@ -103,8 +103,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
                 const SizedBox(height: 15),
 
                 const Text(
-                  "Download the AI Travel Squad "
-                  "tourism guide and explore Palestine.",
+                  "حمّل تطبيق AI Travel Squad"
+                  "دليل سياحي واستكشاف فلسطين.",
                   textAlign: TextAlign.center,
 
                   style: TextStyle(
@@ -145,8 +145,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
 
                     label: Text(
                       isDownloaded
-                          ? "Download Again"
-                          : "Download Travel Guide",
+                          ? "تحميل مرة اخرى"
+                          : "تحميل دليل السفر",
                     ),
 
                     style: ElevatedButton.styleFrom(
@@ -176,7 +176,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                       ),
 
                       label: const Text(
-                        "Open Travel Guide",
+                        "فتح دليل السفر",
                       ),
 
                       style: OutlinedButton.styleFrom(
