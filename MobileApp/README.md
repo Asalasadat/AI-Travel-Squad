@@ -11,7 +11,7 @@ The "AI Travel Squad" concept centers on creating an intelligent travel assistan
 🥾 Trip type
 👤 Age group
 The app then uses this data to display the tourist destinations that best align with the user's choices..
-## ⚙️ ⚙️ App Workflow:
+## ⚙️ App Workflow:
 The user journey within the app proceeds as follows:
 
 Splash Screen ↓ Home Page ↓ Route Preferences ↓ Route Details Input ↓ Data Verification ↓ Suggested Locations ↓ Location Details ↓ Favorites / Explore
