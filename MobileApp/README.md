@@ -11,92 +11,68 @@ The "AI Travel Squad" concept centers on creating an intelligent travel assistan
 🥾 Trip type
 👤 Age group
 The app then uses this data to display the tourist destinations that best align with the user's choices..
-## ⚙️ مبدأ عمل التطبيق:
-تتم رحلة المستخدم داخل التطبيق بالشكل التالي:
+## ⚙️ ⚙️ App Workflow:
+The user journey within the app proceeds as follows:
 
+Splash Screen ↓ Home Page ↓ Route Preferences ↓ Route Details Input ↓ Data Verification ↓ Suggested Locations ↓ Location Details ↓ Favorites / Explore
 
-شاشة البداية
-     ↓
-الصفحة الرئيسية
-     ↓
-تفضيلات الرحلة
-     ↓
-إدخال معلومات الرحلة
-     ↓
-التحقق من البيانات
-     ↓
-الأماكن المقترحة
-     ↓
-تفاصيل المكان
-     ↓
-المفضلة / الاستكشاف
+🧠 System Workflow
+1️⃣ Splash Screen
+Appears upon launching the AI ​​Travel Squad app.
 
-# 🧠 طريقة عمل النظام
+After a brief moment, the app transitions to the Home Page.
 
-## 1️⃣ شاشة البداية — Splash Screen
+2️⃣ Home Page
+Features a brief introduction to the app and displays the main options.
 
-عند تشغيل التطبيق تظهر شاشة البداية الخاصة بـ **AI Travel Squad**.
+The user can begin the journey by tapping:
 
-بعد فترة قصيرة ينتقل التطبيق تلقائيًا إلى الصفحة الرئيسية.
+Start Journey
 
+This leads to the Route Preferences screen..
 
-## 2️⃣ الصفحة الرئيسية — Home Screen
+## 3️⃣ Preferences Screen
 
-تحتوي الصفحة الرئيسية على تعريف بسيط بالتطبيق، بالإضافة إلى الخيارات الرئيسية.
+At this stage, the user enters trip details.
 
-يمكن للمستخدم بدء رحلته من خلال الضغط على:
+### Required Information:
 
-**Start Journey**
+| Data             | Examples
+| 📍 City          | Nablus, Jerusalem, Ramallah, Bethlehem |
+| 💰 Budget        | Low, Medium, High 
+| 👥 Number of People | 1, 2, 3...
+| 🥾 Trip Type     | Historical, Nature, Adventure, Family, Friends 
+| 👤 Age Group     | Children, Youth, Adults, All Ages   
 
-ثم ينتقل إلى شاشة تفضيلات الرحلة.
+Before proceeding to the results, the app verifies that all required information has been entered.
 
-## 3️⃣ تفضيلات الرحلة — Preferences Screen
+If a field is left blank, a message appears prompting the user to complete the information.# 🔍 4️⃣ Recommendation System
 
-في هذه المرحلة يقوم المستخدم بإدخال معلومات الرحلة.
+Upon clicking **Find Destinations**, the data selected by the user is sent to the results screen.
 
-### البيانات المطلوبة:
+The application compares the user's preferences with the data on tourist attractions available within the app.
 
-| البيانات         | أمثلة
-| 📍 المدينة       | نابلس، القدس، رام الله، بيت لحم|
-| 💰 الميزانية     | منخفضة، متوسطة، مرتفعة  
-| 👥 عدد الأشخاص   | 1، 2، 3...
-| 🥾 نوع الرحلة    | تاريخية، طبيعة، مغامرة، عائلية، أصدقاء 
-| 👤 الفئة العمرية | أطفال، شباب، بالغون، جميع الأعمار   
-قبل الانتقال إلى النتائج، يقوم التطبيق بالتحقق من أن جميع البيانات المطلوبة تم إدخالها.
+Currently, the matching system relies primarily on:
 
-إذا كان هناك حقل فارغ، تظهر رسالة للمستخدم تطلب منه إكمال البيانات.
-
-# 🔍 4️⃣ نظام التوصية — Recommendation System
-
-بعد الضغط على **Find Destinations** يتم إرسال البيانات التي اختارها المستخدم إلى شاشة النتائج.
-
-يقوم التطبيق بمقارنة تفضيلات المستخدم مع بيانات الأماكن السياحية الموجودة في التطبيق.
-
-حاليًا يعتمد نظام المطابقة بشكل أساسي على:
-
-
-المدينة
+City
    +
-نوع الرحلة
+Trip Type
    ↓
-مطابقة الأماكن
+Matching Locations
    ↓
-عرض الأماكن المناسبة
+Displaying Suitable Locations
 
-
-ويتم عرض نسبة توافق لكل مكان مثل:
-
+A compatibility score is displayed for each location, such as:
 
 AI Match: 95%
 
-> في النسخة الحالية، نظام التوصية هو نظام مطابقة مبني على البيانات والتفضيلات، ويمكن تطويره مستقبلًا ليستخدم نموذج AI حقيقي.
+> In the current version, the recommendation system is a matching system based on data and preferences; it can be further developed in the future to utilize a genuine AI model..
 
+# 🏛️ 5️⃣ Suggested Places Screen — Results Screen
 
-# 🏛️ 5️⃣ شاشة الأماكن المقترحة — Results Screen
+After processing the preferences, the suggested tourist spots are displayed to the user.
 
-بعد معالجة التفضيلات، تظهر للمستخدم الأماكن السياحية المقترحة.
-
-في أعلى الشاشة يتم عرض التفضيلات التي اختارها المستخدم:
+The preferences selected by the user are displayed at the top of the screen:
 
 Your Preferences
 
@@ -105,82 +81,74 @@ Your Preferences
 🥾 Historical
 👤 Adults
 👥 2 People
+A list of suitable places then appears.
 
-ثم تظهر قائمة الأماكن المناسبة.
+Each place entry includes:
 
-كل مكان يحتوي على:
+* 📷 Place image
+* 📍 City
+* 🏛️ Place type
+* 📝 Brief description
+* 📊 Match percentage
+* 🔎 "View Details" button
 
-* 📷 صورة المكان
-* 📍 المدينة
-* 🏛️ نوع المكان
-* 📝 وصف مختصر
-* 📊 نسبة المطابقة
-* 🔎 زر View Details
+# 🏛️ 6️⃣ Place Details
 
-# 🏛️ 6️⃣ تفاصيل المكان — Place Details
+Selecting a place takes the user to the details page..
 
-عند اختيار أحد الأماكن، ينتقل المستخدم إلى صفحة التفاصيل.
+The page includes:
 
-تحتوي الصفحة على:
+*   A large photo of the place
+*   Name of the place
+*   City
+*   Type of place
+*   Description of the place
+*   Match percentage
+*   ❤️ Add to Favorites
+*   🗺️ Open location on the map
+*   🔎 Suggest similar places
 
-* صورة كبيرة للمكان
-* اسم المكان
-* المدينة
-* نوع المكان
-* وصف المكان
-* نسبة المطابقة
-* ❤️ إضافة إلى المفضلة
-* 🗺️ فتح الموقع على الخريطة
-* 🔎 اقتراح أماكن مشابهة
+# ❤️ 7️⃣ Favorites
 
----
+Users can add places they like to their **Favorites** list.
 
-# ❤️ 7️⃣ المفضلة — Favorites
+This allows them to easily revisit these places later without having to search for them again..
 
-يمكن للمستخدم إضافة الأماكن التي أعجبته إلى قائمة **Favorites**.
-
-وبذلك يستطيع العودة إليها لاحقًا بسهولة بدل البحث عنها مرة أخرى.
-
-مثال:
-
+Example:
 
 Favorites
 
-❤️ البلدة القديمة
-❤️ قصر هشام
-❤️ سبسطية
+❤️ Old City
+❤️ Hisham's Palace
+❤️ Sebastia
 
-# ✏️ 8️⃣ تعديل التفضيلات
+# ✏️ 8️⃣ Edit Preferences
 
-إذا لم تعجب المستخدم النتائج، يمكنه العودة إلى شاشة التفضيلات وتعديل اختياراته.
-
-من خلال زر:
+If the user is not satisfied with the results, they can return to the preferences screen and modify their choices..Using the button:
 
 **Edit Preferences ✏️**
 
-يصبح المسار:
-
+The path becomes:
 
 Results
-   ↓
-Edit Preferences
-   ↓
-تعديل التفضيلات
-   ↓
-Find Destinations
-   ↓
-نتائج جديدة`
 
-وبذلك يستطيع المستخدم تجربة أكثر من مجموعة من التفضيلات.
+↓ Edit Preferences
 
+↓ Modify Preferences
 
-# 📥 9️⃣ تحميل دليل السفر
+↓ Find Destinations
 
-يوفر التطبيق أيضًا خيار **Download Travel Guide**.
+↓ New Results
 
-يسمح للمستخدم بتحميل دليل سياحي للاستفادة منه أثناء الرحلة.
+This allows the user to try out more than one set of preferences..
 
-ويتم عرض حالة التحميل للمستخدم مثل:
+# 📥 9️⃣ Download Travel Guide
+
+The app also offers a **Download Travel Guide** option.
+
+This allows users to download a travel guide to use during their trip.
+
+The download status is displayed to the user, such as:
 
 Connecting...
 Downloading 35%
@@ -188,40 +156,36 @@ Downloading 80%
 Downloading 100%
 Download completed successfully!
 
-وفي حالة ضعف الاتصال يتم إظهار رسالة مناسبة للمستخدم بدل فشل العملية بدون توضيح.
+In case of a weak connection, a suitable message is displayed to the user instead of an unexplained failure.
+# 🧩 Key App Features
 
-
-# 🧩 أهم خصائص التطبيق
-
-* ✈️ تخطيط الرحلات السياحية
-* 🇵🇸 اكتشاف الأماكن السياحية في فلسطين
-* 🧠 نظام توصية حسب تفضيلات المستخدم
-* 📍 اختيار المدينة
-* 💰 اختيار الميزانية
-* 👥 تحديد عدد الأشخاص
-* 🥾 اختيار نوع الرحلة
-* 👤 اختيار الفئة العمرية
-* 📊 عرض نسبة المطابقة
-* ❤️ حفظ الأماكن في المفضلة
-* 📖 عرض تفاصيل الأماكن
-* ✏️ تعديل التفضيلات
-* 📥 تحميل دليل السفر
-* 📱 واجهة بسيطة وسهلة الاستخدام
-
-
-# 🛠️ التقنيات المستخدمة
+* ✈️ Trip planning
+* 🇵🇸 Discovering tourist attractions in Palestine
+* ​​🧠 User-preference-based recommendation system
+* 📍 City selection
+* 💰 Budget selection
+* 👥 Group size selection
+* 🥾 Trip type selection
+* 👤 Age group selection
+* 📊 Match percentage display
+* ❤️ Saving places to favorites
+* 📖 Viewing location details
+* ✏️ Editing preferences
+* 📥 Downloading the travel guide
+* 📱 Simple, user-friendly interface
+# 🛠️ Technologies Used
 
 ## Flutter
 
-تم استخدام **Flutter** لتطوير تطبيق الموبايل وبناء واجهات المستخدم والتنقل بين الشاشات.
+**Flutter** was used to develop the mobile application, build user interfaces, and handle screen navigation.
 
 ## Dart
 
-لغة البرمجة المستخدمة في تطوير التطبيق هي **Dart**.
+**Dart** is the programming language used to develop the application.
 
 ## Material Design
 
-تم استخدام مكونات Flutter الجاهزة مثل:
+Ready-made Flutter components were used, such as:
 
 
 Scaffold
@@ -236,8 +200,7 @@ ListView
 
 
 
-# 📂 هيكل المشروع
-
+# 📂 Project Structure:
 lib/
 │
 ├── main.dart
@@ -258,11 +221,11 @@ lib/
     ├── favorites_screen.dart
     └── download_screen.dart
 
-# 🔄 تدفق البيانات داخل التطبيق
+#🔄 Data flow within the app
 
-تنتقل بيانات المستخدم من شاشة التفضيلات إلى شاشة النتائج 
+User data moves from the preferences screen to the results screen. 
 Preferences Screen
-        │
+    │
         ├── City
         ├── Budget
         ├── Number of People
@@ -273,19 +236,18 @@ Preferences Screen
         Results Screen
                 │
                 ↓
-       مقارنة التفضيلات
+       Comparing Preferences
                 │
                 ↓
-       الأماكن المناسبة
+       Suitable Places
                 │
                 ↓
         Place Details
+# 🧱 Place Data Model
 
-# 🧱 نموذج بيانات المكان
+Information for each tourist site is stored using `PlaceModel`.
 
-يتم تخزين معلومات كل مكان سياحي باستخدام `PlaceModel`.
-
-مثال:
+Example:
 
 
 PlaceModel(
@@ -297,8 +259,7 @@ PlaceModel(
   score: 98,
 )
 
-
-ويحتوي النموذج على:
+The model includes:
 
 
 name
@@ -309,22 +270,22 @@ image
 score
 
 
-# 🎯 هدف المشروع
+# 🎯 Project Goal
 
-يهدف **AI Travel Squad** إلى جعل التخطيط للرحلات السياحية أسهل وأكثر تفاعلية من خلال تقديم اقتراحات للأماكن السياحية بناءً على احتياجات المستخدم.
+**AI Travel Squad** aims to make planning tourist trips easier and more interactive by offering recommendations for tourist attractions based on user needs.
 
-كما يهدف المشروع إلى:
+The project also aims to:
 
-* الترويج للسياحة الفلسطينية
-* 🏛️ تسهيل اكتشاف الأماكن السياحية
-* 🧠 تقديم تجربة توصية مخصصة
-* 📱 توفير مساعد سياحي على الهاتف
-* 👥 تحسين تجربة المستخدم أثناء التخطيط للرحلة
+### Promoting Palestinian Tourism:
+* 🏛️ Facilitating the discovery of tourist attractions
+* 🧠 Providing personalized recommendations
+* 📱 Offering a mobile-based travel assistant
+* 👥 Enhancing the user experience during trip planning
 
-# 🚀 التطويرات المستقبلية
+# 🚀 Future Developments
 
-يمكن تطوير المشروع مستقبلًا بإضافة:
-* 🌤️ معلومات الطقس المباشرة
-* 📍 استخدام GPS
-* 💾 حفظ المفضلة بشكل دائم
-* اضافة نظام حجز 
+The project could be further developed by adding:
+* 🌤️ Real-time weather information
+* 📍 GPS integration
+* 💾 Permanent saving of favorites
+* Adding a booking system
