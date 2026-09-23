@@ -1,5 +1,5 @@
-# *AI Travel Squad* : This is a mobile application developed using Flutter, designed to help users discover tourist attractions in Palestine and select destinations that suit their specific travel preferences.
-
+# *AI Travel Squad* :
+This is a mobile application developed using Flutter, designed to help users discover tourist attractions in Palestine and select destinations that suit their specific travel preferences.
 The app offers a simple, interactive experience that begins with the user entering trip details; it then analyzes these preferences to display suitable tourist spots.
 
 📌 Project Concept
