@@ -16,14 +16,14 @@ class SimilarPlacesScreen extends StatelessWidget {
       backgroundColor: const Color(0xffF5F7FA),
 
       appBar: AppBar(
-        title: const Text("Similar Places"),
+        title: const Text("أماكن مشابهة"),
         centerTitle: true,
       ),
 
       body: places.isEmpty
           ? const Center(
               child: Text(
-                "No similar places found",
+                "لم يتم العثور على أماكن مشابهة",
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.grey,
@@ -145,7 +145,7 @@ class SimilarPlacesScreen extends StatelessWidget {
                                     );
                                   },
                                   child:
-                                      const Text("View Details"),
+                                      const Text("عرض التفاصيل"),
                                 ),
                               ],
                             ),

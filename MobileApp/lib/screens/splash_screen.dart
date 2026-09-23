@@ -64,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(height: 10),
 
             Text(
-              "Discover Palestine with AI",
+              "اكتشف فلسطين باستخدام الذكاء الاصطناعي",
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.grey,

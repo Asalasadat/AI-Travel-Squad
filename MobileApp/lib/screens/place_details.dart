@@ -208,8 +208,8 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                       label: Text(
                         isFavorite
-                            ? "Remove From Favorites"
-                            : "Add To Favorites",
+                            ? "إزالة من المفضلة"
+                            : "أضف إلى المفضلة",
                       ),
 
                       onPressed: () {
@@ -220,7 +220,7 @@ class PlaceDetailsScreen extends StatelessWidget {
                               .showSnackBar(
                             const SnackBar(
                               content: Text(
-                                "Removed from Favorites",
+                                "أُزيل من المفضلة",
                               ),
                             ),
                           );
@@ -231,7 +231,7 @@ class PlaceDetailsScreen extends StatelessWidget {
                               .showSnackBar(
                             const SnackBar(
                               content: Text(
-                                "Added to Favorites",
+                                "أُضيف إلى المفضلة",
                               ),
                             ),
                           );
@@ -250,7 +250,7 @@ class PlaceDetailsScreen extends StatelessWidget {
   child: OutlinedButton.icon(
     icon: const Icon(Icons.map),
     label: const Text(
-      "Open in Google Maps",
+      "افتح في خرائط Google",
     ),
     onPressed: () {
       Navigator.push(
@@ -283,7 +283,7 @@ SizedBox(
       color: Colors.white,
     ),
     label: const Text(
-      "Recommend Similar Places",
+      "اقتراح أماكن مشابهة",
       style: TextStyle(
         color: Colors.white,
         fontSize: 16,

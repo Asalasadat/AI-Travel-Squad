@@ -1,57 +1,119 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:travelai/models/reco.dart';
+
+import 'package:travelai/config/app_config.dart';
+import 'package:travelai/models/recommendationmodel.dart';
+
 
 class RecommendationService {
-  static const String baseUrl =
-      'https://palestine-tourism-recommendation-api.onrender.com/api';
+
 
   static Future<List<RecommendationModel>> getRecommendations({
+
     required List<String> cities,
     required List<String> tripTypes,
     required String ageGroup,
     required double totalBudget,
     required int peopleOver10,
+
   }) async {
-    final url = Uri.parse(baseUrl);
+
+
+    final url = Uri.parse(
+      AppConfig.baseUrl,
+    );
+
 
     final requestBody = {
-      "cities": cities,
-      "tripTypes": tripTypes,
-      "ageGroup": ageGroup,
-      "totalBudget": totalBudget,
-      "peopleOver10": peopleOver10,
+
+      "Cities": cities,
+      "TripTypes": tripTypes,
+      "AgeGroup": ageGroup,
+      "Budget": totalBudget,
+      "GroupSize": peopleOver10,
+
     };
 
-    debugPrint("REQUEST => ${jsonEncode(requestBody)}");
 
-    final response = await http
-        .post(
-          url,
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-          body: jsonEncode(requestBody),
-        )
-        .timeout(const Duration(seconds: 30));
+    debugPrint(
+      "REQUEST => ${jsonEncode(requestBody)}",
+    );
 
-    debugPrint("STATUS => ${response.statusCode}");
-    debugPrint("BODY => ${response.body}");
 
-    if (response.statusCode != 200) {
-      throw Exception(response.body);
+    try {
+
+      final response = await http
+          .post(
+
+            url,
+
+            headers: {
+
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+
+            },
+
+            body: jsonEncode(requestBody),
+
+          )
+          .timeout(
+            const Duration(seconds: 30),
+          );
+
+
+      debugPrint(
+        "STATUS => ${response.statusCode}",
+      );
+
+
+      debugPrint(
+        "BODY => ${response.body}",
+      );
+
+
+      if (response.statusCode != 200) {
+
+        throw Exception(
+          "Server Error: ${response.body}",
+        );
+
+      }
+
+
+      final json = jsonDecode(
+        response.body,
+      );
+
+
+      final List list =
+          json["recommendations"] ?? [];
+
+
+      return list
+          .map(
+            (e) => RecommendationModel.fromMap(e),
+          )
+          .toList();
+
+
+    } catch (e) {
+
+
+      debugPrint(
+        "API ERROR => $e",
+      );
+
+
+      throw Exception(
+        "Connection failed: $e",
+      );
+
+
     }
 
-    final json = jsonDecode(response.body);
-
-    final List list = json["recommendations"] ?? [];
-
-    return list
-        .map((e) => RecommendationModel.fromMap(e))
-        .toList();
   }
+
 }

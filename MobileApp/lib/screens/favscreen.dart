@@ -18,7 +18,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       backgroundColor: const Color(0xffF5F7FA),
 
       appBar: AppBar(
-        title: const Text("Favorites"),
+        title: const Text("المفضلة"),
         centerTitle: true,
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
@@ -38,7 +38,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   SizedBox(height: 20),
 
                   Text(
-                    "No Favorite Places Yet",
+                    "لا توجد أماكن مفضلة بعد",
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   SizedBox(height: 10),
 
                   Text(
-                    "Add places to your favorites",
+                    "أضف أماكن إلى قائمة المفضلة لديك",
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 16,

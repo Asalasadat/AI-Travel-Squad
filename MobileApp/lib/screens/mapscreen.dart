@@ -102,7 +102,7 @@ class _MapScreenState extends State<MapScreen> {
                   height: 50,
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.navigation),
-                    label: const Text("Directions"),
+                    label: const Text("الاتجاهات"),
                     onPressed: openDirections,
                   ),
                 ),
@@ -114,7 +114,7 @@ class _MapScreenState extends State<MapScreen> {
                   height: 50,
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.map),
-                    label: const Text("Open in Google Maps"),
+                    label: const Text("افتح في خرائط Google"),
                     onPressed: openGoogleMaps,
                   ),
                 ),

@@ -14,7 +14,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
   bool isDownloading = false;
   bool isDownloaded = false;
 
-  String status = "الدليل جاهز للتنزيل";
+  String status = "جاهز للتنزيل";
 
   static const String fileUrl =
       "https://raw.githubusercontent.com/Asalasadat/AI-Travel-Squad/main/ai_travel_squad_summary.pdf";
@@ -22,7 +22,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
   void downloadGuide() {
     setState(() {
       isDownloading = true;
-      status = "الدليل جاهز للتنزيل";
+      status = "جارٍ إعداد دليل السفر...";
     });
 
     final anchor = html.AnchorElement(href: fileUrl)
@@ -41,13 +41,13 @@ class _DownloadScreenState extends State<DownloadScreen> {
     setState(() {
       isDownloading = false;
       isDownloaded = true;
-      status = "جارٍ تنزيل الدليل السياحي...";
+      status = "بدأ التنزيل بنجاح!";
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
-          "بدأ تنزيل الدليل السياحي!",
+          "بدأ تنزيل دليل السفر!",
         ),
       ),
     );
@@ -64,7 +64,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
 
       appBar: AppBar(
         title: const Text(
-          "تحميل الدليل السياحي",
+          "تحميل دليل السفر",
         ),
         centerTitle: true,
       ),
@@ -91,7 +91,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                 const SizedBox(height: 30),
 
                 const Text(
-                  "دليل السفر في فلسطين",
+                  "دليل السفر إلى فلسطين",
                   textAlign: TextAlign.center,
 
                   style: TextStyle(
@@ -103,7 +103,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
                 const SizedBox(height: 15),
 
                 const Text(
-                  "حمّل دليل AI Travel Squad السياحي واستكشف أجمل الوجهات السياحية في فلسطين.",
+                  "Download the AI Travel Squad "
+                  "tourism guide and explore Palestine.",
                   textAlign: TextAlign.center,
 
                   style: TextStyle(
@@ -144,8 +145,8 @@ class _DownloadScreenState extends State<DownloadScreen> {
 
                     label: Text(
                       isDownloaded
-                          ? "تحميل الدليل مرة أخرى"
-                          : "تحميل الدليل السياحي",
+                          ? "Download Again"
+                          : "Download Travel Guide",
                     ),
 
                     style: ElevatedButton.styleFrom(
@@ -175,7 +176,7 @@ class _DownloadScreenState extends State<DownloadScreen> {
                       ),
 
                       label: const Text(
-                        "فتح الدليل السياحي",
+                        "Open Travel Guide",
                       ),
 
                       style: OutlinedButton.styleFrom(
