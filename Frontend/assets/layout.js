@@ -29,15 +29,10 @@
     ? "absolute inset-x-0 top-0 z-30 border-b border-hero-foreground/20 text-hero-foreground"
     : "sticky top-0 z-40 border-b border-border bg-card/90 text-foreground backdrop-blur-md";
   var hover = overlay ? "hover:text-copper" : "hover:text-terracotta";
-  var cta = overlay
-    ? "bg-sand text-foreground hover:bg-sand/90"
-    : "bg-primary text-primary-foreground hover:bg-primary/90";
+  var cta = "bg-sand text-foreground hover:bg-sand/90";
   var menuBg = overlay ? "border-hero-foreground/20 bg-hero/95 backdrop-blur-md" : "border-border bg-card";
   var badgeCls = overlay ? "bg-sand text-foreground" : "bg-terracotta text-terracotta-foreground";
 
-  /* ---------- الروابط حسب الصفحة ----------
-     الرئيسية: تتنقل بين سكشنات الصفحة نفسها + CTA للفورم.
-     باقي الصفحات: تتبع رحلة المستخدم (تفضيلات ← توصيات ← محفوظة). */
   var onSaved = page === "results.html" && /[?&]tab=saved/.test(location.search);
   var links;
   if (overlay) {
@@ -102,6 +97,9 @@
     var cities = [["القدس", "Jerusalem"], ["بيت لحم", "Bethlehem"], ["نابلس", "Nablus"], ["الخليل", "Hebron"], ["رام الله", "Ramallah"],
     ["أريحا", "Jericho"], ["جنين", "Jenin"], ["طولكرم", "Tulkarm"], ["قلقيلية", "Qalqilya"], ["طوباس", "Tubas"]];
     var soc = "grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-terracotta hover:text-terracotta";
+    var svg = function (d) { return '<svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + "</svg>"; };
+    var igIcon = svg('<rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>');
+    var fbIcon = svg('<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>');
     var footer = document.createElement("footer");
     footer.className = "relative overflow-hidden border-t bg-card text-foreground";
     footer.innerHTML =
@@ -112,8 +110,8 @@
       '<div class="flex items-center gap-3"><span class="grid size-12 shrink-0 place-items-center rounded-xl bg-background/90 p-1"><img src="assets/logo.png" alt="" class="h-full w-full object-contain" /></span><span class="font-display text-lg font-extrabold">دلني</span></div>' +
       '<p class="mt-4 max-w-sm text-sm leading-7 text-muted-foreground">نساعدك تكتشف فلسطين من زاوية أقرب لك — وجهات حقيقية، مرتبة بذكاء حسب اهتماماتك وميزانيتك.</p>' +
       '<div class="mt-5 flex items-center gap-3">' +
-      '<a href="#" aria-label="إنستغرام" class="' + soc + '"><i data-lucide="instagram" class="size-4"></i></a>' +
-      '<a href="#" aria-label="فيسبوك" class="' + soc + '"><i data-lucide="facebook" class="size-4"></i></a>' +
+      '<a href="#" aria-label="إنستغرام" class="' + soc + '">' + igIcon + "</a>" +
+      '<a href="#" aria-label="فيسبوك" class="' + soc + '">' + fbIcon + "</a>" +
       '<a href="mailto:hello@aitravelsquad.ps" aria-label="راسلنا" class="' + soc + '"><i data-lucide="mail" class="size-4"></i></a>' +
       "</div>" +
       "</div>" +

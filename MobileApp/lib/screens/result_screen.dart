@@ -14,7 +14,7 @@ class ResultsScreen extends StatefulWidget {
     required this.cities,
     required this.tripTypes,
     required this.totalBudget,
-    required this.peopleOver10,
+    required this.peopleOver10, required String ageGroup,
   });
 
   @override
@@ -38,7 +38,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
       cities: widget.cities,
       tripTypes: widget.tripTypes,
       totalBudget: widget.totalBudget,
-      peopleOver10: widget.peopleOver10,
+      peopleOver10: widget.peopleOver10, ageGroup: '',
     );
   }
 

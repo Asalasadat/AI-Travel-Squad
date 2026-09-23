@@ -6,6 +6,9 @@ class PlaceModel {
   final String image;
   final double score;
 
+  final double latitude;
+  final double longitude;
+
   PlaceModel({
     required this.name,
     required this.city,
@@ -13,5 +16,8 @@ class PlaceModel {
     required this.description,
     required this.image,
     required this.score,
+    required this.latitude,
+    required this.longitude,
   });
 }
+

@@ -390,9 +390,9 @@
     function errText(e) {
       if (e?.status === 404) return "ما لقينا أماكن بتناسب ميزانيتك وتفضيلاتك. جرّب ترفع الميزانية أو تضيف مدينة.";
       if (e?.status === 502) return "خدمة التوصيات مش متاحة حالياً. جرّب بعد شوي.";
-      if (e?.status === 400) return "في مشكلة بالبيانات المُدخلة. عدّل تفضيلاتك وجرّبي من جديد.";
+      if (e?.status === 400) return "في مشكلة بالبيانات المُدخلة. عدّل تفضيلاتك وجرّب من جديد.";
       if (e?.name === "AbortError") return "خدمة التوصيات تأخرت بالرد. جرّب مرة ثانية.";
-      return "تعذر الاتصال بالخادم. تأكد إن الـ API شغال وجرّبي مرة ثانية.";
+      return "تعذر الاتصال بالخادم. تأكد إن الـ API شغال وجرّب مرة ثانية.";
     }
 
     const nameOf = (i) => i.meta?.nameAr || i.name;
@@ -472,11 +472,11 @@
             <div class="absolute inset-0 overflow-hidden" style="background:linear-gradient(135deg,var(--olive),var(--terracotta))">
               <div class="tatreez-pattern absolute inset-0 opacity-[0.12]"></div>
               <div class="absolute inset-0 grid place-items-center text-white/70"><i data-lucide="${TYPE_ICON[i.type] || "map-pin"}" class="size-10"></i></div>
-              ${img ? `<img src="${esc(img)}" alt="${esc(name)}" loading="lazy" class="absolute inset-0 h-full w-full object-cover" onerror="this.remove()" />` : ""}
+              ${img ? `<img src="${esc(img)}" alt="${esc(name)}" loading="lazy" referrerpolicy="no-referrer" class="absolute inset-0 h-full w-full object-cover" onerror="this.remove()" />` : ""}
               <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-hero/40 to-transparent"></div>
             </div>
             <span class="absolute start-3 top-3 rounded-full bg-hero/75 px-2.5 py-1 font-display text-xs font-bold text-hero-foreground backdrop-blur">#${esc(i.rank)}</span>
-            <span class="absolute bottom-3 start-3 rounded-full bg-card/90 px-2.5 py-1 text-xs font-semibold backdrop-blur">${esc(typeLabel(i.type))}</span>
+<span class="absolute bottom-3 start-3 rounded-full border border-sand bg-sand px-3 py-1 text-xs font-bold text-secondary-foreground shadow-md">${esc(typeLabel(i.type))}</span>
             <div class="absolute -bottom-5 end-4 z-10">${ring(i.pct)}</div>
           </div>
           <div class="flex flex-1 flex-col px-5 pb-5 pt-7">

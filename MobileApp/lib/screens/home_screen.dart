@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:travelai/screens/download.dart';
 import 'package:travelai/screens/favscreen.dart';
-
 import 'package:travelai/screens/preferences_screen.dart';
 
 
@@ -41,7 +40,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
 
             const Text(
-              "Discover Palestine",
+              "اكتشف فلسطين",
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
@@ -51,7 +50,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 15),
 
             const Text(
-              "Find the best tourist destinations in Palestine based on your preferences using Artificial Intelligence.",
+              "نقارن اهتمامك مع وجهات فلسطينية لنقدم لك الاماكن الاقرب الاقرب الى ذوقك مرتبة بوضوح حسب نسبةالمطابقة",
               textAlign: TextAlign.center,
 
               style: TextStyle(
@@ -90,15 +89,15 @@ class HomeScreen extends StatelessWidget {
                 ),
 
                 child: const Text(
-                  "Start Journey",
-
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
+                 "ابدأ الرحلة",
+               textAlign: TextAlign.center,
+                   style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                   ),
+                 ),
                 ),
               ),
-            ),
 
             const SizedBox(height: 15),
 
@@ -125,12 +124,13 @@ class HomeScreen extends StatelessWidget {
                 ),
 
                 label: const Text(
-                  "Download Travel Guide",
-
-                  style: TextStyle(
-                    fontSize: 17,
-                  ),
+                "تحميل الدليل السياحي",
+  // ignore: unnecessary_const
+                style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
                 ),
+               ),
               ),
             ),
 
@@ -160,12 +160,12 @@ class HomeScreen extends StatelessWidget {
                 ),
 
                 label: const Text(
-                  "Favorites",
-
-                  style: TextStyle(
-                    fontSize: 17,
-                  ),
-                ),
+  "المفضلة",
+  style: const TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+  ),
+),
               ),
             ),
 

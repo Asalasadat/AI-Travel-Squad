@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:travelai/screens/favscreen.dart';
+import 'package:travelai/screens/mapscreen.dart';
 import 'package:travelai/screens/similar_screen.dart';
-
 import '../models/place_model.dart';
 import '../data/place_data.dart';
 
@@ -14,24 +13,20 @@ class PlaceDetailsScreen extends StatelessWidget {
     required this.place,
   });
 
-  // Find similar places
   List<PlaceModel> getSimilarPlaces(PlaceModel currentPlace) {
     final results = places
         .where((place) => place.name != currentPlace.name)
         .map((place) {
       int similarityScore = 0;
 
-      // Same city
       if (place.city == currentPlace.city) {
         similarityScore += 50;
       }
 
-      // Same type
       if (place.type == currentPlace.type) {
         similarityScore += 40;
       }
 
-      // Similar place score
       final difference =
           (place.score - currentPlace.score).abs();
 
@@ -42,12 +37,10 @@ class PlaceDetailsScreen extends StatelessWidget {
       return MapEntry(place, similarityScore);
     }).toList();
 
-    // Sort from highest similarity to lowest
     results.sort(
       (a, b) => b.value.compareTo(a.value),
     );
 
-    // Return maximum 3 places
     return results
         .take(3)
         .map((entry) => entry.key)
@@ -60,10 +53,9 @@ class PlaceDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xffF5F7FA),
-
       body: CustomScrollView(
         slivers: [
-       
+
           SliverAppBar(
             expandedHeight: 280,
             pinned: true,
@@ -79,11 +71,9 @@ class PlaceDetailsScreen extends StatelessWidget {
 
               background: Hero(
                 tag: place.name,
-
                 child: Image.network(
                   place.image,
                   fit: BoxFit.cover,
-
                   errorBuilder:
                       (context, error, stackTrace) {
                     return Container(
@@ -109,9 +99,7 @@ class PlaceDetailsScreen extends StatelessWidget {
                     CrossAxisAlignment.start,
 
                 children: [
-                  // =========================
-                  // City
-                  // =========================
+
                   Row(
                     children: [
                       const Icon(
@@ -133,7 +121,6 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-        
                   Chip(
                     avatar: const Icon(
                       Icons.category,
@@ -173,7 +160,6 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 30),
 
-                  
                   const Text(
                     "AI Matching",
                     style: TextStyle(
@@ -209,7 +195,6 @@ class PlaceDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 35),
 
-              
                   SizedBox(
                     width: double.infinity,
                     height: 55,
@@ -252,7 +237,6 @@ class PlaceDetailsScreen extends StatelessWidget {
                           );
                         }
 
-                        // Refresh screen
                         (context as Element)
                             .markNeedsBuild();
                       },
@@ -260,88 +244,68 @@ class PlaceDetailsScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 15),
+              SizedBox(
+  width: double.infinity,
+  height: 55,
+  child: OutlinedButton.icon(
+    icon: const Icon(Icons.map),
+    label: const Text(
+      "Open in Google Maps",
+    ),
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MapScreen(
+            place: place,
+          ),
+        ),
+      );
+    },
+  ),
+),
 
-                  // =========================
-                  // Google Maps
-                  // =========================
-                  SizedBox(
-                    width: double.infinity,
-                    height: 55,
+const SizedBox(height: 15),
 
-                    child: OutlinedButton.icon(
-                      icon: const Icon(
-                        Icons.map,
-                      ),
+SizedBox(
+  width: double.infinity,
+  height: 55,
+  child: ElevatedButton.icon(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.green,
+      foregroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+    icon: const Icon(
+      Icons.auto_awesome,
+      color: Colors.white,
+    ),
+    label: const Text(
+      "Recommend Similar Places",
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 16,
+      ),
+    ),
+    onPressed: () {
+      final similarPlaces = getSimilarPlaces(place);
 
-                      label: const Text(
-                        "Open in Google Maps",
-                      ),
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SimilarPlacesScreen(
+            places: similarPlaces,
+          ),
+        ),
+      );
+    },
+  ),
+),
 
-                      onPressed: () {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              "Google Maps will be connected later",
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+const SizedBox(height: 40),
 
-                  const SizedBox(height: 15),
-
-      
-                  SizedBox(
-                    width: double.infinity,
-                    height: 55,
-
-                    child: ElevatedButton.icon(
-                      style:
-                          ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                        shape:
-                            RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(12),
-                        ),
-                      ),
-
-                      icon: const Icon(
-                        Icons.auto_awesome,
-                        color: Colors.white,
-                      ),
-
-                      label: const Text(
-                        "Recommend Similar Places",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-
-                      onPressed: () {
-                        // Get similar places
-                        final similarPlaces =
-                            getSimilarPlaces(place);
-
-                        // Open Similar Places screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                SimilarPlacesScreen(
-                              places: similarPlaces,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
                 ],
               ),
             ),

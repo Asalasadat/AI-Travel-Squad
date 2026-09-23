@@ -118,7 +118,6 @@
       box-shadow: 0 2px 6px #0005;
     }
 
-    /* ظهور الهيرو مرة وحدة */
     @keyframes fade {
       from {
         opacity: 0;
@@ -180,6 +179,7 @@
         يفتح عند الآخرين قبل نشر الموقع.</p>
     </div>
   </div>
+
   <div id="toast" role="status" aria-live="polite"
     class="pointer-events-none fixed inset-x-0 bottom-6 z-[60] hidden justify-center px-6">
     <span id="toast-text" class="rounded-full bg-hero px-4 py-2 text-sm font-medium text-hero-foreground"></span>
@@ -189,7 +189,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="assets/layout.js"></script>
   <script>
-    // Keep in sync with results.html / preferences.html
     const API_BASE = "http://localhost:5286";
     const LS_FAV = "dalni:favorites";
 
@@ -204,7 +203,6 @@
     const CITY_FALLBACK = { Bethlehem: [31.702327, 35.187644], Hebron: [31.533628, 35.097976], Jenin: [32.468789, 35.296756], Jericho: [31.859361, 35.459795], Jerusalem: [31.695506, 35.187508], Nablus: [32.228066, 35.237042], Qalqilya: [32.190557, 34.966009], Ramallah: [31.898619, 35.178064], Tubas: [32.323439, 35.369366], Tulkarm: [32.313376, 35.022438] };
     const km = (a, b) => { const r = Math.PI / 180, x = Math.sin((b[0] - a[0]) * r / 2) ** 2 + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin((b[1] - a[1]) * r / 2) ** 2; return 12742 * Math.asin(Math.sqrt(x)); };
     const nearCity = (lat, lng, city) => CITY_XY[city] && isFinite(+lat) && isFinite(+lng) && km([+lat, +lng], CITY_XY[city]) <= 15;
-    // الإحداثيات دقيقة فقط لو قريبة من مدينتها وما هي نقطة المدينة الاحتياطية نفسها
     const isPrecise = (lat, lng, city) => { const f = CITY_FALLBACK[city]; return nearCity(lat, lng, city) && !(f && Math.abs(lat - f[0]) < 1e-5 && Math.abs(lng - f[1]) < 1e-5); };
 
     const $ = (id) => document.getElementById(id);
@@ -220,7 +218,6 @@
       clearTimeout(toastTimer); toastTimer = setTimeout(() => { $("toast").classList.add("hidden"); $("toast").classList.remove("flex"); }, 2200);
     }
 
-    // ----- Saved places: same localStorage key as results.html -----
     const loadFavs = () => { try { const v = JSON.parse(localStorage.getItem(LS_FAV) || "[]"); return Array.isArray(v) ? v : []; } catch { return []; } };
     const isFav = (id) => loadFavs().some((f) => String(f.id) === String(id));
     function toggleFav(p) {
@@ -230,7 +227,6 @@
       window.Dalni?.refreshFavBadge();
     }
 
-    // ----- Data from the search session -----
     function loadPrefs() {
       try {
         const o = JSON.parse(sessionStorage.getItem("aiTravelPrefs") || "null"); if (!o) return null;
@@ -238,15 +234,16 @@
         return { cities: [].concat(o.Cities || o.City || []), trips: [].concat(o.TripTypes || o.TripType || []), age: o.AgeGroup, size: Math.min(50, Math.max(1, parseInt(o.GroupSize, 10) || 1)), budget: b > 0 ? b : null };
       } catch { return null; }
     }
+
     function loadItems() { try { const v = JSON.parse(sessionStorage.getItem("dalni:items") || "[]"); return Array.isArray(v) ? v : []; } catch { return []; } }
 
-    // ----- Small UI pieces -----
     function ring(pct, size = 72) {
       const r = 15.5, c = 2 * Math.PI * r;
       return `<div class="relative shrink-0" style="width:${size}px;height:${size}px" role="img" aria-label="ملاءمة ${pct}٪">
         <svg viewBox="0 0 40 40" class="-rotate-90" width="${size}" height="${size}"><circle cx="20" cy="20" r="${r}" fill="none" stroke="var(--muted)" stroke-width="4"/><circle cx="20" cy="20" r="${r}" fill="none" stroke="var(--terracotta)" stroke-width="4" stroke-linecap="round" stroke-dasharray="${(c * pct / 100).toFixed(1)} ${c.toFixed(1)}"/></svg>
         <span class="absolute inset-0 grid place-items-center font-display text-lg font-extrabold">${pct}٪</span></div>`;
     }
+
     const chips = (arr, labels) => arr.map((t) => `<span class="rounded-full bg-muted px-2.5 py-0.5 text-xs font-semibold">${esc(labels[t] || t)}</span>`).join("");
     const factRow = (icon, label, body) => `<div class="flex items-start justify-between gap-4 px-5 py-4">
       <dt class="flex shrink-0 items-center gap-2 text-sm text-muted-foreground"><i data-lucide="${icon}" class="size-4 text-olive"></i>${label}</dt>
@@ -261,10 +258,10 @@
       if (!rs.length) return "";
       return `<section class="rounded-2xl border border-terracotta/25 bg-terracotta/5 p-5">
         <h2 class="font-display text-sm font-bold text-terracotta">ليش رشّحناه لك؟</h2>
-        <div class="mt-3 flex flex-wrap gap-2">${rs.map((t) => `<span class="rounded-full bg-card px-3 py-1 text-xs font-medium">${esc(t)}</span>`).join("")}</div></section>`;
+        <div class="mt-3 flex flex-wrap gap-2">${rs.map((t) => `<span class="rounded-full bg-card px-3 py-1 text-xs font-medium">${esc(t)}</span>`).join("")}</div>
+      </section>`;
     }
 
-    // ----- Breadcrumb -----
     function renderCrumbs(name) {
       const hasRes = !!sessionStorage.getItem("aiTravelResults");
       const sep = `<i data-lucide="chevron-left" class="size-4 opacity-60"></i>`;
@@ -274,7 +271,6 @@
       lucide.createIcons();
     }
 
-    // ----- Save / share -----
     function wireActions(p) {
       const fb = $("fav-btn");
       const paint = () => { const on = isFav(p.id); fb.setAttribute("aria-pressed", String(on)); fb.querySelector("span").textContent = on ? "محفوظ" : "حفظ"; };
@@ -299,7 +295,6 @@
       $("share-native").onclick = () => navigator.share({ title: `${p.name} — دلني`, url: $("share-link").value }).catch(() => { });
     }
 
-    // ----- Cost calculator (frontend only) -----
     function wireCalc(p) {
       if (p.cost == null || p.cost === 0 || !$("n-val")) return;
       const pl = loadPrefs(); let n = pl?.size || 2;
@@ -320,7 +315,6 @@
       paint();
     }
 
-    // ----- Mini map -----
     function wireMap(p) {
       const el = $("place-map"); if (!el || typeof L === "undefined") return;
       const c = CITY_XY[p.city], ll = p.precise ? [+p.lat, +p.lng] : c; if (!ll) { el.closest("section").remove(); return; }
@@ -331,8 +325,6 @@
       setTimeout(() => map.invalidateSize(), 100);
     }
 
-    // ----- Data -----
-    // Returns null when the place doesn't exist; throws on a network/server error.
     async function loadPlace(id) {
       const r = await fetch(`${API_BASE}/api/Places/${encodeURIComponent(id)}`);
       if (r.status === 404) return null;
@@ -353,7 +345,6 @@
       };
     }
 
-    // ----- Render -----
     function render(p) {
       const cityName = CITY_LABELS[p.city] || p.city || "", img = safeUrl(p.image);
       const items = loadItems(), me = items.find((x) => String(x.id) === String(p.id));
@@ -374,7 +365,7 @@
       const calc = p.cost == null ? "" : p.cost === 0
         ? `<section class="rounded-2xl border bg-card p-5"><h2 class="font-display text-sm font-bold">التكلفة</h2><p class="mt-3 font-display text-2xl font-extrabold text-olive">دخول مجاني</p><p class="mt-1 text-xs text-muted-foreground">حسب التقدير، وممكن تختلف الأسعار حسب الموسم.</p></section>`
         : `<section class="rounded-2xl border bg-card p-5">
-            <h2 class="font-display text-sm font-bold">احسبي تكلفة الزيارة</h2>
+            <h2 class="font-display text-sm font-bold">احسب تكلفة الزيارة</h2>
             <div class="mt-4 flex items-center justify-between">
               <span class="text-sm text-muted-foreground">عدد الأشخاص</span>
               <div class="flex items-center gap-2">
@@ -395,7 +386,7 @@
           <div class="relative aspect-[4/3] w-full sm:aspect-[21/9]" style="background:linear-gradient(135deg,var(--olive),var(--terracotta))">
             <div class="tatreez-pattern absolute inset-0 opacity-[0.12]"></div>
             <div class="absolute inset-0 grid place-items-center text-white/60"><i data-lucide="${TYPE_ICON[p.type] || "map-pin"}" class="size-16"></i></div>
-            ${img ? `<img src="${esc(img)}" alt="${esc(p.name)}" class="absolute inset-0 h-full w-full object-cover" onerror="this.remove()" />` : ""}
+            ${img ? `<img src="${esc(img)}" alt="${esc(p.name)}" referrerpolicy="no-referrer" class="absolute inset-0 h-full w-full object-cover" onerror="this.remove()" />` : ""}
             <div class="absolute inset-0 bg-gradient-to-t from-hero/85 via-hero/20 to-transparent"></div>
             <div class="absolute end-4 top-4 flex gap-2 sm:end-6 sm:top-6">
               <button id="fav-btn" type="button" aria-pressed="false" class="fav-btn inline-flex h-10 items-center gap-1.5 rounded-full bg-card/90 px-4 text-sm font-semibold text-foreground shadow backdrop-blur transition-colors hover:bg-card"><i data-lucide="heart" class="size-[18px]"></i><span>حفظ</span></button>
@@ -455,12 +446,12 @@
     (async function init() {
       renderCrumbs("");
       const id = new URLSearchParams(location.search).get("id");
-      if (!id) { message("اختاري مكان من صفحة التوصيات لتشوفي تفاصيله."); return; }
+      if (!id) { message("اختر مكاناً من صفحة التوصيات لتشوف تفاصيله."); return; }
       try {
         const place = await loadPlace(id);
         if (!place) { message("ما لقينا هالمكان."); return; }
         document.title = `${place.name} — دلني`; renderCrumbs(place.name); render(place);
-      } catch (e) { console.error(e); message("تعذر جلب تفاصيل المكان. تأكدي إن الـ API شغال وجربي مرة ثانية."); }
+      } catch (e) { console.error(e); message("تعذر جلب تفاصيل المكان. تأكد إن الـ API شغال وجرب مرة ثانية."); }
     })();
   </script>
 </body>
